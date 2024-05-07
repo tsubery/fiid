@@ -1,0 +1,18 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: Podcast1
+  description: It's the first podcast
+  audio: true
+  author: Various
+  video: false
+  archive: false
+  thumbnail_url: https://example.com/thumbnail.jpg
+
+two:
+  title: Libaray2
+  description: Second Library
+  audio: false
+  video: true
+  archive: false
+  thumbnail_url: thumb2

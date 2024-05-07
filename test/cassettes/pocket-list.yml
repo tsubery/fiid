@@ -1,0 +1,65 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://getpocket.com/v3/get
+    body:
+      encoding: UTF-8
+      string: '{"since":0,"deailType":"complete","consumer_key":"key","access_token":"nice try!"}'
+    headers:
+      User-Agent:
+      - Pocket Ruby Gem 0.5.0
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Date:
+      - Mon, 06 May 2024 18:42:14 GMT
+      Server:
+      - Apache/2.4.52 (Debian)
+      X-Frame-Options:
+      - SAMEORIGIN
+      Status:
+      - 200 OK
+      X-Limit-Key-Limit:
+      - '10000'
+      X-Limit-Key-Remaining:
+      - '9997'
+      X-Limit-Key-Reset:
+      - '510'
+      X-Source:
+      - Pocket
+      P3p:
+      - policyref="/w3c/p3p.xml", CP="ALL CURa ADMa DEVa OUR IND UNI COM NAV INT STA
+        PRE"
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 1ebbadafe7f1f9fb6f75d71d809d898a.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - DFW55-C1
+    body:
+      encoding: UTF-8
+      string: '{"status":1,"complete":1,"list":{"4043719593": {"item_id":"4043719593","resolved_id":"4043719593","given_url":"https:\/\/www.youtube.com\/watch?v=1DCkr4B03oc","given_title":"","favorite":"0","status":"0","time_added":"1714580086","time_updated":"1714580087","time_read":"0","time_favorited":"0","sort_id":16,"resolved_title":"Haymaker
+        Webinar w \/ Kevin Muir April, 2024","resolved_url":"https:\/\/www.youtube.com\/watch?v=1DCkr4B03oc","excerpt":"","is_article":"0","is_index":"0","has_video":"2","has_image":"1","word_count":"0","lang":"","domain_metadata":{"name":"YouTube","logo":"https:\/\/logo.clearbit.com\/youtube.com?size=800","greyscale_logo":"https:\/\/logo.clearbit.com\/youtube.com?size=800&greyscale=true"},"listen_duration_estimate":0},"4032017145":{"item_id":"4032017145","resolved_id":"4032017145","given_url":"https:\/\/www.youtube.com\/watch?v=xDyPSKLy5E4&ab_channel=SomeMoreNews","given_title":"Elon
+        Musk''s \"Hitler Problem\" - SOME MORE NEWS - YouTube","favorite":"0","status":"0","time_added":"1714579721","time_updated":"1714579721","time_read":"0","time_favorited":"0","sort_id":17,"resolved_title":"Elon
+        Musk''s \"Hitler Problem\" - SOME MORE NEWS","resolved_url":"https:\/\/www.youtube.com\/watch?v=xDyPSKLy5E4&ab_channel=SomeMoreNews","excerpt":"Hi.
+        It sure seems like Elon Musk agrees a lot with the Nazis lately, doesn''t
+        it? \nOh No! Sounds like I\u2019ve contracted the Woke Mind Virus!\n\nExecutive
+        Producer - Katy Stoll\nHosted by Cody Johnston\nDirected by Will Gordh\nWritten
+        by Cody Johnston\nEdited by John Conway\nProduced by Jonathan Harris\nAssoc","is_article":"0","is_index":"0","has_video":"2","has_image":"1","word_count":"0","lang":"en","domain_metadata":{"name":"YouTube","logo":"https:\/\/logo.clearbit.com\/youtube.com?size=800","greyscale_logo":"https:\/\/logo.clearbit.com\/youtube.com?size=800&greyscale=true"},"listen_duration_estimate":0}},"error":null,"search_meta":{"search_type":"normal"},"since":1715020932}'
+  recorded_at: Mon, 06 May 2024 18:42:14 GMT
+recorded_with: VCR 6.2.0

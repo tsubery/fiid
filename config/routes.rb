@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  ActiveAdmin.routes(self)
+  get "/login", to: "sessions#new"
+  post "/login", to: "sessions#create"
+
+  get "podcasts/:id", to: "libraries#podcast"
+  resources :media_items, only: [] do
+    get '/video', action: "video"
+    get '/audio', action: "audio"
+    get '/article', action: "article"
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

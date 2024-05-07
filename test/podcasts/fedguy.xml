@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:googleplay="https://www.google.com/schemas/play-podcasts/1.0/" version="2.0">
+  <channel>
+    <link>http://www.example.com/podcasts/980190962</link>
+    <language>en</language>
+    <title>Podcast1</title>
+    <description>It's the first podcast</description>
+    <author>Various</author>
+    <image>
+      <url>https://example.com/thumbnail.jpg</url>
+      <title>Podcast1</title>
+      <link>http://www.example.com/podcasts/980190962</link>
+    </image>
+    <googleplay:author>Various</googleplay:author>
+    <googleplay:image href="https://example.com/thumbnail.jpg"/>
+    <itunes:author>Various</itunes:author>
+    <itunes:owner>Various</itunes:owner>
+    <itunes:title>Podcast1</itunes:title>
+    <itunes:link>http://www.example.com/podcasts/980190962</itunes:link>
+    <itunes:explicit>no</itunes:explicit>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - Markets Weekly May 4, 2024</title>
+      <description>Original Video: https://www.youtube.com/watch?v=2gqjFoVkHbo
+Published At: 2024-05-04 00:00:00 UTC
+ #federalreserve   #marketsanalysis 
+US Labor Market Softening&#13;
+QRA Debrief&#13;
+Japan Finally Intervenes (twice!)
+
+00:00 - Intro 
+1:10 - US Labor Market Softening
+4:49 - QRA Debrief
+10:25 - Japan Finally Intervenes (twice!)
+
+
+For my latest thoughts:
+www.fedguy.com
+
+For macro courses:
+www.centralbanking101.com
+
+My best seller on monetary policy:
+https://www.amazon.com/Central-Banking-101-Joseph-Wang/dp/0999136747</description>
+      <guid>https://www.youtube.com/watch?v=2gqjFoVkHbo</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="1045000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/2gqjFoVkHbo/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:17:25</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - Markets Weekly May 4, 2024</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - May 2024 FOMC Debrief</title>
+      <description>Original Video: https://www.youtube.com/watch?v=qRodueRV-8s
+Published At: 2024-05-01 00:00:00 UTC
+ #federalreserve 
+Modestly dovish</description>
+      <guid>https://www.youtube.com/watch?v=qRodueRV-8s</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="373000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/qRodueRV-8s/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:06:13</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - May 2024 FOMC Debrief</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - Markets Weekly April 27, 2024</title>
+      <description>Original Video: https://www.youtube.com/watch?v=uuBSt9tl7AA
+Published At: 2024-04-27 00:00:00 UTC
+ #federalreserve   #marketsanalysis 
+Inflation is Sticky
+US Giving Russian Reserves to Ukraine
+Highlights from Fed Financial Stability Report
+
+00:00 - Intro 
+1:39 - Inflation is Sticky
+5:48 - US Giving Russian Reserves to Ukraine
+12:32 - Highlights from Fed Financial Stability Report
+
+Treasury Standard Paper:
+https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4759755
+
+For my latest thoughts:
+www.fedguy.com
+
+For macro courses:
+www.centralbanking101.com
+
+My best seller on monetary policy:
+https://www.amazon.com/Central-Banking-101-Joseph-Wang/dp/0999136747</description>
+      <guid>https://www.youtube.com/watch?v=uuBSt9tl7AA</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="1050000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/uuBSt9tl7AA/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:17:30</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - Markets Weekly April 27, 2024</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - Markets Weekly April 20, 2024</title>
+      <description>Original Video: https://www.youtube.com/watch?v=s48MUbGM5sw
+Published At: 2024-04-20 00:00:00 UTC
+ #federalreserve   #marketsanalysis 
+Fed scares the market
+IMF concerned about US fiscal deficit
+A potential Trump Accord
+
+00:00 - Intro 
+1:38 - Fed scares the market
+6:58 - IMF concerned about US fiscal deficit
+11:40 - A potential Trump Accord
+
+For my latest thoughts:
+www.fedguy.com
+
+For macro courses:
+www.centralbanking101.com
+
+My best seller on monetary policy:
+https://www.amazon.com/Central-Banking-101-Joseph-Wang/dp/0999136747</description>
+      <guid>https://www.youtube.com/watch?v=s48MUbGM5sw</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="1049000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/s48MUbGM5sw/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:17:29</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - Markets Weekly April 20, 2024</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - Markets Weekly April 13, 2024</title>
+      <description>Original Video: https://www.youtube.com/watch?v=gHmxigaT-AQ
+Published At: 2024-04-13 00:00:00 UTC
+ #federalreserve   #marketsanalysis 
+Inflation Data Shocks Market
+Fed is Still Cutting
+Bernanke visits the Bank of England
+
+00:00 - Intro 
+1:19 - Inflation Data Shocks Market
+5:36 - Fed is Still Cutting
+10:05 - Bernanke visits the Bank of England
+
+For my latest thoughts:
+www.fedguy.com
+
+For macro courses:
+www.centralbanking101.com
+
+My best seller on monetary policy:
+https://www.amazon.com/Central-Banking-101-Joseph-Wang/dp/0999136747</description>
+      <guid>https://www.youtube.com/watch?v=gHmxigaT-AQ</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="1084000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/gHmxigaT-AQ/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:18:04</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - Markets Weekly April 13, 2024</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - Markets Weekly April 6, 2024</title>
+      <description>Original Video: https://www.youtube.com/watch?v=qewRQBvD8pQ
+Published At: 2024-04-06 00:00:00 UTC
+ #federalreserve   #marketsanalysis 
+Gold SURGES
+Explaining Treasury buybacks 
+Market outhawking Fed
+
+00:00 - Intro 
+1:34 - Gold SURGES
+6:25 - Explaining Treasury buybacks 
+11:20 - Market outhawking Fed
+
+For my latest thoughts:
+www.fedguy.com
+
+For macro courses:
+www.centralbanking101.com
+
+My best seller on monetary policy:
+https://www.amazon.com/Central-Banking-101-Joseph-Wang/dp/0999136747</description>
+      <guid>https://www.youtube.com/watch?v=qewRQBvD8pQ</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="948000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/qewRQBvD8pQ/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:15:48</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - Markets Weekly April 6, 2024</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - Markets Weekly March 30, 2024</title>
+      <description>Original Video: https://www.youtube.com/watch?v=OsohByB0o6k
+Published At: 2024-03-30 00:00:00 UTC
+ #federalreserve   #marketsanalysis 
+Japan Losing Control Over Yen&#13;
+New insight on pandemic retirements&#13;
+Lessons from Revolutionary France
+
+
+00:00 - Intro 
+1:05 - Japan Losing Control Over Yen
+6:21 - New insight on pandemic retirements
+9:59 - Lessons from Revolutionary France
+
+For my latest thoughts:
+www.fedguy.com
+
+For macro courses:
+www.centralbanking101.com
+
+My best seller on monetary policy:
+https://www.amazon.com/Central-Banking-101-Joseph-Wang/dp/0999136747</description>
+      <guid>https://www.youtube.com/watch?v=OsohByB0o6k</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="1120000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/OsohByB0o6k/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:18:40</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - Markets Weekly March 30, 2024</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - Markets Weekly March 23, 2024</title>
+      <description>Original Video: https://www.youtube.com/watch?v=tD5xX9E13rQ
+Published At: 2024-03-23 00:00:00 UTC
+ #federalreserve #marketsanalysis 
+Global Cutting Cycle Begins
+Are Financial Conditions Restrictive?
+Home prices set to soar
+
+00:00 - Intro 
+1:05 - Global Cutting Cycle Begins
+4:39 - Are Financial Conditions Restrictive?
+9:09 - Home prices set to soar
+
+For my latest thoughts:
+www.fedguy.com
+
+For macro courses:
+www.centralbanking101.com
+
+My best seller on monetary policy:
+https://www.amazon.com/Central-Banking-101-Joseph-Wang/dp/0999136747</description>
+      <guid>https://www.youtube.com/watch?v=tD5xX9E13rQ</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="894000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/tD5xX9E13rQ/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:14:54</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - Markets Weekly March 23, 2024</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - Charles Payne Show March 21, 2024</title>
+      <description>Original Video: https://www.youtube.com/watch?v=0GGW8TXL1fk
+Published At: 2024-03-22 00:00:00 UTC
+ </description>
+      <guid>https://www.youtube.com/watch?v=0GGW8TXL1fk</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="188000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/0GGW8TXL1fk/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:03:08</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - Charles Payne Show March 21, 2024</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - March 2024 FOMC Debrief</title>
+      <description>Original Video: https://www.youtube.com/watch?v=wO1_wlbEeT0
+Published At: 2024-03-21 00:00:00 UTC
+ Bullish.</description>
+      <guid>https://www.youtube.com/watch?v=wO1_wlbEeT0</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="528000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/wO1_wlbEeT0/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:08:48</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - March 2024 FOMC Debrief</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - Markets Weekly March 16, 2024</title>
+      <description>Original Video: https://www.youtube.com/watch?v=ld0zjVnxjjk
+Published At: 2024-03-16 00:00:00 UTC
+ #federalreserve #marketsanalysis 
+Inflation Stabilizing Above Target
+BOJ To Exit Negative Rates
+ECB New Demand Driven Reserve Framework
+
+
+00:00 - Intro 
+1:31 - Inflation Stabilizing Above Target
+6:35 - BOJ To Exit Negative Rates
+10:50 - ECB New Demand Driven Reserve Framework
+
+For my latest thoughts:
+www.fedguy.com
+
+For macro courses:
+www.centralbanking101.com
+
+My best seller on monetary policy:
+https://www.amazon.com/Central-Banking-101-Joseph-Wang/dp/0999136747</description>
+      <guid>https://www.youtube.com/watch?v=ld0zjVnxjjk</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="1129000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/ld0zjVnxjjk/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:18:49</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - Markets Weekly March 16, 2024</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - Markets Weekly March 9, 2024</title>
+      <description>Original Video: https://www.youtube.com/watch?v=2N-UvJENRtw
+Published At: 2024-03-09 00:00:00 UTC
+ #federalreserve #marketsanalysis 
+Gold Surges
+US Banking Sector Still Doing Well
+Buzz on new QT paper
+
+
+00:00 - Intro 
+1:36 - Gold Surges
+6:04 - US Banking Sector Still Doing Well
+12:24 - Buzz on new QT paper
+
+For my latest thoughts:
+www.fedguy.com
+
+For macro courses:
+www.centralbanking101.com
+
+My best seller on monetary policy:
+https://www.amazon.com/Central-Banking-101-Joseph-Wang/dp/0999136747</description>
+      <guid>https://www.youtube.com/watch?v=2N-UvJENRtw</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="1053000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/2N-UvJENRtw/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:17:33</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - Markets Weekly March 9, 2024</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - Markets Weekly March 2, 2024</title>
+      <description>Original Video: https://www.youtube.com/watch?v=G_fG2riwgtM
+Published At: 2024-03-02 00:00:00 UTC
+ #federalreserve #marketsanalysis 
+Bitcoin Adoption is Real&#13;
+BOJ may FINALLY Hike&#13;
+West set to seize some Russian assets
+
+
+00:00 - Intro 
+1:30 - Bitcoin Adoption is Real
+7:00 - BOJ may FINALLY Hike
+11:15 - West set to seize some Russian assets
+
+For my latest thoughts:
+www.fedguy.com
+
+For macro courses:
+www.centralbanking101.com
+
+My best seller on monetary policy:
+https://www.amazon.com/Central-Banking-101-Joseph-Wang/dp/0999136747</description>
+      <guid>https://www.youtube.com/watch?v=G_fG2riwgtM</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="1025000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/G_fG2riwgtM/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:17:05</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - Markets Weekly March 2, 2024</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - Charles Payne Show February 28, 2024</title>
+      <description>Original Video: https://www.youtube.com/watch?v=-esH80RjZX0
+Published At: 2024-02-29 00:00:00 UTC
+ </description>
+      <guid>https://www.youtube.com/watch?v=-esH80RjZX0</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="251000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/-esH80RjZX0/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:04:11</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - Charles Payne Show February 28, 2024</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+    <item>
+      <link>http://www.example.com/media_items/XXXXXX/audio</link>
+      <title>Joseph Wang - YouTube - Markets Weekly February 24, 2024</title>
+      <description>Original Video: https://www.youtube.com/watch?v=M_8qOWxrTbs
+Published At: 2024-02-24 00:00:00 UTC
+ #federalreserve #marketsanalysis 
+
+Global Equities Boom (and NVidia earnings)
+Market meets Fed at 3 Cuts
+Cool Private Credit Data
+
+
+00:00 - Intro 
+0:54 - Global Equities Boom (and NVidia earnings)
+4:20 - Market meets Fed at 3 Cuts
+9:28 - Cool Private Credit Data
+
+For my latest thoughts:
+www.fedguy.com
+
+For macro courses:
+www.centralbanking101.com
+
+My best seller on monetary policy:
+https://www.amazon.com/Central-Banking-101-Joseph-Wang/dp/0999136747</description>
+      <guid>https://www.youtube.com/watch?v=M_8qOWxrTbs</guid>
+      <pubDate>Fri, 18 Mar 2005 01:58:31 +0000</pubDate>
+      <enclosure url="http://www.example.com/media_items/XXXXXX/audio" type="audio/mpeg" length="941000"/>
+      <itunes:image>https://i.ytimg.com/vi_webp/M_8qOWxrTbs/maxresdefault.webp</itunes:image>
+      <itunes:duration>00:15:41</itunes:duration>
+      <itunes:title>Joseph Wang - YouTube - Markets Weekly February 24, 2024</itunes:title>
+      <itunes:author>Joseph Wang</itunes:author>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,15 @@
+<h1>Login page</h1>
+  <% flash.map do |type, msg| %>
+    <div style="color: red">
+      <h2><%= msg %></h2>
+    </div>
+  <% end %>
+<%= form_with url: login_path do |f| %>
+  <p>
+  <div>
+    <%= f.label :secret_key %><br>
+    <%= f.password_field :secret_key %>
+  </div>
+    <%= f.submit 'Login' %>
+  </p>
+<% end %>

@@ -1,0 +1,492 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.youtube.com/feeds/videos.xml?channel_id=UCYp-onWoQk6R9kCTij5KkkQ
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      Expect:
+      - ''
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Date:
+      - Mon, 06 May 2024 01:19:52 GMT
+      Expires:
+      - Mon, 06 May 2024 01:34:52 GMT
+      Cache-Control:
+      - public, max-age=900
+      Server:
+      - YouTube RSS Feeds server
+      X-Xss-Protection:
+      - '0'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Accept-Ranges:
+      - none
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: ASCII-8BIT
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<feed xmlns:yt=\"http://www.youtube.com/xml/schemas/2015\"
+        xmlns:media=\"http://search.yahoo.com/mrss/\" xmlns=\"http://www.w3.org/2005/Atom\">\n
+        <link rel=\"self\" href=\"http://www.youtube.com/feeds/videos.xml?channel_id=UCYp-onWoQk6R9kCTij5KkkQ\"/>\n
+        <id>yt:channel:Yp-onWoQk6R9kCTij5KkkQ</id>\n <yt:channelId>Yp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n
+        <title>Nobody Special Finance</title>\n <link rel=\"alternate\" href=\"https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ\"/>\n
+        <author>\n  <name>Nobody Special Finance</name>\n  <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        </author>\n <published>2021-05-07T17:06:25+00:00</published>\n <entry>\n  <id>yt:video:1hCjKdIAwCE</id>\n
+        \ <yt:videoId>1hCjKdIAwCE</yt:videoId>\n  <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n
+        \ <title>I Feel Like I'm Taking Crazy Pills</title>\n  <link rel=\"alternate\"
+        href=\"https://www.youtube.com/watch?v=1hCjKdIAwCE\"/>\n  <author>\n   <name>Nobody
+        Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-05-03T20:19:01+00:00</published>\n  <updated>2024-05-05T01:16:03+00:00</updated>\n
+        \ <media:group>\n   <media:title>I Feel Like I'm Taking Crazy Pills</media:title>\n
+        \  <media:content url=\"https://www.youtube.com/v/1hCjKdIAwCE?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i2.ytimg.com/vi/1hCjKdIAwCE/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>It's been one of the most absurd weeks in the world
+        of finance and economics since I don't know when.  A tiny bank was declared
+        too big to fail.  Apple stock surged on terrible earnings. The Fed talked
+        like a Hawk and walked like Dove. Yellen is paying off low interest debt with
+        high interest debt. The Japanese currency is imploding. And the financial
+        press is wearing a mask of euphoria like some kind of demented murderous street
+        mime from Rob Zombie flick.\n\nSupport the Channel on Patreon:  https://www.patreon.com/NobodySpecialFinance\nSupport
+        the Channel by Buying Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport
+        the Channel with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nJoin
+        My Discord for More Discussion, Q&amp;A, and News: https://discord.gg/njvf3DPPrF
+        \n\nAffiliate Links:\n\nUse this link to get $10 in free Bitcoin with Swan:
+        \ https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended reading (Amazon
+        Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#jobsreport
+        #inflation #EndTheFed</media:description>\n   <media:community>\n    <media:starRating
+        count=\"1707\" average=\"5.00\" min=\"1\" max=\"5\"/>\n    <media:statistics
+        views=\"14553\"/>\n   </media:community>\n  </media:group>\n </entry>\n <entry>\n
+        \ <id>yt:video:OoGpTwKZwlY</id>\n  <yt:videoId>OoGpTwKZwlY</yt:videoId>\n
+        \ <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n  <title>Market Rips
+        as Jobs Report Shows Hiring Slowed in April</title>\n  <link rel=\"alternate\"
+        href=\"https://www.youtube.com/watch?v=OoGpTwKZwlY\"/>\n  <author>\n   <name>Nobody
+        Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-05-03T13:46:38+00:00</published>\n  <updated>2024-05-05T14:07:18+00:00</updated>\n
+        \ <media:group>\n   <media:title>Market Rips as Jobs Report Shows Hiring Slowed
+        in April</media:title>\n   <media:content url=\"https://www.youtube.com/v/OoGpTwKZwlY?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i4.ytimg.com/vi/OoGpTwKZwlY/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>The US Economy added 175,000 jobs in April, fewer than
+        the 243K expected, and the market is celebrating because Fed.  Elsewhere,
+        Apple's horrible earnings report is being entirely ignored due to the company
+        announcing the largest stock buyback in history.\n\nSupport the Channel on
+        Patreon:  https://www.patreon.com/NobodySpecialFinance\nSupport the Channel
+        by Buying Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport
+        the Channel with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nJoin
+        My Discord for More Discussion, Q&amp;A, and News: https://discord.gg/njvf3DPPrF
+        \n\nAffiliate Links:\n\nUse this link to get $10 in free Bitcoin with Swan:
+        \ https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended reading (Amazon
+        Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#JobsReport
+        #inflation #EndTheFed</media:description>\n   <media:community>\n    <media:starRating
+        count=\"1118\" average=\"5.00\" min=\"1\" max=\"5\"/>\n    <media:statistics
+        views=\"8400\"/>\n   </media:community>\n  </media:group>\n </entry>\n <entry>\n
+        \ <id>yt:video:2hKed3EE_Ls</id>\n  <yt:videoId>2hKed3EE_Ls</yt:videoId>\n
+        \ <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n  <title>Powell Talks
+        The Hawk, Walks The Dove</title>\n  <link rel=\"alternate\" href=\"https://www.youtube.com/watch?v=2hKed3EE_Ls\"/>\n
+        \ <author>\n   <name>Nobody Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-05-02T13:53:39+00:00</published>\n  <updated>2024-05-04T08:31:20+00:00</updated>\n
+        \ <media:group>\n   <media:title>Powell Talks The Hawk, Walks The Dove</media:title>\n
+        \  <media:content url=\"https://www.youtube.com/v/2hKed3EE_Ls?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i3.ytimg.com/vi/2hKed3EE_Ls/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>Yesterday's FOMC statement and press conference had
+        two noteworthy qualities: Hawking talk that sounded tough on inflation followed
+        by weak sauce Dovish action that sent the dollar lower and asset prices higher.\n\nSupport
+        the Channel on Patreon:  https://www.patreon.com/NobodySpecialFinance\nSupport
+        the Channel by Buying Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport
+        the Channel with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nJoin
+        My Discord for More Discussion, Q&amp;A, and News: https://discord.gg/njvf3DPPrF
+        \n\nAffiliate Links:\n\nUse this link to get $10 in free Bitcoin with Swan:
+        \ https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended reading (Amazon
+        Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#EndtheFed
+        #inflation #Yen</media:description>\n   <media:community>\n    <media:starRating
+        count=\"1186\" average=\"5.00\" min=\"1\" max=\"5\"/>\n    <media:statistics
+        views=\"8421\"/>\n   </media:community>\n  </media:group>\n </entry>\n <entry>\n
+        \ <id>yt:video:KKdsQ931o5w</id>\n  <yt:videoId>KKdsQ931o5w</yt:videoId>\n
+        \ <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n  <title>Amazon Guides
+        Light, AI Stocks Sell Off, Fed on Deck</title>\n  <link rel=\"alternate\"
+        href=\"https://www.youtube.com/watch?v=KKdsQ931o5w\"/>\n  <author>\n   <name>Nobody
+        Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-05-01T13:43:05+00:00</published>\n  <updated>2024-05-03T02:06:18+00:00</updated>\n
+        \ <media:group>\n   <media:title>Amazon Guides Light, AI Stocks Sell Off,
+        Fed on Deck</media:title>\n   <media:content url=\"https://www.youtube.com/v/KKdsQ931o5w?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i4.ytimg.com/vi/KKdsQ931o5w/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>Amazon reported strong earnings yesterday that showed
+        remarkable growth in AWS which includes their cloud and AI business but those
+        results have been offset by lighter than expected guidance for the current
+        quarter leading to a muted reaction in the stock.  Elsewhere AI darlings AMD
+        and SMCI are both selling off this morning following earnings that failed
+        to meet the increasingly softy expectations for anything pertaining to Artificial
+        Intelligence.  Now the market pins it's hopes on the Federal Reserve and Jerome
+        Powell who will speak later today following the conclusion of the FOMC meeting.\n\nSupport
+        the Channel on Patreon:  https://www.patreon.com/NobodySpecialFinance\nSupport
+        the Channel by Buying Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport
+        the Channel with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nJoin
+        My Discord for More Discussion, Q&amp;A, and News: https://discord.gg/njvf3DPPrF
+        \n\nAffiliate Links:\n\nUse this link to get $10 in free Bitcoin with Swan:
+        \ https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended reading (Amazon
+        Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#Amazon
+        #artificialintelligence #AIMania</media:description>\n   <media:community>\n
+        \   <media:starRating count=\"1114\" average=\"5.00\" min=\"1\" max=\"5\"/>\n
+        \   <media:statistics views=\"8747\"/>\n   </media:community>\n  </media:group>\n
+        </entry>\n <entry>\n  <id>yt:video:KTKinCrQXK4</id>\n  <yt:videoId>KTKinCrQXK4</yt:videoId>\n
+        \ <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n  <title>Wages Rise
+        More Than Expected in Another Sign of Sticky Inflation</title>\n  <link rel=\"alternate\"
+        href=\"https://www.youtube.com/watch?v=KTKinCrQXK4\"/>\n  <author>\n   <name>Nobody
+        Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-04-30T13:42:08+00:00</published>\n  <updated>2024-05-02T22:48:52+00:00</updated>\n
+        \ <media:group>\n   <media:title>Wages Rise More Than Expected in Another
+        Sign of Sticky Inflation</media:title>\n   <media:content url=\"https://www.youtube.com/v/KTKinCrQXK4?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i4.ytimg.com/vi/KTKinCrQXK4/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>US employment costs rose 1.2% in the first quarter vs
+        expectations of 1.0% and a prior increase of 0.9% last quarter.  This is yet
+        another sign that inflation has not been defeated and a second wave could
+        be forming.  Meanwhile the US treasury announced it borrowing plans yesterday
+        and Secretary Yellen intends to borrow approximately 20% more than the market
+        was expecting.\n\nSupport the Channel on Patreon:  https://www.patreon.com/NobodySpecialFinance\nSupport
+        the Channel by Buying Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport
+        the Channel with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nJoin
+        My Discord for More Discussion, Q&amp;A, and News: https://discord.gg/njvf3DPPrF
+        \n\nAffiliate Links:\n\nUse this link to get $10 in free Bitcoin with Swan:
+        \ https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended reading (Amazon
+        Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#inflation
+        #wages #EndTheFed</media:description>\n   <media:community>\n    <media:starRating
+        count=\"1222\" average=\"5.00\" min=\"1\" max=\"5\"/>\n    <media:statistics
+        views=\"9433\"/>\n   </media:community>\n  </media:group>\n </entry>\n <entry>\n
+        \ <id>yt:video:4gdrd16BXZg</id>\n  <yt:videoId>4gdrd16BXZg</yt:videoId>\n
+        \ <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n  <title>Japan Intervenes
+        After Yen Collapse, TSLA Spikes on China News</title>\n  <link rel=\"alternate\"
+        href=\"https://www.youtube.com/watch?v=4gdrd16BXZg\"/>\n  <author>\n   <name>Nobody
+        Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-04-29T16:57:27+00:00</published>\n  <updated>2024-05-05T08:29:20+00:00</updated>\n
+        \ <media:group>\n   <media:title>Japan Intervenes After Yen Collapse, TSLA
+        Spikes on China News</media:title>\n   <media:content url=\"https://www.youtube.com/v/4gdrd16BXZg?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i1.ytimg.com/vi/4gdrd16BXZg/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>It was a wild night in the foreign exchange market.
+        \ The Japanese Yen collapsed to the lowest level since 1990 at one point forcing
+        the Japanese govt to intervene to prop up the falling currency.  Meanwhile
+        Tesla stock is surging once again this morning on news that the company has
+        reached a deal with Chinese authorities to allow the roll out of it's Full
+        Self Drive feature in China after partnering with Chinese tech giant Baidu.\n\nLink
+        to my video about Republic First Bank Collapse: https://www.youtube.com/watch?v=zh0bJssbRc8\n\nSupport
+        the Channel on Patreon:  https://www.patreon.com/NobodySpecialFinance\nSupport
+        the Channel by Buying Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport
+        the Channel with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nJoin
+        My Discord for More Discussion, Q&amp;A, and News: https://discord.gg/njvf3DPPrF
+        \n\nAffiliate Links:\n\nUse this link to get $10 in free Bitcoin with Swan:
+        \ https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended reading (Amazon
+        Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#Yen
+        #BOJ #Tesla</media:description>\n   <media:community>\n    <media:starRating
+        count=\"1405\" average=\"5.00\" min=\"1\" max=\"5\"/>\n    <media:statistics
+        views=\"12250\"/>\n   </media:community>\n  </media:group>\n </entry>\n <entry>\n
+        \ <id>yt:video:zh0bJssbRc8</id>\n  <yt:videoId>zh0bJssbRc8</yt:videoId>\n
+        \ <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n  <title>Republic
+        First Bank Fails &amp; The Govt Response is Terrifying</title>\n  <link rel=\"alternate\"
+        href=\"https://www.youtube.com/watch?v=zh0bJssbRc8\"/>\n  <author>\n   <name>Nobody
+        Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-04-29T00:45:53+00:00</published>\n  <updated>2024-04-30T01:30:05+00:00</updated>\n
+        \ <media:group>\n   <media:title>Republic First Bank Fails &amp; The Govt
+        Response is Terrifying</media:title>\n   <media:content url=\"https://www.youtube.com/v/zh0bJssbRc8?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i3.ytimg.com/vi/zh0bJssbRc8/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>Republic First Bank has failed. The bank's failure itself
+        is a relatively unimportant story.  It's a small bank that failed for reasons
+        we already knew about.  But the government's response to this non-event is
+        outright terrifying!\n\nLink to my video about bank bail-ins: https://www.youtube.com/watch?v=gKMmSbhvIpU\n\nSupport
+        the Channel on Patreon:  https://www.patreon.com/NobodySpecialFinance\nSupport
+        the Channel by Buying Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport
+        the Channel with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nChapters:\n0:00
+        Intro\n0:31 Friday News Dump\n2:08 Nothing New\n3:32 What Took So Long?\n5:08
+        Suspicious Happenings\n6:10 No Big Deal\n6:53 So What's The Big Problem?\n8:25
+        Dodd Frank and The Systemic Risk Exemption\n10:00 All Banks Now Too Big to
+        Fail\n11:37 The Deposit Insurance Fund\n12:20 The Press Running Interference\n14:08
+        Long Story Short\n\nJoin My Discord for More Discussion, Q&amp;A, and News:
+        https://discord.gg/njvf3DPPrF \n\nAffiliate Links:\n\nUse this link to get
+        $10 in free Bitcoin with Swan:  https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended
+        reading (Amazon Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\nThe Great Taking, by David
+        Rogers Webb (Free PDF): https://thegreattaking.com/\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#RepublicFirstBank
+        #TooBigtoFail #bankcrisis</media:description>\n   <media:community>\n    <media:starRating
+        count=\"2866\" average=\"5.00\" min=\"1\" max=\"5\"/>\n    <media:statistics
+        views=\"54954\"/>\n   </media:community>\n  </media:group>\n </entry>\n <entry>\n
+        \ <id>yt:video:Txtmx23xRDg</id>\n  <yt:videoId>Txtmx23xRDg</yt:videoId>\n
+        \ <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n  <title>The Magnificent
+        7 and The Week That Made No Sense at All</title>\n  <link rel=\"alternate\"
+        href=\"https://www.youtube.com/watch?v=Txtmx23xRDg\"/>\n  <author>\n   <name>Nobody
+        Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-04-26T20:35:32+00:00</published>\n  <updated>2024-04-29T23:20:08+00:00</updated>\n
+        \ <media:group>\n   <media:title>The Magnificent 7 and The Week That Made
+        No Sense at All</media:title>\n   <media:content url=\"https://www.youtube.com/v/Txtmx23xRDg?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i1.ytimg.com/vi/Txtmx23xRDg/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>Four of &quot;Magnificent 7&quot; companies reported
+        earnings this week.  The company reporting the best earnings was crushed.
+        The company reporting the the worst earnings surged. Two companies posted
+        lackluster guidance, but only one of them was punished for it while the other
+        wasn't.  Two companies used empty rhetoric about AI, one was punished, one
+        was rewarded.  Economic growth was cut in half while inflation is on the rise
+        and the market is up for the week.  Just WTF is going on with the Mag 7 and
+        this market as a whole?\n\nSupport the Channel on Patreon:  https://www.patreon.com/NobodySpecialFinance\nSupport
+        the Channel by Buying Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport
+        the Channel with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nJoin
+        My Discord for More Discussion, Q&amp;A, and News: https://discord.gg/njvf3DPPrF
+        \n\nAffiliate Links:\n\nUse this link to get $10 in free Bitcoin with Swan:
+        \ https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended reading (Amazon
+        Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#Mag7
+        #inflation #EndtheFed</media:description>\n   <media:community>\n    <media:starRating
+        count=\"715\" average=\"5.00\" min=\"1\" max=\"5\"/>\n    <media:statistics
+        views=\"6119\"/>\n   </media:community>\n  </media:group>\n </entry>\n <entry>\n
+        \ <id>yt:video:EHu_BUxUEXs</id>\n  <yt:videoId>EHu_BUxUEXs</yt:videoId>\n
+        \ <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n  <title>PCE Inflation
+        Higher Than Expected, MSFT and GOOG Earnings Beat</title>\n  <link rel=\"alternate\"
+        href=\"https://www.youtube.com/watch?v=EHu_BUxUEXs\"/>\n  <author>\n   <name>Nobody
+        Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-04-26T13:41:23+00:00</published>\n  <updated>2024-04-28T22:53:26+00:00</updated>\n
+        \ <media:group>\n   <media:title>PCE Inflation Higher Than Expected, MSFT
+        and GOOG Earnings Beat</media:title>\n   <media:content url=\"https://www.youtube.com/v/EHu_BUxUEXs?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i2.ytimg.com/vi/EHu_BUxUEXs/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>Personal Consumption Expenditures (PCE), the Fed's preferred
+        index of inflation, came in higher than expected for the month of March this
+        morning.  Another feather in cap of the 'Higher for Longer' crowd.  Meanwhile
+        we got big earnings beats from Microsoft and Alphabet yesterday showing growth
+        in cloud services which is re-energizing the AI trade following last week's
+        rout and disappointing results from Meta.\n\nSupport the Channel on Patreon:
+        \ https://www.patreon.com/NobodySpecialFinance\nSupport the Channel by Buying
+        Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport the Channel
+        with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nJoin
+        My Discord for More Discussion, Q&amp;A, and News: https://discord.gg/njvf3DPPrF
+        \n\nAffiliate Links:\n\nUse this link to get $10 in free Bitcoin with Swan:
+        \ https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended reading (Amazon
+        Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#inflation
+        #endthefed #artificialintelligence</media:description>\n   <media:community>\n
+        \   <media:starRating count=\"1202\" average=\"5.00\" min=\"1\" max=\"5\"/>\n
+        \   <media:statistics views=\"7987\"/>\n   </media:community>\n  </media:group>\n
+        </entry>\n <entry>\n  <id>yt:video:lTKF1xxAOhs</id>\n  <yt:videoId>lTKF1xxAOhs</yt:videoId>\n
+        \ <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n  <title>GDP Huge
+        Miss with Higher Inflation, Meta's Cash Burn Spooks Investors</title>\n  <link
+        rel=\"alternate\" href=\"https://www.youtube.com/watch?v=lTKF1xxAOhs\"/>\n
+        \ <author>\n   <name>Nobody Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-04-25T13:57:48+00:00</published>\n  <updated>2024-04-28T09:15:27+00:00</updated>\n
+        \ <media:group>\n   <media:title>GDP Huge Miss with Higher Inflation, Meta's
+        Cash Burn Spooks Investors</media:title>\n   <media:content url=\"https://www.youtube.com/v/lTKF1xxAOhs?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i1.ytimg.com/vi/lTKF1xxAOhs/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>GDP growth came in way under market expectations despite
+        higher PCE inflation, basically the worst possible outcome.  Meanwhile tech
+        investors have been spooked by Meta's rate of cash burn on projects such as
+        AI, Metaverse, and smart glasses.\n\nSupport the Channel on Patreon:  https://www.patreon.com/NobodySpecialFinance\nSupport
+        the Channel by Buying Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport
+        the Channel with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nJoin
+        My Discord for More Discussion, Q&amp;A, and News: https://discord.gg/njvf3DPPrF
+        \n\nAffiliate Links:\n\nUse this link to get $10 in free Bitcoin with Swan:
+        \ https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended reading (Amazon
+        Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#GDP
+        #inflation #Meta</media:description>\n   <media:community>\n    <media:starRating
+        count=\"1381\" average=\"5.00\" min=\"1\" max=\"5\"/>\n    <media:statistics
+        views=\"10010\"/>\n   </media:community>\n  </media:group>\n </entry>\n <entry>\n
+        \ <id>yt:video:VUZ3ckJdQpA</id>\n  <yt:videoId>VUZ3ckJdQpA</yt:videoId>\n
+        \ <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n  <title>Tesla Says
+        AI and Bad Earnings Go Away, Boeing Better Than Feared</title>\n  <link rel=\"alternate\"
+        href=\"https://www.youtube.com/watch?v=VUZ3ckJdQpA\"/>\n  <author>\n   <name>Nobody
+        Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-04-24T13:48:29+00:00</published>\n  <updated>2024-04-27T06:03:19+00:00</updated>\n
+        \ <media:group>\n   <media:title>Tesla Says AI and Bad Earnings Go Away, Boeing
+        Better Than Feared</media:title>\n   <media:content url=\"https://www.youtube.com/v/VUZ3ckJdQpA?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i3.ytimg.com/vi/VUZ3ckJdQpA/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>Tesla reported earnings yesterday that were nothing
+        shy of abysmal and nobody seems to care because Elon Musk said &quot;AI&quot;
+        enough times to make everyone forget that nobody is buying electric vehicles.
+        \ Meanwhile Boeing reported earnings this morning that were terrible but better
+        than many had feared and thus the stock is rallying.\n\nSupport the Channel
+        on Patreon:  https://www.patreon.com/NobodySpecialFinance\nSupport the Channel
+        by Buying Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport
+        the Channel with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nJoin
+        My Discord for More Discussion, Q&amp;A, and News: https://discord.gg/njvf3DPPrF
+        \n\nAffiliate Links:\n\nUse this link to get $10 in free Bitcoin with Swan:
+        \ https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended reading (Amazon
+        Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#Tesla
+        #Boeing #EndTheFed</media:description>\n   <media:community>\n    <media:starRating
+        count=\"1099\" average=\"5.00\" min=\"1\" max=\"5\"/>\n    <media:statistics
+        views=\"7863\"/>\n   </media:community>\n  </media:group>\n </entry>\n <entry>\n
+        \ <id>yt:video:RvIpyVFqjAo</id>\n  <yt:videoId>RvIpyVFqjAo</yt:videoId>\n
+        \ <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n  <title>UPS Profit
+        Tanks on Lower Volume and Higher Labor Costs</title>\n  <link rel=\"alternate\"
+        href=\"https://www.youtube.com/watch?v=RvIpyVFqjAo\"/>\n  <author>\n   <name>Nobody
+        Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-04-23T13:44:33+00:00</published>\n  <updated>2024-04-27T05:48:13+00:00</updated>\n
+        \ <media:group>\n   <media:title>UPS Profit Tanks on Lower Volume and Higher
+        Labor Costs</media:title>\n   <media:content url=\"https://www.youtube.com/v/RvIpyVFqjAo?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i3.ytimg.com/vi/RvIpyVFqjAo/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>United Parcel Service (UPS) reported earnings this morning
+        that saw first quarter profits decline 35% year over year the package handler's
+        profit margins have been squeezed.  Fewer packages are being shipped and after
+        last year's labor disputes, wages are sharply higher.  The company has tried
+        to offset this decline with layoffs.  Elsewhere General Motors (GM) reported
+        a big jump in profits driven entirely by higher prices for vehicles.\n\nSupport
+        the Channel on Patreon:  https://www.patreon.com/NobodySpecialFinance\nSupport
+        the Channel by Buying Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport
+        the Channel with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nJoin
+        My Discord for More Discussion, Q&amp;A, and News: https://discord.gg/njvf3DPPrF
+        \n\nAffiliate Links:\n\nUse this link to get $10 in free Bitcoin with Swan:
+        \ https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended reading (Amazon
+        Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#UPS
+        #inflation #recession</media:description>\n   <media:community>\n    <media:starRating
+        count=\"1213\" average=\"5.00\" min=\"1\" max=\"5\"/>\n    <media:statistics
+        views=\"8524\"/>\n   </media:community>\n  </media:group>\n </entry>\n <entry>\n
+        \ <id>yt:video:T34QEUpy8HM</id>\n  <yt:videoId>T34QEUpy8HM</yt:videoId>\n
+        \ <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n  <title>Gold and
+        Silver Prices Smashed, Tesla Cuts Prices Again</title>\n  <link rel=\"alternate\"
+        href=\"https://www.youtube.com/watch?v=T34QEUpy8HM\"/>\n  <author>\n   <name>Nobody
+        Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-04-22T13:49:19+00:00</published>\n  <updated>2024-04-28T10:31:54+00:00</updated>\n
+        \ <media:group>\n   <media:title>Gold and Silver Prices Smashed, Tesla Cuts
+        Prices Again</media:title>\n   <media:content url=\"https://www.youtube.com/v/T34QEUpy8HM?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i1.ytimg.com/vi/T34QEUpy8HM/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>The price of gold and silver are under pressure this
+        morning after US and Chinese exchanges increased margin requirements on traders
+        leading to the liquification of speculators who borrowed money to buy metals.
+        \ Elsewhere Tesla stock is down again this morning after announcing yet another
+        round of price cuts on it's electric vehicles and the Full Self Driving package.\n\nSupport
+        the Channel on Patreon:  https://www.patreon.com/NobodySpecialFinance\nSupport
+        the Channel by Buying Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport
+        the Channel with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nJoin
+        My Discord for More Discussion, Q&amp;A, and News: https://discord.gg/njvf3DPPrF
+        \n\nAffiliate Links:\n\nUse this link to get $10 in free Bitcoin with Swan:
+        \ https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended reading (Amazon
+        Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#Gold
+        #Silver #Tesla</media:description>\n   <media:community>\n    <media:starRating
+        count=\"1309\" average=\"5.00\" min=\"1\" max=\"5\"/>\n    <media:statistics
+        views=\"11247\"/>\n   </media:community>\n  </media:group>\n </entry>\n <entry>\n
+        \ <id>yt:video:ZeeFiJLUlD0</id>\n  <yt:videoId>ZeeFiJLUlD0</yt:videoId>\n
+        \ <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n  <title>AI Stocks
+        Just Had Their Worst Week Since AI Mania Began</title>\n  <link rel=\"alternate\"
+        href=\"https://www.youtube.com/watch?v=ZeeFiJLUlD0\"/>\n  <author>\n   <name>Nobody
+        Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-04-19T20:49:04+00:00</published>\n  <updated>2024-04-22T22:05:06+00:00</updated>\n
+        \ <media:group>\n   <media:title>AI Stocks Just Had Their Worst Week Since
+        AI Mania Began</media:title>\n   <media:content url=\"https://www.youtube.com/v/ZeeFiJLUlD0?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i3.ytimg.com/vi/ZeeFiJLUlD0/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>The AI Mania has fizzled out and semiconductor stocks
+        have just had their worst week since January of 2022.  High flying AI names
+        such as Nvidia, Supermicro, and ARM Holdings are all down double digits.  Is
+        this the bursting of the AI bubble or just another dip that'll get bought
+        up by people who have no clue what their buying?\n\nSupport the Channel on
+        Patreon:  https://www.patreon.com/NobodySpecialFinance\nSupport the Channel
+        by Buying Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport
+        the Channel with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nJoin
+        My Discord for More Discussion, Q&amp;A, and News: https://discord.gg/njvf3DPPrF
+        \n\nAffiliate Links:\n\nUse this link to get $10 in free Bitcoin with Swan:
+        \ https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended reading (Amazon
+        Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#AIMania
+        #artificialintelligence #Rando</media:description>\n   <media:community>\n
+        \   <media:starRating count=\"833\" average=\"5.00\" min=\"1\" max=\"5\"/>\n
+        \   <media:statistics views=\"7285\"/>\n   </media:community>\n  </media:group>\n
+        </entry>\n <entry>\n  <id>yt:video:W5p1AZtUQgM</id>\n  <yt:videoId>W5p1AZtUQgM</yt:videoId>\n
+        \ <yt:channelId>UCYp-onWoQk6R9kCTij5KkkQ</yt:channelId>\n  <title>Israel Attacks
+        Iran as Scripted War Continues, NFLX Dumps on Big Beat</title>\n  <link rel=\"alternate\"
+        href=\"https://www.youtube.com/watch?v=W5p1AZtUQgM\"/>\n  <author>\n   <name>Nobody
+        Special Finance</name>\n   <uri>https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ</uri>\n
+        \ </author>\n  <published>2024-04-19T17:11:20+00:00</published>\n  <updated>2024-04-22T22:18:29+00:00</updated>\n
+        \ <media:group>\n   <media:title>Israel Attacks Iran as Scripted War Continues,
+        NFLX Dumps on Big Beat</media:title>\n   <media:content url=\"https://www.youtube.com/v/W5p1AZtUQgM?version=3\"
+        type=\"application/x-shockwave-flash\" width=\"640\" height=\"390\"/>\n   <media:thumbnail
+        url=\"https://i4.ytimg.com/vi/W5p1AZtUQgM/hqdefault.jpg\" width=\"480\" height=\"360\"/>\n
+        \  <media:description>Israel blew up a patch of dirt in Iran last night in
+        a widely telegraphed, scripted move that achieved no tactical purpose and
+        surprised nobody. Initial spikes in oil and precious metals quickly reversed
+        as traders begin to realize the whole thing was an act for the cameras.  Meanwhile
+        earnings continue to roll in with Netflix reporting stellar numbers, but the
+        stock is dumping after the company announced a change to the way they'll report
+        the data going forward.\n\nSupport the Channel on Patreon:  https://www.patreon.com/NobodySpecialFinance\nSupport
+        the Channel by Buying Me a Coffee\nhttps://www.buymeacoffee.com/nobodyspecial\nSupport
+        the Channel with Melon Merch by TeeSpring:\nhttps://nobody-special-finance.creator-spring.com/\n\nJoin
+        My Discord for More Discussion, Q&amp;A, and News: https://discord.gg/njvf3DPPrF
+        \n\nAffiliate Links:\n\nUse this link to get $10 in free Bitcoin with Swan:
+        \ https://www.swanbitcoin.com/NobodySpecial/\n\nRecommended reading (Amazon
+        Affiliate links):\nRich Dad Poor Dad by Robert Kiyosaki:  https://amzn.to/3rJvA7Y\nAtomic
+        Habits by James Clear:  https://amzn.to/423Odoy\nWhy We Need The Fed (blank
+        gag book) by Joe Brown:  https://amzn.to/403amBS\n\nFollow me on Twitter:
+        https://twitter.com/JG_Nuke\nFollow me on Gettr: https://gettr.com/user/nobody_special_\nFollow
+        me on Gab: https://gab.com/NobodySpecialFinance\nFollow me on Reddit: https://www.reddit.com/user/JG-NUKE\n\n#IsraelIranConflict
+        #bankearnings #EndTheFed</media:description>\n   <media:community>\n    <media:starRating
+        count=\"1281\" average=\"5.00\" min=\"1\" max=\"5\"/>\n    <media:statistics
+        views=\"10729\"/>\n   </media:community>\n  </media:group>\n </entry>\n</feed>\n"
+  recorded_at: Mon, 06 May 2024 01:19:52 GMT
+recorded_with: VCR 6.2.0

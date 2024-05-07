@@ -1,0 +1,121 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://hoisington.com/economic_overview.html
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Typhoeus - https://github.com/typhoeus/typhoeus
+      Expect:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 22 May 2024 18:59:08 GMT
+      Server:
+      - Apache
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Referrer-Policy:
+      - origin-when-cross-origin
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Permissions-Policy:
+      - geolocation=(); microphone=(); payment=(); camera=(); notifications=(); push=();
+        magnetometer=(); gyroscope=(); speaker=(); vibrate=(); fullscreen=(self)
+      Last-Modified:
+      - Thu, 18 Apr 2024 13:50:22 GMT
+      Etag:
+      - '"157f-6165f40a329b8"'
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '5503'
+      Content-Type:
+      - text/html; charset=UTF-8
+    body:
+      encoding: ASCII-8BIT
+      string: "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML//EN\">\n<html><head>\n\n\n<meta
+        http-equiv=\"Content-Language\" content=\"en-us\">\n<meta http-equiv=\"Content-Type\"
+        content=\"text/html; charset=ISO-8859-1\">\n<meta name=\"description\" content=\"Hoisington,Hoisington
+        Investment, Hoisington Investment Management,Van Hoisington,U.S. Bonds, Dr.
+        Lacy Hunt, Wasatch-Hoisington, David Hoisington\">\n<title>Hoisington Investment
+        Management Company - Economic Overview</title>\n</head><body alink=\"#cc3300\"
+        background=\"graphics/exptextb.jpg\" bgcolor=\"#e0dab8\" link=\"#993300\"
+        text=\"#000000\" vlink=\"#666600\"><!--msnavigation--><table border=\"0\"
+        cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tbody><tr><td><!--mstheme--><font
+        face=\"book antiqua,times new roman,times\">\n\n<p><img src=\"graphics/Hoisington1.gif\"
+        alt=\"Hoisington.gif (4024 bytes)\" height=\"69\" width=\"317\"></p>\n\n<p>\n<img
+        src=\"graphics/hoisington_economic_overview_002.gif\" alt=\"Economic Overview\"
+        border=\"0\" height=\"60\" width=\"600\"></p>\n\n<!--mstheme--></font></td></tr><!--msnavigation--></tbody></table><!--msnavigation--><table
+        dir=\"ltr\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\"><tbody><tr><td
+        valign=\"top\" width=\"1%\"><!--mstheme--><font face=\"book antiqua,times
+        new roman,times\">\n<p>&nbsp;</p>\n\n<!--mstheme--></font></td><td valign=\"top\"
+        width=\"24\"></td><!--msnavigation--><td valign=\"top\"><!--mstheme--><font
+        face=\"book antiqua,times new roman,times\"><!--mstheme--></font><table border=\"0\"
+        cellpadding=\"6\" cellspacing=\"6\" width=\"100%\">\n  <tbody><tr>\n    <td
+        align=\"center\" valign=\"top\" width=\"148\"><img src=\"graphics/hoisington_economic_overview_on.gif\"
+        alt=\"Economic Overview\" border=\"0\" height=\"50\" width=\"140\"></td>\n
+        \   <td valign=\"top\" width=\"100%\"><!--mstheme--><font face=\"book antiqua,times
+        new roman,times\"><p align=\"left\">\n\t<p>Hoisington Investment Management
+        Company publishes its Quarterly Review and Outlook usually within two weeks
+        after each quarter end.</p>\n\t<p>Hoisington Investment Management Company
+        (HIMCo) is a federally registered investment adviser located in Austin, Texas.
+        HIMCo is not registered as an investment adviser in any other jurisdictions
+        and is not soliciting investors outside the U.S. Registration does not imply
+        any level of skill or training.</p>\n\t<p>This is a portable display file
+        (.pdf). If you do not currently have a viewer, click on the Adobe Acrobat
+        button below to load the Acrobat Reader.</p>\n\t<p><i>(please note: only Quarterly
+        Letters posted here are available.  Further back issues are not available.)</i></p>\n
+        \       <p>\n<img src=\"graphics/expbul1a.gif\" alt=\"bullet\" height=\"15\"
+        hspace=\"13\" width=\"15\"> <a href=\"/pdf/HIM2024Q1NP.pdf\" target=\"_blank\">Quarterly
+        Review and Outlook, First Quarter 2024</a></br />\n<img src=\"graphics/expbul1a.gif\"
+        alt=\"bullet\" height=\"15\" hspace=\"13\" width=\"15\"> <a href=\"/pdf/HIM2023Q4NP.pdf\"
+        target=\"_blank\">Quarterly Review and Outlook, Fourth Quarter 2023</a></br
+        />\n        <img src=\"graphics/expbul1a.gif\" alt=\"bullet\" height=\"15\"
+        hspace=\"13\" width=\"15\"> <a href=\"/pdf/HIM2023Q3NP.pdf\" target=\"_blank\">Quarterly
+        Review and Outlook, Third Quarter 2023</a></br />\n        <img src=\"graphics/expbul1a.gif\"
+        alt=\"bullet\" height=\"15\" hspace=\"13\" width=\"15\"> <a href=\"/pdf/HIM2023Q2NP.pdf\"
+        target=\"_blank\">Quarterly Review and Outlook, Second Quarter 2023</a></br
+        />\n\t<img src=\"graphics/expbul1a.gif\" alt=\"bullet\" height=\"15\" hspace=\"13\"
+        width=\"15\"> <a href=\"/pdf/HIM2023Q1NP.pdf\" target=\"_blank\">Quarterly
+        Review and Outlook, First Quarter 2023</a></br />\n\t<img src=\"graphics/expbul1a.gif\"
+        alt=\"bullet\" height=\"15\" hspace=\"13\" width=\"15\"> <a href=\"/pdf/HIM2022Q4NP.pdf\"
+        target=\"_blank\">Quarterly Review and Outlook, Fourth Quarter 2022</a></br
+        />\n\t<img src=\"graphics/expbul1a.gif\" alt=\"bullet\" height=\"15\" hspace=\"13\"
+        width=\"15\"> <a href=\"/pdf/HIM2022Q3NP.pdf\" target=\"_blank\">Quarterly
+        Review and Outlook, Third Quarter 2022</a></br />\n\t<img src=\"graphics/expbul1a.gif\"
+        alt=\"bullet\" height=\"15\" hspace=\"13\" width=\"15\"> <a href=\"/pdf/HIM2022Q2NP.pdf\"
+        target=\"_blank\">Quarterly Review and Outlook, Second Quarter 2022</a></br
+        />\n\t<img src=\"graphics/expbul1a.gif\" alt=\"bullet\" height=\"15\" hspace=\"13\"
+        width=\"15\"> <a href=\"/pdf/HIM2022Q1NP.pdf\" target=\"_blank\">Quarterly
+        Review and Outlook, First Quarter 2022</a></br />\n    <p align=\"left\"><font
+        face=\"book antiqua,times new roman,times\">Date page was last edited \n    <SCRIPT
+        LANGUAGE=\"JavaScript\"> <!-- \n\tvar LastUpdated = document.lastModified;\n\tdocument.writeln
+        (LastUpdated);\n\t// End --> </SCRIPT><br>\n<p align=\"center\"></p>\n<p align=\"center\"><a
+        href=\"http://www.adobe.com/prodindex/acrobat/readstep.html\">\n    <img src=\"graphics/getacro.gif\"
+        alt=\"getacro.gif (712 bytes)\" height=\"31\" width=\"88\"></a></p>\n<p align=\"center\"><a
+        href=\"/\"><img src=\"graphics/home_cmp_expeditn010_gbtn.gif\" alt=\"Home\"
+        align=\"middle\" border=\"0\" height=\"20\" width=\"95\"></a>&nbsp;&nbsp;<a
+        href=\"disclosures.html\"><img src=\"graphics/disclosures.png\" alt=\"Disclosures\"
+        align=\"middle\" border=\"0\" height=\"20\" width=\"95\"></a></p></td>\n  </tr>\n
+        \ <tr>\n    <td align=\"center\" valign=\"top\" width=\"148\"><!--mstheme--><font
+        face=\"book antiqua,times new roman,times\">&nbsp;<!--mstheme--></font></td>\n
+        \   <td valign=\"top\" width=\"100%\"><!--mstheme--><font face=\"book antiqua,times
+        new roman,times\">&nbsp;<!--mstheme--></font></td>\n  </tr>\n</tbody></table><!--mstheme--><font
+        face=\"book antiqua,times new roman,times\">\n<p align=\"center\">&nbsp;</p>\n<p>&nbsp;
+        </p>\n\n<!--mstheme--></font><!--msnavigation--></td></tr><!--msnavigation--></tbody></table></body></html>\n"
+  recorded_at: Wed, 22 May 2024 19:00:08 GMT
+recorded_with: VCR 6.2.0

@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.3.0"
+ruby "3.3.1"
 
 # Use main development branch of Rails
 gem "rails", github: "rails/rails", branch: "main"
@@ -37,7 +37,7 @@ gem 'sucker_punch', '~> 3.0'
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ windows jruby ]
+gem "tzinfo-data", platforms: %i[windows jruby]
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -47,7 +47,7 @@ gem "bootsnap", require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ]
+  gem "debug", platforms: %i[mri windows]
 end
 
 group :development do
@@ -64,12 +64,26 @@ end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "rspec"
   gem "rubocop", require: false
   gem "rerun", require: false
-  gem "factory_girl_rails"
+  gem "factory_bot_rails"
   gem "awesome_print"
   gem "pry-rescue"
   gem "rspec-rails"
   gem "vcr"
+  gem "webmock", "~> 3.23"
+  gem "capybara", ">= 3.26"
+  gem "selenium-webdriver", ">= 4.0.0"
+  gem "webdrivers"
 end
+
+gem 'feedjira'
+gem 'pocket-ruby'
+gem 'httparty'
+gem 'typhoeus'
+
+gem "tailwindcss-rails", "~> 2.6"
+
+gem "activeadmin", "~> 3.2"
+gem 'sass-rails' # required for activeadmin
+gem "validate_url"

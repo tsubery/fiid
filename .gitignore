@@ -34,3 +34,8 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 .env
+.rbenv-vars
+config/credentials.yml.env
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

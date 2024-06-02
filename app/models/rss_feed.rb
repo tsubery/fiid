@@ -29,7 +29,7 @@ class RssFeed < Feed
     return [] if rss_response.code == 304
 
     if rss_response.code != 200
-      return "Error fetching feed ##{id}: response code #{rss_response.code}"
+      return network_error_message(rss_response)
     end
 
     new_checksum =
@@ -56,7 +56,7 @@ class RssFeed < Feed
             mime_type: "text/html",
             published_at: rss_entry[:published],
             thumbnail_url: rss_entry[:enclosure_url] || '',
-            title: rss_entry[:title] || '',
+            title: [title, rss_entry[:title]].compact.join(" - "),
             url: rss_entry[:url] || MediaItem.temporary_url
           )
       end

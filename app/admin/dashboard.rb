@@ -14,7 +14,7 @@ ActiveAdmin.register_page "Dashboard" do
             th :title
             th :feed
           end
-          MediaItem.where(mime_type: "video/mp4").order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
+          MediaItem.includes(:feed).where(mime_type: "video/mp4").order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
             tr do
               td do
                 a media_item.id, href: admin_media_item_path(media_item.id)
@@ -41,7 +41,7 @@ ActiveAdmin.register_page "Dashboard" do
             th :title
             th :feed
           end
-          MediaItem.where(mime_type: "text/html").order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
+          MediaItem.includes(:feed).where.not(mime_type: "video/mp4").order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
             tr do
               td do
                 a media_item.id, href: admin_media_item_path(media_item.id)
@@ -72,8 +72,12 @@ ActiveAdmin.register_page "Dashboard" do
           end
           Feed.where.not(fetch_error_message: "").each do |feed|
             tr do
-              td feed.id
-              td feed.title
+              td do
+                a feed.id, href: admin_feed_path(feed)
+              end
+              td do
+                a feed.title, href: admin_feed_path(feed)
+              end
               td time_ago_in_words(feed.updated_at)
               td feed.last_sync ? time_ago_in_words(feed.last_sync) : 'never'
               td feed.fetch_error_message

@@ -27,7 +27,7 @@ class YoutubePlaylistFeed < YoutubeFeed
           description: parsed["description"] || '',
           duration_seconds: parsed["duration"],
           guid: video.guid,
-          title: parsed["title"] || '',
+          title: [title, parsed["title"]].compact.join(" - "),
           url: video.url
         )
     end

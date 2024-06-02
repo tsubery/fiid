@@ -19,7 +19,7 @@ class EtagFeedTest < ActiveSupport::TestCase
       assert_equal '"157f-6165f40a329b8"', feed.etag
       assert_equal 1, new_media_items.count
       new_mi = new_media_items.first
-      assert_equal feed.title, new_mi.title
+      assert_equal feed.title + " - #{Date.today}", new_mi.title
       assert_equal feed.description, new_mi.description
       assert_equal new_mi.author, feed.title
       assert_equal DateTime.parse("Thu, 18 Apr 2024 13:50:22.000000000 UTC +00:00"), new_mi.published_at

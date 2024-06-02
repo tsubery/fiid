@@ -18,7 +18,7 @@ class YoutubeChannelFeed < YoutubeFeed
 
   def recent_media_items(since: nil)
     unless [200, 304].include?(rss_response.code)
-      return "Unexpected response code #{rss_response.code} for feed #{id}"
+      return network_error_message(rss_response)
     end
 
     return [] if rss_response.code == 304
@@ -41,7 +41,7 @@ class YoutubeChannelFeed < YoutubeFeed
             mime_type: "video/mp4",
             published_at: rss_entry[:published],
             thumbnail_url: rss_entry[:media_thumbnail_url] || '',
-            title: rss_entry[:title] || '',
+            title: [title, rss_entry[:title]].compact.join(" - "),
             url: rss_entry.fetch(:url)
           )
       end

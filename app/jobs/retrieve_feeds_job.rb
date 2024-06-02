@@ -2,7 +2,7 @@ class RetrieveFeedsJob < ApplicationJob
   queue_as :default
 
   def perform(feed_ids)
-    Feed.where(id: feed_ids).each do |feed|
+    Feed.where(id: feed_ids).find_each do |feed|
       refresh_feed(feed)
     end
   end
@@ -45,13 +45,14 @@ class RetrieveFeedsJob < ApplicationJob
   def self.enqueue_all(klass = RssFeed)
     ids = klass
           .where("last_sync IS NULL or last_sync < ?", 15.minutes.ago)
-          .joins(:libraries)
-          .select do |feed|
-      # Youtube feeds are fetched on demand
-      # Randomness spreads polling across time to avoid spikes in resources utilization
-      !feed.is_a?(YoutubeFeed) &&
-        (feed.last_sync.nil? || feed.last_sync < rand(15..30).minutes.ago)
-    end.map(&:id)
+          .where("type != ?", YoutubeFeed)# Youtube feeds are fetched on demand
+          .joins(:libraries) # Do not bother if the feed doesn't have libraries
+          .distinct
+          .pluck(:id, :last_sync)
+          .select do |_id, last_sync|
+            # Randomness spreads polling across time to avoid spikes in resources utilization
+           (last_sync.nil? || last_sync < rand(15..30).minutes.ago)
+    end.map(&:first)
     ids.present? && perform_later(ids.uniq)
   end
 end

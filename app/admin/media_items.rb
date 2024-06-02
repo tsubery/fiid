@@ -12,6 +12,7 @@ ActiveAdmin.register MediaItem do
     f.input :author
     f.input :published_at
     f.input :reachable
+    f.input :mime_type
     f.input :libraries, :as => :select, :input_html => { :multiple => true }
     f.actions
   end

@@ -33,7 +33,7 @@ module Youtube
       def get_playlist_information(id)
         sanitize_id!(id)
         stdout, stderr, status = cmd("-j --flat-playlist \"#{id}\"")
-        if status["exitstatus"] == 0
+        if status.exitstatus == 0
           stdout
         else
           raise stderr
@@ -52,7 +52,8 @@ module Youtube
           caller_method = caller.first.split(" ").last.gsub(/[^a-z_]/, '')
           fixture_file = "test/fixtures/youtube_cli/#{caller_method}-#{args_hash}.json"
           if File.exist?(fixture_file)
-            stdout, stderr, status = JSON.parse(File.read(fixture_file))
+            stdout, stderr, status_attrs = JSON.parse(File.read(fixture_file))
+            status = OpenStruct.new(status_attrs)
           end
         end
 

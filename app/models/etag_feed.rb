@@ -17,7 +17,7 @@ class EtagFeed < Feed
 
   def recent_media_items(since: nil, redirects_left: 5)
     unless [200, 304].include?(html_response.code)
-      return "Error fetching feed ##{id}: response code #{html_response.code}"
+      return network_error_message(html_response)
     end
 
     new_checksum = get_etag.presence || Digest::MD5.hexdigest(html_response.body)
@@ -36,7 +36,7 @@ class EtagFeed < Feed
         mime_type: "text/html",
         published_at: get_last_modified,
         thumbnail_url: '',
-        title: title,
+        title: [title, Date.today.to_s].compact.join(" - "),
         url: url
       )]
     end

@@ -64,4 +64,12 @@ class Feed < ApplicationRecord
       entry.to_h.merge(guid: guid).symbolize_keys
     end
   end
+
+  private
+
+  def network_error_message(resp)
+    "Error fetching feed ##{id}: response code #{resp.code}#{
+      resp.return_message.present? ? "message: #{resp.return_message}" : ''
+    }"
+  end
 end

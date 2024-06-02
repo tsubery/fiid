@@ -3,8 +3,8 @@ class IncomingEmailFeed < Feed
 
   def self.target_feed(email)
     feed = IncomingEmailFeed.find_by(url: email)
-    feed || Rails.logger.error("Unknonwn recipient #{email.inspect}, defaulting to spam feed")
-    feed || feed = IncomingEmailFeed.find_by!(url: SPAM_EMAIL)
+    feed || Rails.logger.info("Unknonwn recipient #{email.inspect}, defaulting to spam feed")
+    feed || IncomingEmailFeed.find_by!(url: SPAM_EMAIL)
   end
 
   # Methods for compatibility, we don't actually fetch any records
@@ -12,7 +12,7 @@ class IncomingEmailFeed < Feed
     0
   end
 
-  def recent_media_items(since: nil)
+  def recent_media_items(*)
     []
   end
 

@@ -16,7 +16,7 @@ class MediaItemTest < ActiveSupport::TestCase
   test "creating a private youtube video" do
     feed = feeds(:fedguy_channel)
     yt = feed.media_items.create(url: "https://www.youtube.com/watch?v=zOIOsej4xE8")
-    refute yt.reachable
+    assert_not yt.reachable
   end
 
   test "embedding images and resolving links" do
@@ -25,7 +25,7 @@ class MediaItemTest < ActiveSupport::TestCase
       feed = MediaItem.create(description: original_html)
       feed.embed_images_and_resolve_links
       # File.write("test/fixtures/articles/substack_email.embedded.html", feed.description)
-      refute feed.description.match?(%r{ href="https://substack\.com/redirect/})
+      assert_not feed.description.match?(%r{ href="https://substack\.com/redirect/})
       assert_equal File.read("test/fixtures/articles/substack_email.embedded.html"), feed.description
     end
   end
@@ -71,9 +71,9 @@ class MediaItemTest < ActiveSupport::TestCase
     assert mi.valid?
 
     mi.url = "'http://asdf.com"
-    refute mi.valid?
+    assert_not mi.valid?
 
     mi.url = "http://asd'f.com"
-    refute mi.valid?
+    assert_not mi.valid?
   end
 end

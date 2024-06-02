@@ -64,22 +64,21 @@ end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "rubocop", require: false
-  gem "rerun", require: false
-  gem "factory_bot_rails"
   gem "awesome_print"
-  gem "pry-rescue"
-  gem "rspec-rails"
-  gem "vcr"
-  gem "webmock", "~> 3.23"
   gem "capybara", ">= 3.26"
+  gem "pry-rescue"
+  gem "rerun", require: false
+  gem "rubocop", require: false
+  gem "rubocop-rails", require: false
   gem "selenium-webdriver", ">= 4.0.0"
+  gem "vcr"
   gem "webdrivers"
+  gem "webmock", "~> 3.23"
 end
 
 gem 'feedjira'
-gem 'pocket-ruby'
 gem 'httparty'
+gem 'pocket-ruby'
 gem 'typhoeus'
 
 gem "tailwindcss-rails", "~> 2.6"

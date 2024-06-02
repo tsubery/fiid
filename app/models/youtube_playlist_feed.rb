@@ -15,7 +15,7 @@ class YoutubePlaylistFeed < YoutubeFeed
   end
 
   DAY_SECONDS = 60 * 60 * 24
-  def recent_media_items(since: nil)
+  def recent_media_items(*)
     response = Youtube::CLI.get_playlist_information(youtube_id)
     @episodes = response.lines.map do |line|
       parsed = JSON.parse(line)

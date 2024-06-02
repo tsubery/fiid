@@ -1,5 +1,5 @@
 class PocketFeed < Feed
-  POCKET_URL = "https://getpocket.com"
+  POCKET_URL = "https://getpocket.com".freeze
 
   def normalized_url
     POCKET_URL
@@ -18,7 +18,7 @@ class PocketFeed < Feed
           duration_seconds: entry["listen_duration_estimate"],
           guid: entry["resolved_url"],
           mime_type: "video/mp4",
-          published_at: Time.at(entry["time_added"].to_i),
+          published_at: Time.zone.at(entry["time_added"].to_i),
           thumbnail_url: entry["top_image_url"] || '',
           title: entry["resolved_title"],
           url: entry["resolved_url"]

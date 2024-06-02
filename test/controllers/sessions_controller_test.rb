@@ -10,7 +10,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     post login_url, params: { secret_key: :foo }
     assert flash.to_a == [["alert", "Incorrect secret key"]]
     assert_response :redirect
-    refute session["authenticated"]
+    assert_not session["authenticated"]
     assert response.status == 302
     assert response.headers["location"] == login_url
   end

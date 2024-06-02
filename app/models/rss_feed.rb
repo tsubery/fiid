@@ -17,7 +17,7 @@ class RssFeed < Feed
   end
 
   def recent_media_items(since: nil, redirects_left: 5)
-    if rss_response.code == 301 && redirects_left > 0
+    if rss_response.code == 301 && redirects_left.positive?
       redirect_url = rss_headers.fetch("location")
       Rails.logger.info("Updating feed #{id} from url: #{url.inspect} to #{redirect_url.inspect} due to 301 redirection")
       clear_rss_response
@@ -37,12 +37,12 @@ class RssFeed < Feed
       Digest::MD5.hexdigest(rss_response.body)
 
     if new_checksum == etag
-      return []
+      []
     else
-      self.update!(etag: new_checksum)
+      update!(etag: new_checksum)
 
       content_type = rss_headers["content-type"]
-      if !content_type&.match?(/(application|text)\/(atom\+|rss\+)?xml/)
+      unless content_type&.match?(%r{(application|text)/(atom\+|rss\+)?xml})
         return "Error fetching feed ##{id}: content-type #{content_type}"
       end
 
@@ -50,7 +50,7 @@ class RssFeed < Feed
         media_items.find_by(guid: rss_entry[:guid]) ||
           media_items.find_by(url: rss_entry[:url]) ||
           media_items.new(
-            author: rss_entry.fetch(:author, self.title),
+            author: rss_entry.fetch(:author, title),
             description: rss_entry.values_at(:description, :content, :summary).compact.first,
             guid: rss_entry[:guid],
             mime_type: "text/html",

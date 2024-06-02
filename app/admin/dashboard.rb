@@ -70,7 +70,7 @@ ActiveAdmin.register_page "Dashboard" do
             th :fetch_error_message
             th :fix
           end
-          Feed.where.not(fetch_error_message: "").each do |feed|
+          Feed.where.not(fetch_error_message: "").find_each do |feed|
             tr do
               td do
                 a feed.id, href: admin_feed_path(feed)

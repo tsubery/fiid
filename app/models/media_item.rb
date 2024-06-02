@@ -10,7 +10,7 @@ class MediaItem < ApplicationRecord
   after_save :replace_temporary_url
   before_save :embed_images_and_resolve_links
 
-  TEMPORARY_URL = "https://temporary.local"
+  TEMPORARY_URL = "https://temporary.local".freeze
 
   def self.temporary_url
     [TEMPORARY_URL, SecureRandom.hex].join('/') # Must be unique
@@ -19,7 +19,7 @@ class MediaItem < ApplicationRecord
   def replace_temporary_url
     return unless url.starts_with?(TEMPORARY_URL)
 
-    self.update!(url: article_url)
+    update!(url: article_url)
   end
 
   def article_url
@@ -52,7 +52,7 @@ class MediaItem < ApplicationRecord
   end
 
   def html?
-    description && description =~ %r{\A[^<]*<(!DOCTYPE )?html}mi
+    description && description =~ /\A[^<]*<(!DOCTYPE )?html/mi
   end
 
   def embed_images_and_resolve_links
@@ -69,11 +69,11 @@ class MediaItem < ApplicationRecord
 
       resp = Typhoeus.get(image_url, timeout: 5)
       content_type = resp.headers.transform_keys(&:downcase)["content-type"]
-      if content_type && resp.code == 200
-        image['original_src'] = image_url
-        image['src'] = "data:image/#{content_type};base64, #{Base64.encode64(resp.body)}"
-        embedded_images += 1
-      end
+      next unless content_type && resp.code == 200
+
+      image['original_src'] = image_url
+      image['src'] = "data:image/#{content_type};base64, #{Base64.encode64(resp.body)}"
+      embedded_images += 1
     end
 
     doc.css('a').each do |link|
@@ -86,14 +86,14 @@ class MediaItem < ApplicationRecord
 
       resp = Typhoeus.head(uri.to_s, timeout: 5)
       redirect_url = resp.headers.transform_keys(&:downcase)["location"]
-      if redirect_url && redirect_url != link_url
-        link['original_href'] = link_url
-        link['href'] = redirect_url
-        resolved_links += 1
-      end
+      next unless redirect_url && redirect_url != link_url
+
+      link['original_href'] = link_url
+      link['href'] = redirect_url
+      resolved_links += 1
     end
 
-    if (embedded_images + resolved_links) > 0
+    if (embedded_images + resolved_links).positive?
       self.description = doc.to_html
     end
   end

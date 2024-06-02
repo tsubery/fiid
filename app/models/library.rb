@@ -6,7 +6,7 @@ class Library < ApplicationRecord
     media_items << new_media_item
   end
 
-  DEFAULT_LANGUAGE = 'en'
+  DEFAULT_LANGUAGE = 'en'.freeze
 
   def generate_podcast(current_url, audio_url:, video_url:)
     Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
@@ -68,8 +68,8 @@ class Library < ApplicationRecord
       end
     end
   rescue => e
-    p e.inspect
-    p e.backtrace
+    Rails.logger.debug e.inspect
+    Rails.logger.debug e.backtrace
     e
   end
 end

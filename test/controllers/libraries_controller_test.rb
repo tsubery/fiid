@@ -8,7 +8,7 @@ class LibrariesControllerTest < ActionDispatch::IntegrationTest
   test "should get podcast" do
     VCR.use_cassette('fedguy-channel') do
       @library.media_items << feeds(:fedguy_channel).recent_media_items
-      @library.media_items.update_all(created_at: Time.at(1111111111)) # fixed time
+      @library.media_items.update_all(created_at: Time.zone.at(1_111_111_111)) # fixed time
       get "/podcasts/#{@library.id}"
     end
 

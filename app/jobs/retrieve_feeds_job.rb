@@ -8,7 +8,7 @@ class RetrieveFeedsJob < ApplicationJob
   end
 
   def refresh_feed(feed)
-    start_time = Time.now
+    start_time = Time.zone.now
     if feed.last_sync.nil?
       item_count = feed.historical_item_count
     else
@@ -23,7 +23,7 @@ class RetrieveFeedsJob < ApplicationJob
     else
       recent_media_items.reject(&:persisted?).each do |new_media_item|
         if new_media_item.save
-          if item_count > 0
+          if item_count.positive?
             feed.libraries.each do |library|
               library.add_media_item(new_media_item)
             end
@@ -42,16 +42,16 @@ class RetrieveFeedsJob < ApplicationJob
     feed.update(fetch_error_message: e.inspect)
   end
 
-  def self.enqueue_all(klass = RssFeed)
-    ids = klass
+  def self.enqueue_all
+    ids = Feed
           .where("last_sync IS NULL or last_sync < ?", 15.minutes.ago)
-          .where("type != ?", YoutubeFeed)# Youtube feeds are fetched on demand
+          .where("feeds.type != ?", YoutubeFeed.name) # Youtube feeds are fetched on demand
           .joins(:libraries) # Do not bother if the feed doesn't have libraries
           .distinct
           .pluck(:id, :last_sync)
           .select do |_id, last_sync|
-            # Randomness spreads polling across time to avoid spikes in resources utilization
-           (last_sync.nil? || last_sync < rand(15..30).minutes.ago)
+      # Randomness spreads polling across time to avoid spikes in resources utilization
+      last_sync.nil? || last_sync < rand(15..30).minutes.ago
     end.map(&:first)
     ids.present? && perform_later(ids.uniq)
   end

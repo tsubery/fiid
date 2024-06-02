@@ -15,7 +15,7 @@ class EtagFeed < Feed
     0
   end
 
-  def recent_media_items(since: nil, redirects_left: 5)
+  def recent_media_items(*)
     unless [200, 304].include?(html_response.code)
       return network_error_message(html_response)
     end
@@ -24,7 +24,7 @@ class EtagFeed < Feed
     if html_response.code == 304 || new_checksum == etag
       []
     else
-      self.update!(
+      update!(
         etag: new_checksum,
         last_modified: get_last_modified || ''
       )

@@ -8,8 +8,8 @@ module Youtube
       @id = if %r{\Ahttps://(m\.|www\.)?youtube.com/watch\?} =~ url
               parsed_query = Rack::Utils.parse_nested_query(URI.parse(url).query)
               parsed_query["v"]
-            elsif %r{https://youtu.be/([^/\?]+)} =~ url
-              $1
+            elsif %r{https://youtu.be/([^/?]+)} =~ url
+              ::Regexp.last_match(1)
             end
     end
 
@@ -25,11 +25,11 @@ module Youtube
       CLI.get_video_information(url)
     end
 
-    def each_chunk(audio: )
+    def each_chunk(audio:)
       i = 0
-      CLI.stream(url, audio: audio) do |_stdin, stdout, stderr, thread|
+      CLI.stream(url, audio: audio) do |_stdin, stdout, stderr, _thread|
         until stdout.eof?
-          (i += 1) % 10 == 0 && GC.start # aggressive garbage collection to reduce footprint
+          ((i += 1) % 10).zero? && GC.start # aggressive garbage collection to reduce footprint
           yield stdout.read(2**20)
         end
         error_log = stderr.read

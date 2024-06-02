@@ -22,13 +22,13 @@ class MediaItemsController < ApplicationController
 
   private
 
-  def stream(audio: )
+  def stream(audio:)
     response.headers['Content-Type'] = audio ? 'audio/mp4' : 'video/mp4'
     begin
       @video.each_chunk(audio: audio, &response.stream.method(:write))
     rescue => e
       response.headers['Content-Type'] = 'text/plain'
-      render plain: e.inspect, status: 500
+      render plain: e.inspect, status: :internal_server_error
     ensure
       response.stream.close
     end
@@ -42,7 +42,7 @@ class MediaItemsController < ApplicationController
     @video = Youtube::Video.new(@media_item.url)
 
     if @video.nil?
-      render plain: :unknown_video, status: 422
+      render plain: :unknown_video, status: :unprocessable_entity
     end
   end
 end

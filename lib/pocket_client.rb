@@ -1,5 +1,5 @@
 class PocketClient
-  IS_VIDEO = "2"
+  IS_VIDEO = "2".freeze
 
   class << self
     attr_reader :outobox

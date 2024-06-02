@@ -3,15 +3,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="initial-scale=1" />
-    <title><%= @media_item.title %></title>
+    <title>An email</title>
   </head>
   <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js" crossorigin="anonymous"></script>
   <body>
     loading...
     <script id="load-body">
-      const html_content = <%=  @media_item.description.to_json.html_safe %>;
+      const html_content = "\u003chtml\u003e\u003chead\u003ebald\u003c/head\u003e\u003cbody\u003e\u003ca href='https::/google.com'\u003efit\u003c/a\u003e\u003c/body\u003c/html\u003e";
       const sanitized_html_content = DOMPurify.sanitize(html_content);
-      const replaced_tag = "<%= @html ? 'html' : 'body' %>";
+      const replaced_tag = "body";
       const html_element = document.getElementsByTagName('body')[0];
       html_element.innerHTML = sanitized_html_content;
     </script>

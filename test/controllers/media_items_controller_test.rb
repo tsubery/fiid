@@ -31,8 +31,16 @@ class MediaItemsControllerTest < ActionDispatch::IntegrationTest
   test "show article" do
     article = media_items(:two)
     get media_item_article_url(article)
+    #File.write("test/fixtures/articles/two.html", response.body)
     assert_response :success
-    assert_equal response.body, article.description
+    assert_equal response.body, File.read("test/fixtures/articles/two.html")
     assert_equal "text/html; charset=utf-8", response.headers["content-type"]
+  end
+
+  test "article is santized from script tags" do
+    article = media_items(:xss_article)
+    get media_item_article_url(article)
+    assert_response :success
+    assert_not response.body =~ /<script>/
   end
 end

@@ -4,12 +4,7 @@ class MediaItemsController < ApplicationController
   include ActionController::Live
 
   def article
-    @html = @media_item.description.html_safe
-    if @media_item.html?
-      render html: @html
-    else
-      render :article, layout: false
-    end
+    render :article, layout: false
   end
 
   def audio

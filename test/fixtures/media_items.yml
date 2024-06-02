@@ -17,7 +17,7 @@ two:
   guid: http://localhost.local/media_items/42
   duration_seconds:
   title: An email
-  description: <html><head>bald</head><body>fit</body</html>
+  description: <html><head>bald</head><body><a href='https::/google.com'>fit</a></body</html>
   author: Me
   thumbnail_url: MyString
   mime_type: text/html
@@ -34,4 +34,10 @@ short_video:
   url: https://www.youtube.com/watch?v=_CBG3gz6gi4
   guid: https://www.youtube.com/watch?v=_CBG3gz6gi4
 
+xss_article:
+  feed: one
+  url: https://hackeur.org
+  guid: https://hackeur.org
+  title: evil
+  description: <script>alert("injection")</script>
 

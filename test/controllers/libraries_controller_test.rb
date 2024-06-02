@@ -9,10 +9,10 @@ class LibrariesControllerTest < ActionDispatch::IntegrationTest
     VCR.use_cassette('fedguy-channel') do
       @library.media_items << feeds(:fedguy_channel).recent_media_items
       @library.media_items.update_all(created_at: Time.zone.at(1_111_111_111)) # fixed time
-      get "/podcasts/#{@library.id}"
+      get podcasts_url(@library.id)
     end
 
-    assert response.headers["content-type"] == "application/rss+xml; charset=utf-8"
+    assert_equal response.content_type, "application/rss+xml; charset=utf-8"
     assert_response :success
     podcast_content = response.body.gsub(%r{media_items/[0-9]+/}, "media_items/XXXXXX/")
     #File.write('test/podcasts/fedguy.xml', podcast_content)

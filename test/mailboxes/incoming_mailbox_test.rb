@@ -12,7 +12,7 @@ class IncomingMailboxTest < ActionMailbox::TestCase
     media_item = feeds(:spam).media_items.first
     assert_equal "Hello world!", media_item.title
     assert_in_delta media_item.published_at, Time.zone.now, 3
-    assert_equal "http://www.example.com/media_items/#{media_item.id}/article", media_item.url
+    assert_equal "http://#{ENV.fetch('HOSTNAME')}/media_items/#{media_item.id}/article", media_item.url
     assert_equal "text/html", media_item.mime_type
     assert_equal "else@example.com", media_item.author
   end
@@ -29,7 +29,7 @@ class IncomingMailboxTest < ActionMailbox::TestCase
     media_item = feeds(:newsletter).media_items.first
     assert_equal "Hello world!", media_item.title
     assert_in_delta media_item.published_at, Time.zone.now, 3
-    assert_equal "http://www.example.com/media_items/#{media_item.id}/article", media_item.url
+    assert_equal "http://#{ENV.fetch('HOSTNAME')}/media_items/#{media_item.id}/article", media_item.url
     assert_equal "text/html", media_item.mime_type
     assert_equal "else@example.com", media_item.author
     assert_equal [media_item], library.media_items.to_a

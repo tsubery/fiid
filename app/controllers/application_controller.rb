@@ -7,9 +7,9 @@ class ApplicationController < ActionController::Base
     RetrieveFeedsJob.enqueue_all
   end
 
-  def require_login
+  def require_admin
     unless session[:authenticated]
-      redirect_to login_path
+      redirect_to login_url, allow_other_host: true
     end
   end
 end

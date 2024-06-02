@@ -71,7 +71,7 @@ ActiveAdmin.setup do |config|
   #
   # This setting changes the method which Active Admin calls
   # within the application controller.
-  config.authentication_method = :require_login
+  config.authentication_method = :require_admin
 
   # == User Authorization
   #

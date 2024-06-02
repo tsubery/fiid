@@ -2,7 +2,7 @@ require "test_helper"
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "should get new form" do
-    get login_url
+    get login_url(subdomain: :admin)
     assert_response :success
   end
 

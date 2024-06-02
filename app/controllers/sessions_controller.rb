@@ -11,10 +11,10 @@ class SessionsController < ApplicationController
     secret_key = ENV['SECRET_KEY'] || raise("Missing SECRET_KEY in environment")
     if ActiveSupport::SecurityUtils.secure_compare(secret_key, params[:secret_key])
       session[:authenticated] = true
-      redirect_to admin_dashboard_path
+      redirect_to admin_dashboard_url
     else
       flash[:alert] = "Incorrect secret key"
-      redirect_to login_path
+      redirect_to login_url
     end
   end
 end

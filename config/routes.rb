@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
-  ActiveAdmin.routes(self)
-  get "/login", to: "sessions#new"
-  post "/login", to: "sessions#create"
+  constraints subdomain: 'admin' do
+    ActiveAdmin.routes(self)
+    get "/login", to: "sessions#new"#, constraints: { subdomain: :admin }
+    post "/login", to: "sessions#create"#, constraints: { subdomain: :admin }
+  end
 
-  get "podcasts/:id", to: "libraries#podcast"
+  get "podcasts/:id", to: "libraries#podcast", as: :podcasts
   resources :media_items, only: [] do
     get '/video', action: "video"
     get '/audio', action: "audio"

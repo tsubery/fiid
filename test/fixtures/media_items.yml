@@ -13,8 +13,8 @@ one:
   feed: one
 
 two:
-  url: http://example.com/media_items/42
-  guid: http://example.com/media_items/42
+  url: http://localhost.local/media_items/42
+  guid: http://localhost.local/media_items/42
   duration_seconds:
   title: An email
   description: <html><head>bald</head><body>fit</body</html>

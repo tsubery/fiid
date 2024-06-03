@@ -43,7 +43,7 @@ class RetrieveFeedsJobTest < ActiveJob::TestCase
       assert_equal 0, feed.media_items.count
       assert_equal 0, library.media_items.count
       assert_nil feed.last_sync
-      assert_equal "Error fetching feed #858346977: response code 404", feed.fetch_error_message
+      assert_equal "Error fetching feed ##{feed.id}: response code 404", feed.fetch_error_message
 
       feed.update!(url: feed.url + 'g') # restore missing character
       RetrieveFeedsJob.new.perform(feed.id)

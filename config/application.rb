@@ -14,12 +14,10 @@ module Fiid
 
     config.action_mailbox.ingress = :sendgrid
 
-
     # Enable DNS rebinding protection and other `Host` header attacks.
     hostname = ENV.fetch("HOSTNAME")
     routes.default_url_options[:host] = hostname
     config.hosts = ['admin.' + hostname, hostname, 'localhost']
-
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.

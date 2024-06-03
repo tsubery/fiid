@@ -4,8 +4,8 @@ class LibrariesController < ApplicationController
     @library.feeds.where(
       "last_sync IS NULL or last_sync < ?",
       (params["sync_since_minutes_ago"] || 15).minutes.ago
-    ).map do |feed|
-      Thread.new { RetrieveFeedsJob.new.perform(feed.id) }
+    ).pluck(:id).map do |feed_id|
+      Thread.new { RetrieveFeedsJob.new.perform(feed_id) }
     end.each(&:join)
 
     podcast = @library.generate_podcast(

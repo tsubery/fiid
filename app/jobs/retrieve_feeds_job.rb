@@ -2,7 +2,7 @@ class RetrieveFeedsJob < ApplicationJob
   queue_as :default
 
   def perform(feed_ids)
-    Feed.where(id: feed_ids).find_each do |feed|
+    Feed.where(id: Array(feed_ids).unique).find_each do |feed|
       refresh_feed(feed)
     end
   end

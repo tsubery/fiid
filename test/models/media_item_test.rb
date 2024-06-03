@@ -48,7 +48,7 @@ class MediaItemTest < ActiveSupport::TestCase
 
     assert_equal yt.title, "Joseph Wang - YouTube - //www.youtube.com/watch?v=YfWG3g3RR looks truncated."
     assert_equal "unknown", yt.author
-    assert_equal  Date.parse("1970-01-01"), yt.published_at
+    assert_equal Date.parse("1970-01-01"), yt.published_at
     assert_equal 0, yt.duration_seconds
     assert_equal "Original Video: https://www.youtube.com/watch?v=YfWG3g3RR\nPublished At: 1970-01-01 00:00:00 UTC\n ERROR: [youtube:truncated_id] YfWG3g3RR: Incomplete YouTube ID YfWG3g3RR. URL https://www.youtube.com/watch?v=YfWG3g3RR looks truncated.\n", yt.description
     assert_equal "", yt.thumbnail_url

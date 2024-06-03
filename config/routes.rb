@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   constraints subdomain: 'admin' do
     ActiveAdmin.routes(self)
-    get "/login", to: "sessions#new"#, constraints: { subdomain: :admin }
-    post "/login", to: "sessions#create"#, constraints: { subdomain: :admin }
+    get "/login", to: "sessions#new" # , constraints: { subdomain: :admin }
+    post "/login", to: "sessions#create" # , constraints: { subdomain: :admin }
   end
 
   get "podcasts/:id", to: "libraries#podcast", as: :podcasts

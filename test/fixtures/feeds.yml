@@ -32,7 +32,9 @@ pocket:
 spam:
   url: <%= ENV.fetch('SPAM_EMAIL') %>
   type: IncomingEmailFeed
+  title: Spam
 
 newsletter:
   url: newsletter@example.com
   type: IncomingEmailFeed
+  title: Newsletter

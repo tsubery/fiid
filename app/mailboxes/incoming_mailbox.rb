@@ -3,7 +3,7 @@ class IncomingMailbox < ApplicationMailbox
     feed = IncomingEmailFeed.target_feed(mail.to.first)
     new_media_item = feed.media_items.create!(
       author: mail.from.join(","),
-      title: mail.subject,
+      title: [mail[:from].display_names&.first, mail.subject].compact.join(" - "),
       published_at: mail.date,
       description: mail.html_part&.decoded || mail.body.to_s,
       url: MediaItem.temporary_url,

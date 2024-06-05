@@ -19,4 +19,21 @@ class IncomingEmailFeed < Feed
   def fill_missing_details
     self.title = url
   end
+
+  def email
+    url
+  end
+
+  def spam?
+    email == SPAM_EMAIL
+  end
+
+  def associate_previous_media_items
+    self.media_items << MediaItem.where(sent_to: email)
+    media_items.each do |media_item|
+      libraries.each do |library|
+        library.add_media_item(media_item)
+      end
+    end
+  end
 end

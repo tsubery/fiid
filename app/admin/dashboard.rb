@@ -41,7 +41,7 @@ ActiveAdmin.register_page "Dashboard" do
             th :title
             th :feed
           end
-          MediaItem.includes(:feed).where.not(mime_type: "video/mp4").order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
+          MediaItem.includes(:feed).where.not(mime_type: "video/mp4").where(sent_to: '').order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
             tr do
               td do
                 a media_item.id, href: admin_media_item_path(media_item.id)
@@ -52,6 +52,44 @@ ActiveAdmin.register_page "Dashboard" do
               end
               td do
                 a media_item.feed.title, href: admin_feed_path(media_item.feed_id)
+              end
+            end
+          end
+        end
+      end
+    end
+
+    div class: "blank_slate_container", id: "latest_articles" do
+      span class: "blank_slate" do
+        h2 "Latest Emails"
+        table do
+          thead do
+            th :id
+            th :created_at
+            th :title
+            th :sent_to
+            th :feed
+          end
+          MediaItem.includes(:feed).where.not(sent_to: '').order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
+            tr do
+              td do
+                a media_item.id, href: admin_media_item_path(media_item.id)
+              end
+              td time_ago_in_words(media_item.created_at)
+              td do
+                a media_item.title, href: media_item.url
+              end
+              td media_item.sent_to
+              td do
+                if media_item.feed&.spam?
+                  form_with(model: [:admin, Feed.new]) do |f|
+                    f.hidden_field(:url, value: media_item.sent_to) +
+                    f.hidden_field('library_ids', multiple: true, value: PocketLibrary.pluck(:id)) +
+                    f.submit
+                  end
+                else
+                  a media_item.feed.title, href: admin_feed_path(media_item.feed_id)
+                end
               end
             end
           end

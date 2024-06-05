@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_05_22_184905) do
+ActiveRecord::Schema[7.2].define(version: 2024_06_05_220823) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,8 +30,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_05_22_184905) do
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness",
-                                                             unique: true
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
@@ -95,8 +94,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_05_22_184905) do
     t.bigint "media_item_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["library_id", "media_item_id"], name: "index_libraries_media_items_on_library_id_and_media_item_id",
-                                             unique: true
+    t.index ["library_id", "media_item_id"], name: "index_libraries_media_items_on_library_id_and_media_item_id", unique: true
     t.index ["library_id"], name: "index_libraries_media_items_on_library_id"
     t.index ["media_item_id"], name: "index_libraries_media_items_on_media_item_id"
   end
@@ -116,8 +114,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_05_22_184905) do
     t.datetime "updated_at", null: false
     t.boolean "reachable", default: true, null: false
     t.string "guid", null: false
+    t.string "sent_to", default: "", null: false
     t.index ["feed_id", "guid"], name: "index_media_items_on_feed_id_and_guid", unique: true
     t.index ["feed_id"], name: "index_media_items_on_feed_id"
+    t.index ["sent_to"], name: "index_media_items_on_sent_to", where: "((sent_to)::text <> ''::text)"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

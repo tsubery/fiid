@@ -15,6 +15,7 @@ class IncomingMailboxTest < ActionMailbox::TestCase
     assert_equal "http://#{ENV.fetch('HOSTNAME')}/media_items/#{media_item.id}/article", media_item.url
     assert_equal "text/html", media_item.mime_type
     assert_equal "else@example.com", media_item.author
+    assert_equal "someone@example.com", media_item.sent_to
   end
 
   test "receive mail to a monitored inbox" do
@@ -33,5 +34,6 @@ class IncomingMailboxTest < ActionMailbox::TestCase
     assert_equal "text/html", media_item.mime_type
     assert_equal "else@example.com", media_item.author
     assert_equal [media_item], library.media_items.to_a
+    assert_equal "newsletter@example.com", media_item.sent_to
   end
 end

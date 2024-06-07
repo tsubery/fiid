@@ -127,5 +127,8 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
     end
+    script do
+      'function refreshPage() { window.location.reload(); }; setInterval(refreshPage, 60*60*1000);'
+    end
   end
 end

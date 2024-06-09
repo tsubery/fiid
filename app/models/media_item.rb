@@ -2,6 +2,7 @@ class MediaItem < ApplicationRecord
   validates :guid, uniqueness: { scope: :feed_id }
   validates :url, url: { schemes: %w[http https] }
   validates :url, format: /\A[^']+\z/
+  validates :feed, presence: true
 
   belongs_to :feed
   has_and_belongs_to_many :libraries

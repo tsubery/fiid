@@ -76,4 +76,12 @@ class MediaItemTest < ActiveSupport::TestCase
     mi.url = "http://asd'f.com"
     assert_not mi.valid?
   end
+
+  test "feed validations" do
+    mi = media_items(:one)
+    assert mi.valid?
+    mi.feed = nil
+
+    refute media_items(:one).valid?
+  end
 end

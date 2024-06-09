@@ -45,7 +45,7 @@ class RetrieveFeedsJob < ApplicationJob
   def self.enqueue_all
     ids = Feed
           .where("last_sync IS NULL or last_sync < ?", 15.minutes.ago)
-          .where("feeds.type != ?", YoutubeFeed.name) # Youtube feeds are fetched on demand
+          .where(type: Feed.descendants.select(&:poll?).map(&:name))
           .joins(:libraries) # Do not bother if the feed doesn't have libraries
           .distinct
           .pluck(:id, :last_sync)

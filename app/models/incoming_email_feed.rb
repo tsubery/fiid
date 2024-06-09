@@ -7,6 +7,11 @@ class IncomingEmailFeed < Feed
     feed || IncomingEmailFeed.find_by!(url: SPAM_EMAIL)
   end
 
+  # Emails are pushed through a webhook so no need to poll
+  def self.poll?
+    false
+  end
+
   # Methods for compatibility, we don't actually fetch any records
   def historical_item_count
     0

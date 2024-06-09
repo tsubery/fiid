@@ -14,6 +14,11 @@ class Feed < ApplicationRecord
     end
   end
 
+  # Signifies it needs to be manually refreshed periodically
+  def self.poll?
+    true
+  end
+
   def fill_missing_details
     if self.class.name != type
       becomes(type.constantize).fill_missing_details

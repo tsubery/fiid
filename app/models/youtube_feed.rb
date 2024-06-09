@@ -3,6 +3,11 @@ class YoutubeFeed < Feed
 
   include Feed::Html
 
+  # Refreshed when a podcast is requested
+  def self.poll?
+    false
+  end
+
   def fill_missing_details
     return if [title, description, thumbnail_url].all?(&:present?)
 

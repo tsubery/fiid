@@ -17,7 +17,7 @@ class PocketFeed < Feed
           description: entry["excerpt"],
           duration_seconds: entry["listen_duration_estimate"],
           guid: entry["resolved_url"],
-          mime_type: "video/mp4",
+          mime_type: MediaItem::VIDEO_MIME_TYPE,
           published_at: Time.zone.at(entry["time_added"].to_i),
           thumbnail_url: entry["top_image_url"] || '',
           title: entry["resolved_title"],

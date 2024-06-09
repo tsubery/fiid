@@ -29,7 +29,7 @@ class IncomingEmailFeed < Feed
   end
 
   def associate_previous_media_items
-    self.media_items << MediaItem.where(sent_to: email)
+    media_items << MediaItem.where(sent_to: email)
     media_items.each do |media_item|
       libraries.each do |library|
         library.add_media_item(media_item)

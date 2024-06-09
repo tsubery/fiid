@@ -18,7 +18,7 @@ class MediaItemsController < ApplicationController
   private
 
   def stream(audio:)
-    response.headers['Content-Type'] = audio ? 'audio/mp4' : 'video/mp4'
+    response.headers['Content-Type'] = audio ? MediaItem::AUDIO_MIME_TYPE : MediaItem::VIDEO_MIME_TYPE
     begin
       @video.each_chunk(audio: audio, &response.stream.method(:write))
     rescue => e

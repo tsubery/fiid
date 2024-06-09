@@ -38,7 +38,7 @@ class YoutubeChannelFeed < YoutubeFeed
             author: rss_entry[:author] || '',
             description: rss_entry[:content] || '',
             guid: rss_entry[:guid],
-            mime_type: "video/mp4",
+            mime_type: MediaItem::VIDEO_MIME_TYPE,
             published_at: rss_entry[:published],
             thumbnail_url: rss_entry[:media_thumbnail_url] || '',
             title: [title, rss_entry[:title]].compact.join(" - "),

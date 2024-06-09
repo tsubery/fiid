@@ -22,7 +22,7 @@ class PocketClient
     def add(url)
       if Rails.env.test?
         @outbox << url
-      else
+      elsif !ENV['DISABLE_POCKET']
         api_client.add(url: url)
       end
     end

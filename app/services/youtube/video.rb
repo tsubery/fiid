@@ -8,8 +8,8 @@ module Youtube
       @id = if %r{\Ahttps://(m\.|www\.)?youtube.com/watch\?} =~ url
               parsed_query = Rack::Utils.parse_nested_query(URI.parse(url).query)
               parsed_query["v"]
-            elsif %r{https://youtu.be/([^/?]+)} =~ url
-              ::Regexp.last_match(1)
+            elsif %r{https://(youtu.be|(m\.|www\.)?youtube.com/live)/([^/?]+)} =~ url
+              ::Regexp.last_match(3)
             end
     end
 

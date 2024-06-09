@@ -82,6 +82,6 @@ class MediaItemTest < ActiveSupport::TestCase
     assert mi.valid?
     mi.feed = nil
 
-    refute media_items(:one).valid?
+    assert_not media_items(:one).valid?
   end
 end

@@ -12,6 +12,8 @@ class MediaItem < ApplicationRecord
   before_save :embed_images_and_resolve_links
 
   TEMPORARY_URL = "https://temporary.local".freeze
+  VIDEO_MIME_TYPE = "video/mp4"
+  AUDIO_MIME_TYPE = "audio/mp4"
 
   def self.temporary_url
     [TEMPORARY_URL, SecureRandom.hex].join('/') # Must be unique
@@ -48,6 +50,7 @@ class MediaItem < ApplicationRecord
         self.description = "Original Video: #{url}\nPublished At: #{published_at}\n #{info["description"]}"
         self.duration_seconds = info["duration"]
         self.thumbnail_url = info["thumbnails"]&.last&.fetch("url", "") || ''
+        self.mime_type = VIDEO_MIME_TYPE
       end
     end
   end

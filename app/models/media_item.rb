@@ -45,7 +45,7 @@ class MediaItem < ApplicationRecord
           self.reachable = false
         end
         self.author = info["uploader"] || ''
-        self.title = [feed.title, info["title"]].select(&:present?).join(" - ")
+        self.title = [feed&.title, info["title"]].select(&:present?).join(" - ")
         self.published_at = info["upload_date"] && Date.parse(info["upload_date"])
         self.description = "Original Video: #{url}\nPublished At: #{published_at}\n #{info["description"]}"
         self.duration_seconds = info["duration"]

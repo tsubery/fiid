@@ -30,6 +30,7 @@ class MediaItemsControllerTest < ActionDispatch::IntegrationTest
 
   test "show article" do
     article = media_items(:two)
+    article.update!(created_at: Time.at(0), updated_at: Time.at(1))
     get media_item_article_url(article)
     # File.write("test/fixtures/articles/two.html", response.body)
     assert_response :success

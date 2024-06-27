@@ -5,8 +5,13 @@ class Feed < ApplicationRecord
   before_validation :normalize_url
   before_validation :fill_missing_details
   after_create :associate_previous_media_items
+  after_create :refresh_later
 
   USER_AGENT = "FeedBurner/1.0 (http://www.FeedBurner.com)".freeze # Cloudflare protection sometimes blocks default user agent
+
+  def refresh_later
+    RetrieveFeedsJob.perform_later(id)
+  end
 
   def associate_previous_media_items
     if self.class.name != type

@@ -25,7 +25,7 @@ class YoutubeChannelFeed < YoutubeFeed
 
     new_checksum =
       rss_response.headers.transform_keys(&:downcase)["etag"].presence ||
-      Digest::MD5.hexdigest(rss_response.body)
+        Digest::MD5.hexdigest(rss_response.body)
     if new_checksum == etag
       []
     else

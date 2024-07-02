@@ -17,7 +17,7 @@ class YoutubeFeed < Feed
   end
 
   def historical_item_count
-    Float::INFINITY
+    0
   end
 
   def youtube_id

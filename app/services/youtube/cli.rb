@@ -17,11 +17,15 @@ module Youtube
       def get_video_information(url)
         sanitize_url!(url)
         stdout, stderr = cmd("-j \"#{url}\"")
-        if stderr.blank? && stdout.present?
+        if stderr.present?
+          Rails.logger.error(stderr)
+        end
+        errors = stderr.lines.grep(/ERROR/)
+        if errors.empty? && stdout.present?
           JSON.parse(stdout)
         else
           {
-            "title" => stderr.chomp.split(":").last.strip,
+            "title" => errors.first,
             "uploader" => "unknown",
             "upload_date" => "1970-01-01",
             "duration" => 0,

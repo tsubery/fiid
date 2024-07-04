@@ -26,11 +26,11 @@ module Youtube
     end
 
     def each_chunk(audio:)
-      i = 0
+      #i = 0
       CLI.stream(url, audio: audio) do |_stdin, stdout, stderr, _thread|
         until stdout.eof?
-          ((i += 1) % 10).zero? && GC.start # aggressive garbage collection to reduce footprint
-          yield stdout.read(2**20)
+          #((i += 1) % 10).zero? && GC.start # aggressive garbage collection to reduce footprint
+          yield stdout.read(2**24)
         end
         error_log = stderr.read
         if error_log != ""

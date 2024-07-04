@@ -21,6 +21,10 @@ class MediaItemsController < ApplicationController
     response.headers['Content-Type'] = audio ? MediaItem::AUDIO_MIME_TYPE : MediaItem::VIDEO_MIME_TYPE
     begin
       @video.each_chunk(audio: audio, &response.stream.method(:write))
+
+
+      # Update title for videos that were not reachable before
+      @media_item.update(reachable: true, title: '')
     rescue => e
       response.headers['Content-Type'] = 'text/plain'
       render plain: e.inspect, status: :internal_server_error

@@ -10,6 +10,7 @@ class MediaItem < ApplicationRecord
   before_validation :fill_missing_details
   after_save :replace_temporary_url
   before_save :embed_images_and_resolve_links
+  after_save :cache_article
 
   TEMPORARY_URL = "https://temporary.local".freeze
   VIDEO_MIME_TYPE = "video/mp4"
@@ -31,28 +32,28 @@ class MediaItem < ApplicationRecord
 
   def fill_missing_details
     guid.nil? && self.guid = url
-    return if [author, title, description, thumbnail_url, published_at, duration_seconds].all?(&:present?)
+    return if [author, title, description, duration_seconds].all?(&:present?)
 
     if %r{\Ahttps://(www\.)?(youtube|vimeo)\.com/} =~ url || %r{\Ahttps://youtu\.be/} =~ url
       info = Youtube::Video.new(url).get_information
       if info.present?
-        if info['extractor'] == 'youtube'
-          youtube_id = info["id"]
-          if youtube_id
-            video = Youtube::Video.from_id(youtube_id)
-            self.guid = video.guid
-            self.url =  video.url
-          else
-            self.reachable = false
-          end
+        success = !!info["id"]
+        if success && info['extractor'] == 'youtube'
+          video = Youtube::Video.from_id(info["id"])
+          self.guid = video.guid
+          self.url =  video.url
         end
-        self.author = info["uploader"] || ''
-        self.title = [feed&.title, info["title"]].select(&:present?).join(" - ")
-        self.published_at = info["upload_date"] && Date.parse(info["upload_date"])
-        self.description = "Original Video: #{url}\nPublished At: #{published_at}\n #{info["description"]}"
-        self.duration_seconds = info["duration"]
-        self.thumbnail_url = info["thumbnails"]&.last&.fetch("url", "") || ''
-        self.mime_type = VIDEO_MIME_TYPE
+        if success || created_at && created_at < 3.days.ago
+          self.reachable = success
+          self.author = info["uploader"] || ''
+          self.title = [feed&.title, info["title"]].select(&:present?).join(" - ")
+          self.published_at = info["upload_date"] && Date.parse(info["upload_date"])
+          self.description = "Original Video: #{url}\nPublished At: #{published_at}\n #{info["description"]}"
+          self.duration_seconds = info["duration"]
+          self.thumbnail_url = info["thumbnails"]&.last&.fetch("url", "") || ''
+          self.mime_type = VIDEO_MIME_TYPE
+          save!
+        end
       end
     end
   end
@@ -101,6 +102,20 @@ class MediaItem < ApplicationRecord
 
     if (embedded_images + resolved_links).positive?
       self.description = doc.to_html
+    end
+  end
+
+  def cache_article
+    return unless html?
+
+    dir = "public/media_items/#{id}"
+    FileUtils.mkdir_p(dir)
+    html = ApplicationController.render(
+      template: 'media_items/article',
+      assigns: { media_item: self }
+    )
+    Zlib::GzipWriter.open("#{dir}/article.html.gz") do |gz|
+      gz.write html
     end
   end
 end

@@ -1,5 +1,5 @@
 ActiveAdmin.register Feed do
-  permit_params(*Feed.attribute_names(&:to_sym), library_ids: [])
+  permit_params(*(Feed.attribute_names(&:to_sym) rescue []), library_ids: [])
 
   preserve_default_filters!
   remove_filter :media_items

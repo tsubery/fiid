@@ -1,5 +1,5 @@
 ActiveAdmin.register MediaItem do
-  permit_params(*MediaItem.attribute_names(&:to_sym), library_ids: [])
+  permit_params(*(MediaItem.attribute_names(&:to_sym) rescue []), library_ids: [])
 
   form do |f|
     f.actions

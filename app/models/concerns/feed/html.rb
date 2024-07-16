@@ -3,7 +3,7 @@ class Feed
     extend ActiveSupport::Concern
 
     def html_response
-      @html_response ||= Typhoeus.get(html_url, timeout: 5, headers: { "If-None-Match" => etag })
+      @html_response ||= Typhoeus.get(html_url, timeout: 5, headers: request_headers)
     end
 
     def html

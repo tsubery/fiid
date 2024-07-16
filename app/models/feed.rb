@@ -7,7 +7,18 @@ class Feed < ApplicationRecord
   after_create :associate_previous_media_items
   after_create :refresh_later
 
-  USER_AGENT = "FeedBurner/1.0 (http://www.FeedBurner.com)".freeze # Cloudflare protection sometimes blocks default user agent
+  def user_agent
+    # Cloudflare protection sometimes blocks default user agent
+    "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0".freeze
+  end
+
+  def request_headers
+    {
+      "User-Agent" => user_agent,
+    }.merge(
+      etag.present? ? { "If-None-Match" => etag } : {}
+    )
+  end
 
   def refresh_later
     RetrieveFeedsJob.perform_later(id)
@@ -56,10 +67,7 @@ class Feed < ApplicationRecord
     @rss_response ||= Typhoeus.get(
       rss_url,
       timeout: 5,
-      headers: {
-        "User-Agent" => USER_AGENT,
-        "If-None-Match" => etag
-      }
+      headers: request_headers
     )
   end
 

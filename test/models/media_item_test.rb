@@ -16,6 +16,10 @@ class MediaItemTest < ActiveSupport::TestCase
   test "creating a private youtube video" do
     feed = feeds(:fedguy_channel)
     yt = feed.media_items.create(url: "https://www.youtube.com/watch?v=zOIOsej4xE8")
+    assert_equal '', yt.title
+    yt.update!(created_at: 1.week.ago)
+    yt.fill_missing_details
+
     assert_not yt.reachable
   end
 
@@ -32,9 +36,12 @@ class MediaItemTest < ActiveSupport::TestCase
 
   test "private video" do
     feed = feeds(:fedguy_channel)
-    yt = feed.media_items.create(url: "https://www.youtube.com/watch?v=YfWG3g3RRVU")
+    yt = feed.media_items.create(
+      url: "https://www.youtube.com/watch?v=YfWG3g3RRVU",
+      created_at: 1.week.ago
+    )
 
-    assert_equal "Joseph Wang - YouTube - Private video. Sign in if you've been granted access to this video", yt.title
+    assert_equal "Joseph Wang - YouTube - ERROR: [youtube] YfWG3g3RRVU: Private video. Sign in if you've been granted access to this video\n", yt.title
     assert_equal "unknown", yt.author
     assert_equal Date.parse("1970-01-01"), yt.published_at
     assert_equal 0, yt.duration_seconds
@@ -44,9 +51,13 @@ class MediaItemTest < ActiveSupport::TestCase
 
   test "truncated video" do
     feed = feeds(:fedguy_channel)
-    yt = feed.media_items.create(url: "https://www.youtube.com/watch?v=YfWG3g3RR")
+    yt = feed.media_items.create(
+      url: "https://www.youtube.com/watch?v=YfWG3g3RR",
+      created_at: 1.week.ago
+    )
 
-    assert_equal yt.title, "Joseph Wang - YouTube - //www.youtube.com/watch?v=YfWG3g3RR looks truncated."
+
+    assert_equal yt.title, "Joseph Wang - YouTube - ERROR: [youtube:truncated_id] YfWG3g3RR: Incomplete YouTube ID YfWG3g3RR. URL https://www.youtube.com/watch?v=YfWG3g3RR looks truncated.\n"
     assert_equal "unknown", yt.author
     assert_equal Date.parse("1970-01-01"), yt.published_at
     assert_equal 0, yt.duration_seconds
@@ -56,9 +67,12 @@ class MediaItemTest < ActiveSupport::TestCase
 
   test "missing video" do
     feed = feeds(:fedguy_channel)
-    yt = feed.media_items.create(url: "https://www.youtube.com/watch?v=YfWG3g3RRaa")
+    yt = feed.media_items.create(
+      url: "https://www.youtube.com/watch?v=YfWG3g3RRaa",
+      created_at: 1.week.ago
+    )
 
-    assert_equal  "Joseph Wang - YouTube - Video unavailable", yt.title
+    assert_equal  "Joseph Wang - YouTube - ERROR: [youtube] YfWG3g3RRaa: Video unavailable\n", yt.title
     assert_equal  "unknown", yt.author
     assert_equal  Date.parse("1970-01-01"), yt.published_at
     assert_equal  0, yt.duration_seconds

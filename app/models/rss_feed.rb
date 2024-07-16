@@ -1,6 +1,11 @@
 class RssFeed < Feed
   before_validation :fill_missing_details
 
+  def user_agent
+    # Cloudflare protection sometimes blocks default user agent
+    "FeedBurner/1.0 (http://www.FeedBurner.com)".freeze
+  end
+
   def fill_missing_details
     return if title.present?
 

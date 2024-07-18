@@ -32,7 +32,7 @@ class MediaItem < ApplicationRecord
 
   def fill_missing_details
     guid.nil? && self.guid = url
-    return if [author, title, description, duration_seconds].all?(&:present?)
+    return if [title, description, duration_seconds].all?(&:present?)
 
     if %r{\Ahttps://(www\.)?(youtube|vimeo)\.com/} =~ url || %r{\Ahttps://youtu\.be/} =~ url
       info = Youtube::Video.new(url).get_information
@@ -43,13 +43,13 @@ class MediaItem < ApplicationRecord
           self.guid = video.guid
           self.url =  video.url
         end
-        if success || created_at && created_at < 3.days.ago
+        if success || (created_at && created_at < 3.days.ago)
           self.reachable = success
           self.author = info["uploader"] || ''
           self.title = [feed&.title, info["title"]].select(&:present?).join(" - ")
           self.published_at = info["upload_date"] && Date.parse(info["upload_date"])
           self.description = "Original Video: #{url}\nPublished At: #{published_at}\n #{info["description"]}"
-          self.duration_seconds = info["duration"]
+          self.duration_seconds = info["duration"] || 0
           self.thumbnail_url = info["thumbnails"]&.last&.fetch("url", "") || ''
           self.mime_type = VIDEO_MIME_TYPE
           save!

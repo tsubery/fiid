@@ -57,13 +57,17 @@ class RssFeed < Feed
           media_items.new(
             author: rss_entry.fetch(:author, title),
             description: rss_entry.values_at(:description, :content, :summary).compact.first,
-            guid: rss_entry[:guid],
+            guid: rss_entry[:guid] || rss_entry[:url],
             mime_type: "text/html",
             published_at: rss_entry[:published],
             thumbnail_url: rss_entry[:enclosure_url] || '',
             title: [title, rss_entry[:title]].compact.join(" - "),
             url: rss_entry[:url] || MediaItem.temporary_url
-          )
+          ).tap do |mi|
+            if mi.url.nil? || mi.html?
+              mi.url = MediaItem.temporary_url
+            end
+          end
       end
     end
   rescue => e

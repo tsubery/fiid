@@ -112,7 +112,8 @@ class MediaItem < ApplicationRecord
     FileUtils.mkdir_p(dir)
     html = ApplicationController.render(
       template: 'media_items/article',
-      assigns: { media_item: self }
+      assigns: { media_item: self },
+      layout: false
     )
     Zlib::GzipWriter.open("#{dir}/article.html.gz") do |gz|
       gz.write html

@@ -5,10 +5,6 @@ class PocketFeed < Feed
     POCKET_URL
   end
 
-  def historical_item_count
-    Float::INFINITY
-  end
-
   def recent_media_items(since: 0)
     PocketClient.list_videos(since: since).map do |entry|
       media_items.find_by(url: entry["resolved_url"]) ||

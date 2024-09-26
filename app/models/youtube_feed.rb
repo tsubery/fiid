@@ -16,10 +16,6 @@ class YoutubeFeed < Feed
     self.thumbnail_url = get_thumbnail_url || ''
   end
 
-  def historical_item_count
-    0
-  end
-
   def youtube_id
     self.class.parse_id(url)
   end

@@ -2,17 +2,19 @@ require "test_helper"
 
 class FeedTest < ActiveSupport::TestCase
   test "sets correct type" do
-    feeds.each do |fixture|
-      new_feed = Feed.find(Feed.create(url: fixture.url + 'test').id)
+    VCR.use_cassette(:feed_info) do
+      feeds.each do |fixture|
+        new_feed = Feed.create(url: fixture.url + 'test').reload
 
-      assert_equal fixture.type, new_feed.type
-      assert_equal fixture.class.name, new_feed.class.name
+        assert_equal fixture.type, new_feed.type
+        assert_equal fixture.class, Feed.find(new_feed.id).class
+      end
     end
   end
 
   test "#recent_media_items for rss feed" do
     VCR.use_cassette(:rss_feed) do
-      feed1 = feeds(:one)
+      feed1 = feeds(:doomberg)
       assert_equal feed1.class, RssFeed
       items = feed1.recent_media_items
       assert_equal items.count, 20
@@ -46,7 +48,7 @@ class FeedTest < ActiveSupport::TestCase
 
   test "#fill_missing_details" do
     VCR.use_cassette("doomberg") do
-      t1 = feeds(:one)
+      t1 = feeds(:doomberg)
       t1.valid?
       assert_equal "Doomberg", t1.title
       expected_description = "Energy, finance, and the economy at-large | Doomberg readers are better informed and smartly entertained | Enter your email address below to receive free previews | Bonus access to 5 of our top articles is included in the Welcome email!"
@@ -59,13 +61,6 @@ class FeedTest < ActiveSupport::TestCase
       f = RssFeed.new(url: "https://thelastbearstanding.substack.com/feed")
       f.recent_media_items
       assert_equal "https://www.thelastbearstanding.com/feed", f.url
-    end
-  end
-
-  test "initizlizes correct type" do
-    VCR.use_cassette("doomberg") do
-      f1 = Feed.create(url: feeds(:one).url)
-      assert_equal "Doomberg", f1.title
     end
   end
 end

@@ -6,10 +6,16 @@ ActiveAdmin.register Feed do
 
   form do |f|
     f.actions
-    f.input :title
     f.input :url
+    f.input :historical_item_count, default: 0
+    f.input :title
     f.input :description
     f.input :thumbnail_url
+    f.input :last_modified
+    f.input :etag
+    f.input :fetch_error_message
+    f.input :last_sync
+    f.input :last_sync
     f.input :libraries, :as => :select, :input_html => { :multiple => true }
     f.input :type, as: :select, collection: Feed.descendants.map { |c| [c.name, c.name] }
     f.actions

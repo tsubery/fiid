@@ -6,6 +6,7 @@ class Feed < ApplicationRecord
   before_validation :fill_missing_details
   after_create :associate_previous_media_items
   after_create :refresh_later
+  validates :historical_item_count, numericality: { greater_than_or_equal_to: 0 }
 
   def user_agent
     # Cloudflare protection sometimes blocks default user agent

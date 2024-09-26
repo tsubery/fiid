@@ -73,6 +73,7 @@ class RetrieveFeedsJobTest < ActiveJob::TestCase
     last_item = feed.media_items.last
     last_item_url = last_item.url
     last_item.destroy!
+    feed.update!(etag: '')
     # last item recognized as new and restored
     RetrieveFeedsJob.new.perform(feed.id)
     feed.reload

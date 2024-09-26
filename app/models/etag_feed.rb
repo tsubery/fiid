@@ -11,10 +11,6 @@ class EtagFeed < Feed
     self.etag = get_etag || ''
   end
 
-  def historical_item_count
-    0
-  end
-
   def recent_media_items(*)
     unless [200, 304].include?(html_response.code)
       return network_error_message(html_response)

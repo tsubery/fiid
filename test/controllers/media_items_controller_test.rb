@@ -6,8 +6,8 @@ class MediaItemsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "yt:video:_CBG3gz6gi4", yt.guid
     get media_item_video_url(yt)
     assert_response :success
-    assert_equal 6_333_305, response.body.size
-    assert_equal "db840d4c105c919b14985f4dc279329d", Digest::MD5.hexdigest(response.body)
+    assert_equal 2_438_606, response.body.size
+    assert_equal "64b88728bae12cba43fb7c056d5717fc", Digest::MD5.hexdigest(response.body)
     assert_equal "video/mp4", response.headers["content-type"]
   end
 

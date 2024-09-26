@@ -13,10 +13,6 @@ class RssFeed < Feed
     self.description = get_description || ''
   end
 
-  def historical_item_count
-    0
-  end
-
   def rss_headers
     rss_response.headers.transform_keys(&:downcase)
   end
@@ -26,8 +22,7 @@ class RssFeed < Feed
       redirect_url = rss_headers.fetch("location")
       Rails.logger.info("Updating feed #{id} from url: #{url.inspect} to #{redirect_url.inspect} due to 301 redirection")
       clear_rss_response
-      self.url = redirect_url
-      save!
+      update!(url: redirect_url)
       return recent_media_items(since: since, redirects_left: (redirects_left - 1))
     end
 

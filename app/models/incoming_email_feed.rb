@@ -12,11 +12,6 @@ class IncomingEmailFeed < Feed
     false
   end
 
-  # Methods for compatibility, we don't actually fetch any records
-  def historical_item_count
-    0
-  end
-
   def recent_media_items(*)
     []
   end

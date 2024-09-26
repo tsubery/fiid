@@ -1,7 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  url: https://newsletter.doomberg.com/feed
+  url: https://richarddawkins.substack.com/feed
   type: RssFeed
 
 two:
@@ -11,11 +11,13 @@ two:
 playlist:
   url: https://www.youtube.com/playlist?list=PLp-wXwmbv3z9XdaOhE_ylHMJrybGl2yzq
   type: YoutubePlaylistFeed
+  historical_item_count: 100
 
 fedguy_channel:
   url: https://www.youtube.com/channel/UCsJxlgjWIOcuEbOJZ591V3Q
   type: YoutubeChannelFeed
   title: Joseph Wang - YouTube
+  historical_item_count: 100
 
 malformed_channel:
   url: https://www.youtube.com/channel/UC-hKNOj4P-Y8hR9QEHpZPi
@@ -28,6 +30,7 @@ doomberg:
 pocket:
   url: 'https://getpocket.com'
   type: PocketFeed
+  historical_item_count: 100
 
 spam:
   url: <%= ENV.fetch('SPAM_EMAIL') %>

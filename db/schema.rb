@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_06_05_220823) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_26_210159) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -63,6 +63,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_06_05_220823) do
     t.string "thumbnail_url", default: "", null: false
     t.string "etag", default: "", null: false
     t.string "last_modified", default: "", null: false
+    t.integer "historical_item_count", default: 0, null: false
     t.index ["url"], name: "index_feeds_on_url"
   end
 

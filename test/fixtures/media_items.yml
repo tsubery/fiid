@@ -41,3 +41,7 @@ xss_article:
   title: evil
   description: <script>alert("injection")</script>
 
+live_video:
+  feed: one
+  url: https://www.youtube.com/watch?v=PRWclJd_sIQ
+  guid: https://www.youtube.com/watch?v=PRWclJd_sIQ

@@ -36,7 +36,7 @@ class MediaItem < ApplicationRecord
 
     if %r{\Ahttps://(www\.)?(youtube|vimeo)\.com/} =~ url || %r{\Ahttps://youtu\.be/} =~ url
       info = Youtube::Video.new(url).get_information
-      if info.present?
+      if info.present? && !info["is_live"]
         success = !!info["id"]
         if success && info['extractor'] == 'youtube'
           video = Youtube::Video.from_id(info["id"])

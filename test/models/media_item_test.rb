@@ -23,6 +23,13 @@ class MediaItemTest < ActiveSupport::TestCase
     assert_not yt.reachable
   end
 
+  test "fill_missing_info waits until video is done streaming" do
+    yt = media_items(:live_video)
+    assert_equal '', yt.title
+    yt.fill_missing_details
+    assert_equal '', yt.title
+  end
+
   test "embedding images and resolving links" do
     original_html = File.read("test/fixtures/articles/substack_email.html")
     VCR.use_cassette("embedded-images-test", record: :new_episodes) do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_26_210159) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_26_222441) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -88,6 +88,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_26_210159) do
     t.string "thumbnail_url", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "episode_count", default: 200, null: false
   end
 
   create_table "libraries_media_items", force: :cascade do |t|

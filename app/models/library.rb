@@ -1,12 +1,14 @@
 class Library < ApplicationRecord
   has_and_belongs_to_many :media_items
   has_and_belongs_to_many :feeds
+  validates :episode_count, numericality: { greater_than_or_equal_to: 0 }
 
   def add_media_item(new_media_item)
     media_items << new_media_item
   end
 
   DEFAULT_LANGUAGE = 'en'.freeze
+  DEFAULT_EPISODE_COUNT = 200
 
   def generate_podcast(current_url, audio_url:, video_url:)
     Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
@@ -39,7 +41,7 @@ class Library < ApplicationRecord
           channel['itunes'].explicit('no')
 
           # id: asc allows stable sort for test with same timestamp
-          media_items.order(created_at: :desc, id: :asc).flat_map do |media_item|
+          media_items.order(created_at: :desc, id: :asc).limit(episode_count).flat_map do |media_item|
             [
               [audio, audio_url.call(media_item.id), 'audio/mpeg'],
               [video, video_url.call(media_item.id), 'video/mpeg']

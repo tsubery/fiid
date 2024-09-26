@@ -26,6 +26,7 @@ class MediaItemsController < ApplicationController
       # Update title for videos that were not reachable before
       @media_item.update(reachable: true, title: '')
     rescue => e
+      Rollbar.error(e)
       response.headers['Content-Type'] = 'text/plain'
       render plain: e.inspect, status: :internal_server_error
     ensure

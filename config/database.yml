@@ -84,4 +84,4 @@ test:
 production:
   <<: *default
   database: fiid_production
-  pool: 50
+  pool: 120

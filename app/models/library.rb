@@ -48,7 +48,7 @@ class Library < ApplicationRecord
             ].select(&:first).map do |_enabled, media_item_link, mime_type|
               channel.item do |item|
                 media_item.fill_missing_details
-                next if media_item.title.blank?
+                next unless media_item.has_all_details?
 
                 guid = media_item.url
                 item.link(media_item_link)

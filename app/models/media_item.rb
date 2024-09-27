@@ -30,9 +30,16 @@ class MediaItem < ApplicationRecord
     Rails.application.routes.url_helpers.media_item_article_url(self)
   end
 
+  def has_all_details?
+    [title, description, duration_seconds].all?(&:present?)
+  end
+
   def fill_missing_details
-    guid.nil? && self.guid = url
-    return if [title, description, duration_seconds].all?(&:present?)
+    return if has_all_details?
+
+    if guid.nil?
+      self.guid = url
+    end
 
     if %r{\Ahttps://(www\.)?(youtube|vimeo)\.com/} =~ url || %r{\Ahttps://youtu\.be/} =~ url
       info = Youtube::Video.new(url).get_information

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_09_26_222441) do
+ActiveRecord::Schema[8.0].define(version: 2024_09_27_165532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -114,7 +114,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_09_26_222441) do
     t.string "copy_url", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "reachable", default: true, null: false
+    t.boolean "reachable"
     t.string "guid", null: false
     t.string "sent_to", default: "", null: false
     t.index ["feed_id", "guid"], name: "index_media_items_on_feed_id_and_guid", unique: true

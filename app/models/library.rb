@@ -53,8 +53,7 @@ class Library < ApplicationRecord
                 guid = media_item.url
                 item.link(media_item_link)
 
-                reachable_suffix = media_item.reachable ? '' : 'Unreachable'
-                title = media_item.title + reachable_suffix
+                title = media_item.title
 
                 item.title(title)
 

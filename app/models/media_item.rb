@@ -31,25 +31,37 @@ class MediaItem < ApplicationRecord
   end
 
   def has_all_details?
-    [title, description, duration_seconds].all?(&:present?)
+    [(reachable == true), title, description, duration_seconds].all?(&:present?)
   end
 
   def fill_missing_details
     return if has_all_details?
+    return if reachable == false # nil means unknown
 
+    # Tried within the last 30 minutes
+    return if updated_at && updated_at != created_at && (Time.now - updated_at) < 30.minutes
+
+    self.updated_at = Time.now
     if guid.nil?
       self.guid = url
     end
 
     if %r{\Ahttps://(www\.)?(youtube|vimeo)\.com/} =~ url || %r{\Ahttps://youtu\.be/} =~ url
+      self.mime_type = VIDEO_MIME_TYPE
       info = Youtube::Video.new(url).get_information
-      if info.present? && !info["is_live"]
+
+      # Wait for stream to finish
+      return if info["is_live"]
+
+      if info.present?
         success = !!info["id"]
+
         if success && info['extractor'] == 'youtube'
           video = Youtube::Video.from_id(info["id"])
           self.guid = video.guid
           self.url =  video.url
         end
+
         if success || (created_at && created_at < 3.days.ago)
           self.reachable = success
           self.author = info["uploader"] || ''
@@ -58,10 +70,9 @@ class MediaItem < ApplicationRecord
           self.description = "Original Video: #{url}\nPublished At: #{published_at}\n #{info["description"]}"
           self.duration_seconds = info["duration"] || 0
           self.thumbnail_url = info["thumbnails"]&.last&.fetch("url", "") || ''
-          self.mime_type = VIDEO_MIME_TYPE
-          save!
         end
       end
+      save!
     end
   end
 

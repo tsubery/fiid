@@ -25,6 +25,8 @@ class MediaItemsController < ApplicationController
 
       # Update title for videos that were not reachable before
       @media_item.update(reachable: true, title: '')
+    rescue ActionController::Live::ClientDisconnected
+      Rails.logger.error 'client disconnected'
     rescue => e
       Rollbar.error(e)
       response.headers['Content-Type'] = 'text/plain'

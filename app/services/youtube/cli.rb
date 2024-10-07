@@ -2,6 +2,8 @@ module Youtube
   class CLI
     class << self
       DL_BINARY = "./bin/yt-dlp".freeze
+      PLAYLIST_LENGTH=100
+
       def sanitize_id!(id)
         unless id =~ /\A[a-z0-9\-_]+\z/i
           raise(ArgumentError, "The id #{id.inspect} can be dangerous!")
@@ -34,9 +36,9 @@ module Youtube
         end
       end
 
-      def get_playlist_information(id)
+      def get_playlist_information(id, length: PLAYLIST_LENGTH)
         sanitize_id!(id)
-        stdout, stderr, status = cmd("-j --flat-playlist \"#{id}\"")
+        stdout, stderr, status = cmd("-j -I1:#{length} --flat-playlist \"#{id}\"")
         if status.exitstatus.zero?
           stdout
         else

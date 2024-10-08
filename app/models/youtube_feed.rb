@@ -5,7 +5,7 @@ class YoutubeFeed < Feed
 
   # Refreshed when a podcast is requested
   def self.poll?
-    false
+    true
   end
 
   def fill_missing_details

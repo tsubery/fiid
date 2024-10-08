@@ -1,9 +1,11 @@
 class LibrariesController < ApplicationController
   def podcast
     @library = Library.find(params["id"])
-    @library.feeds.where(
-      "last_sync IS NULL or last_sync < ?",
-      (params["sync_since_minutes_ago"] || 15).minutes.ago
+    @library.feeds
+      .where(type: YoutubeChannelFeed.name)
+      .where(
+        "last_sync IS NULL or last_sync < ?",
+        (params["sync_since_minutes_ago"] || 15).minutes.ago
     ).pluck(:id).map do |feed_id|
       Thread.new { RetrieveFeedsJob.new.perform(feed_id) }
     end.each(&:join)

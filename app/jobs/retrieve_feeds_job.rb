@@ -46,15 +46,11 @@ class RetrieveFeedsJob < ApplicationJob
 
   def self.enqueue_all
     ids = Feed
-          .where("last_sync IS NULL or last_sync < ?", 15.minutes.ago)
+          .where("last_sync IS NULL or last_sync < ?", rand(15..30).minutes.ago)
           .where(type: Feed.descendants.select(&:poll?).map(&:name))
           .joins(:libraries) # Do not bother if the feed doesn't have libraries
           .distinct
-          .pluck(:id, :last_sync)
-          .select do |_id, last_sync|
-      # Randomness spreads polling across time to avoid spikes in resources utilization
-      last_sync.nil? || last_sync < rand(15..30).minutes.ago
-    end.map(&:first)
-    ids.present? && perform_later(ids.uniq)
+          .pluck(:id)
+    perform_later(ids.uniq)
   end
 end

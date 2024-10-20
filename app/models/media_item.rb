@@ -48,6 +48,9 @@ class MediaItem < ApplicationRecord
 
     if %r{\Ahttps://(www\.)?(youtube|vimeo)\.com/} =~ url || %r{\Ahttps://youtu\.be/} =~ url
       self.mime_type = VIDEO_MIME_TYPE
+    end
+
+    if mime_type == VIDEO_MIME_TYPE
       info = Youtube::Video.new(url).get_information
 
       # Wait for stream to finish

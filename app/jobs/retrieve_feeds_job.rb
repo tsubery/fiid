@@ -23,15 +23,17 @@ class RetrieveFeedsJob < ApplicationJob
         feed.update!(fetch_error_message: recent_media_items)
       else
         recent_media_items.reject(&:persisted?).each do |new_media_item|
-          if new_media_item.save
-            if item_count.positive?
-              feed.libraries.each do |library|
-                library.add_media_item(new_media_item)
+          new_media_item.transaction do
+            if new_media_item.save
+              if item_count.positive?
+                feed.libraries.each do |library|
+                  library.add_media_item(new_media_item)
+                end
               end
+              item_count -= 1
+            else
+              Rails.logger.error("Could not save media item #{new_media_item.errors.inspect}")
             end
-            item_count -= 1
-          else
-            Rails.logger.error("Could not save media item #{new_media_item.errors.inspect}")
           end
         end
         feed.reload.update!(

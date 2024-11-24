@@ -39,7 +39,7 @@ class MediaItem < ApplicationRecord
     return if reachable == false # nil means unknown
 
     # Tried within the last 30 minutes
-    return if updated_at && updated_at != created_at && (Time.now - updated_at) < 30.minutes
+    return if updated_at && updated_at != created_at && (Time.now - updated_at) < 1.hour
 
     self.updated_at = Time.now
     if guid.nil?
@@ -65,7 +65,7 @@ class MediaItem < ApplicationRecord
           self.url =  video.url
         end
 
-        if success || (created_at && created_at < 3.days.ago)
+        if success || (created_at && created_at < 1.week.ago)
           self.reachable = success
           self.author = info["uploader"] || ''
           self.title = [feed&.title, info["title"]].select(&:present?).join(" - ")

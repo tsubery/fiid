@@ -38,8 +38,8 @@ class MediaItem < ApplicationRecord
     return if has_all_details?
     return if reachable == false # nil means unknown
 
-    # Tried within the last 30 minutes
-    return if updated_at && updated_at != created_at && (Time.now - updated_at) < 1.hour
+    # Tried recently
+    return if updated_at && created_at && updated_at != created_at && Time.now < (created_at + (updated_at - created_at)*2)
 
     self.updated_at = Time.now
     if guid.nil?

@@ -54,10 +54,9 @@ class MediaItem < ApplicationRecord
       info = Youtube::Video.new(url).get_information
 
       # Wait for stream to finish
-      return if info["is_live"]
 
       if info.present?
-        success = !!info["id"]
+        success = info["is_live"] ? nil : !!info["id"]
 
         if success && info['extractor'] == 'youtube'
           video = Youtube::Video.from_id(info["id"])

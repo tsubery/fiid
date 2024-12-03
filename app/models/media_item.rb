@@ -38,7 +38,10 @@ class MediaItem < ApplicationRecord
     return if has_all_details?
     return if reachable == false # nil means unknown
 
-    # Tried recently
+    # Tried in the last hour
+    return if updated_at && updated_at != created_at && (Time.now - updated_at) < 1.hour
+
+    # Exponential backoff
     return if updated_at && created_at && updated_at != created_at && Time.now < (created_at + (updated_at - created_at)*2)
 
     self.updated_at = Time.now
@@ -53,9 +56,8 @@ class MediaItem < ApplicationRecord
     if mime_type == VIDEO_MIME_TYPE
       info = Youtube::Video.new(url).get_information
 
-      # Wait for stream to finish
-
       if info.present?
+        # Wait for stream to finish
         success = info["is_live"] ? nil : !!info["id"]
 
         if success && info['extractor'] == 'youtube'

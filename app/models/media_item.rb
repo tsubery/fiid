@@ -66,15 +66,13 @@ class MediaItem < ApplicationRecord
           self.url =  video.url
         end
 
-        if success || (created_at && created_at < 1.week.ago)
-          self.reachable = success
-          self.author = info["uploader"] || ''
-          self.title = [feed&.title, info["title"]].select(&:present?).join(" - ")
-          self.published_at = info["upload_date"] && Date.parse(info["upload_date"])
-          self.description = "Original Video: #{url}\nPublished At: #{published_at}\n #{info["description"]}"
-          self.duration_seconds = info["duration"] || 0
-          self.thumbnail_url = info["thumbnails"]&.last&.fetch("url", "") || ''
-        end
+        self.reachable = success
+        self.author = info["uploader"] || ''
+        self.title = [info["is_live"] && "[LIVE]", feed&.title, info["title"]].select(&:present?).join(" - ")
+        self.published_at = info["upload_date"] && Date.parse(info["upload_date"])
+        self.description = "Original Video: #{url}\nPublished At: #{published_at}\n #{info["description"]}"
+        self.duration_seconds = info["duration"]
+        self.thumbnail_url = info["thumbnails"]&.last&.fetch("url", "") || ''
       end
       save!
     end

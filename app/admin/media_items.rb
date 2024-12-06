@@ -16,4 +16,13 @@ ActiveAdmin.register MediaItem do
     f.input :libraries, :as => :select, :input_html => { :multiple => true }
     f.actions
   end
+
+  action_item :fetch_details, only: [:show, :edit] do
+    link_to "Fetch Details", fetch_details_admin_media_item_path(resource)
+  end
+
+  member_action :fetch_details, method: :get do
+    resource.update(updated_at: nil, reachable: nil)
+    redirect_to admin_media_item_path, notice: "Fetched!"
+  end
 end

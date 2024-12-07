@@ -3,6 +3,15 @@ class EtagFeed < Feed
 
   include Html
 
+  ETAG_IGNORED_PATTERSN =  [
+    # Some pages fight spam with random encoding of addresses
+    /a href="mailto.*/,
+    # some pages use timestamp to prevent caching of css
+    /href="[^"]+" type=.text\/css./,
+    # No need for scripts that can have random params
+    /createElement\('script'\).*/
+  ]
+
   def fill_missing_details
     return if title.present?
 
@@ -16,7 +25,11 @@ class EtagFeed < Feed
       return network_error_message(html_response)
     end
 
-    new_checksum = get_etag.presence || Digest::MD5.hexdigest(html_response.body)
+    body = ETAG_IGNORED_PATTERSN.reduce(html_response.body) do |str, pattern|
+      str.gsub(pattern, "")
+    end
+
+    new_checksum = get_etag.presence || Digest::MD5.hexdigest(body)
     if html_response.code == 304 || new_checksum == etag
       []
     else

@@ -41,7 +41,7 @@ class Library < ApplicationRecord
           channel['itunes'].explicit('no')
 
           # id: asc allows stable sort for test with same timestamp
-          media_items.order(created_at: :desc, id: :asc).limit(episode_count).flat_map do |media_item|
+          media_items.order(updated_at: :desc, id: :asc).limit(episode_count).flat_map do |media_item|
             [
               [audio, audio_url.call(media_item.id), 'audio/mpeg'],
               [video, video_url.call(media_item.id), 'video/mpeg']

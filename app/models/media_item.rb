@@ -57,16 +57,15 @@ class MediaItem < ApplicationRecord
       info = Youtube::Video.new(url).get_information
 
       if info.present?
-        # Wait for stream to finish
-        success = info["is_live"] ? nil : !!info["id"]
 
-        if success && info['extractor'] == 'youtube'
+        if info["id"] && info['extractor'] == 'youtube'
           video = Youtube::Video.from_id(info["id"])
           self.guid = video.guid
           self.url =  video.url
         end
 
-        self.reachable = success
+        # Wait for stream to finish
+        self.reachable = info["id"].present? && !info["is_live"] || nil
         self.author = info["uploader"] || ''
         self.title = [info["is_live"] && "[LIVE]", feed&.title, info["title"]].select(&:present?).join(" - ")
         self.published_at = info["upload_date"] && Date.parse(info["upload_date"])

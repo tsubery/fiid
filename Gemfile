@@ -1,9 +1,8 @@
 source "https://rubygems.org"
 
-ruby "3.3.1"
+ruby "3.3.4"
 
-# Use main development branch of Rails
-gem "rails", github: "rails/rails", branch: "main"
+gem 'rails', '~> 8.0', '>= 8.0.1'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
@@ -72,7 +71,7 @@ group :test do
   gem "rubocop-rails", require: false
   gem "selenium-webdriver", ">= 4.0.0"
   gem "vcr"
-  gem "webdrivers"
+  #gem "webdrivers"
   gem "webmock", "~> 3.23"
 end
 

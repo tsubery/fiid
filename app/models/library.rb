@@ -9,6 +9,7 @@ class Library < ApplicationRecord
 
   DEFAULT_LANGUAGE = 'en'.freeze
   DEFAULT_EPISODE_COUNT = 200
+  MIN_DURATION_SECONDS = 120
 
   def generate_podcast(current_url, audio_url:, video_url:)
     Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
@@ -41,7 +42,11 @@ class Library < ApplicationRecord
           channel['itunes'].explicit('no')
 
           # id: asc allows stable sort for test with same timestamp
-          media_items.order(updated_at: :desc, id: :asc).limit(episode_count).flat_map do |media_item|
+          media_items
+            .where("duration_seconds IS NULL OR duration_seconds > ?", MIN_DURATION_SECONDS)
+            .order(updated_at: :desc, id: :asc)
+            .limit(episode_count)
+            .flat_map do |media_item|
             [
               [audio, audio_url.call(media_item.id), 'audio/mpeg'],
               [video, video_url.call(media_item.id), 'video/mpeg']
@@ -49,6 +54,7 @@ class Library < ApplicationRecord
               channel.item do |item|
                 media_item.fill_missing_details
                 next unless media_item.has_all_details?
+                next unless media_item.duration_seconds >= MIN_DURATION_SECONDS
 
                 guid = media_item.url
                 item.link(media_item_link)

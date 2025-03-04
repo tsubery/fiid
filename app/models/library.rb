@@ -65,7 +65,7 @@ class Library < ApplicationRecord
 
                 item.description(media_item.description)
                 item.guid(guid)
-                item.pubDate(media_item.created_at&.rfc822)
+                item.pubDate(media_item.updated_at&.rfc822)
                 item.enclosure(url: media_item_link, type: mime_type, length: (media_item.duration_seconds || 100) * 1000) # arbitrary length
                 item['itunes'].image(media_item.thumbnail_url)
                 item['itunes'].duration(Time.at(media_item.duration_seconds || 0).utc.strftime("%H:%M:%S"))

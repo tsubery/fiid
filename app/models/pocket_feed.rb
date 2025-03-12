@@ -7,7 +7,10 @@ class PocketFeed < Feed
 
   def recent_media_items(since: 0)
     PocketClient.list_videos(since: since).map do |entry|
-      media_items.find_by(url: entry["resolved_url"]) ||
+      url = entry["resolved_url"]
+      guid = Youtube::Video.new(url).guid
+      media_items.find_by(url: url) ||
+        media_items.find_by(guid: guid) ||
         media_items.new(
           author: entry["authors"]&.first&.values&.first&.fetch("name", '') || '',
           description: entry["excerpt"],

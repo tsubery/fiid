@@ -11,7 +11,7 @@ class PocketClient
       )
     end
 
-    def list_videos(since:)
+    def list_videos(since: 1.day.ago)
       api_client
         .retrieve(since: since.to_i, contentType: :video, deailType: :complete)
         .fetch("list")

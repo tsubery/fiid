@@ -42,7 +42,7 @@ class MediaItem < ApplicationRecord
     return if updated_at && updated_at != created_at && (Time.now - updated_at) < 1.hour
 
     # Exponential backoff
-    return if updated_at && created_at && updated_at != created_at && Time.now < (created_at + (updated_at - created_at)*2)
+    return if updated_at && created_at && updated_at != created_at && Time.now < (created_at + (updated_at - created_at)*1.2)
 
     self.updated_at = Time.now
     if guid.nil?

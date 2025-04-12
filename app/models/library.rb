@@ -43,7 +43,7 @@ class Library < ApplicationRecord
 
           # id: asc allows stable sort for test with same timestamp
           media_items
-            .where("duration_seconds IS NULL OR duration_seconds > ?", MIN_DURATION_SECONDS)
+            .where("duration_seconds IS NULL OR duration_seconds = 0 OR duration_seconds > ?", MIN_DURATION_SECONDS)
             .order(updated_at: :desc, id: :asc)
             .limit(episode_count)
             .flat_map do |media_item|

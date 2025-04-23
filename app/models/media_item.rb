@@ -73,7 +73,9 @@ class MediaItem < ApplicationRecord
         self.duration_seconds = info["duration"]
         self.thumbnail_url = info["thumbnails"]&.last&.fetch("url", "") || ''
       end
-      save!
+      if changed?
+        save!
+      end
     end
   end
 

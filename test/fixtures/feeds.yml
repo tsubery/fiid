@@ -27,11 +27,6 @@ doomberg:
   url: https://newsletter.doomberg.com/feed
   type: RssFeed
 
-pocket:
-  url: 'https://getpocket.com'
-  type: PocketFeed
-  historical_item_count: 100
-
 spam:
   url: <%= ENV.fetch('SPAM_EMAIL') %>
   type: IncomingEmailFeed

@@ -89,7 +89,7 @@ class RetrieveFeedsJobTest < ActiveJob::TestCase
 
   test "new rss feed does not load old articles" do
     feed = feeds(:doomberg)
-    library = feed.libraries.create(title: :pocket, type: "PocketLibrary")
+    library = feed.libraries.create(title: :pocket, type: "InstapaperLibrary")
     VCR.use_cassette("doomberg") do
       RetrieveFeedsJob.new.perform(feed.id)
     end
@@ -113,7 +113,7 @@ class RetrieveFeedsJobTest < ActiveJob::TestCase
     assert_equal feed.media_items.map(&:url).sort, outbox.sort
     assert_equal library.media_items.map(&:url).sort, outbox.sort
     assert_in_delta feed.last_sync, Time.current, 1
-    PocketClient.set_outbox(nil)
+    InstapaperClient.set_outbox(nil)
   end
 
   test "pocket feed" do

@@ -59,7 +59,6 @@ class Feed < ApplicationRecord
 
     self.type = YoutubePlaylistFeed.parse_id(url) && YoutubePlaylistFeed.name ||
                 YoutubeChannelFeed.parse_id(url) && YoutubeChannelFeed.name ||
-                url =~ %r{\Ahttps://getpocket.com} && PocketFeed.name ||
                 url =~ URI::MailTo::EMAIL_REGEXP && IncomingEmailFeed.name ||
                 RssFeed.name
   end

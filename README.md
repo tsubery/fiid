@@ -29,7 +29,7 @@ Pretty standard Ruby on Rails app. Should be straightforward to run it on Heroku
 * `SPAM_EMAIL` - A default email inbox when target mailbox is not found. In case it's not assing to any library emails would be stored but only be visible on admin dashboard. Works great as a replacement for temporary emails services but avoids blacklisted domains.
 * `HOSTNAME` - Domain name to be used in link generation
 
-Running `rails db:seed` creates a PocketLibrary, PodcastLibrary, Spam Inbox and Pocket Feed.
+Running `rails db:seed` creates a InstapaperLibrary, PodcastLibrary, Spam Inbox and Pocket Feed.
 
 ## Usage
 ### Admin endpoints

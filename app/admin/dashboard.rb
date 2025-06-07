@@ -84,7 +84,7 @@ ActiveAdmin.register_page "Dashboard" do
                 if media_item.feed&.spam?
                   form_with(model: [:admin, Feed.new]) do |f|
                     f.hidden_field(:url, value: media_item.sent_to) +
-                      f.hidden_field('library_ids', multiple: true, value: PocketLibrary.pluck(:id)) +
+                      f.hidden_field('library_ids', multiple: true, value: InstapaperLibrary.pluck(:id)) +
                       f.submit
                   end
                 else

@@ -77,7 +77,6 @@ end
 
 gem 'feedjira'
 gem 'httparty'
-gem 'pocket-ruby'
 gem 'typhoeus'
 
 gem "tailwindcss-rails", "~> 2.6"

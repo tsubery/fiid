@@ -10,8 +10,7 @@
 class DbSeeder
   def self.run
     _spam_email_feed = IncomingEmailFeed.create!(url: IncomingEmailFeed::SPAM_EMAIL)
-    _pocket_feed = Feed.create!(type: PocketFeed)
-    _pocket_library = Library.create!(type: "PocketLibrary")
+    _instapaper_library = Library.create!(type: "InstapaperLibrary")
     _default_podcast = Library.create!(title: "Default Podcast")
   end
 end

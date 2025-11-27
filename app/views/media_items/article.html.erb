@@ -7,21 +7,20 @@
   </head>
   <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js" crossorigin="anonymous"></script>
   <body>
-    <h1><%= @media_item.title %></h1>
-    loading...
-    <script id="load-body">
-      const html_content = <%=  @media_item.description.to_json.html_safe %>;
-      const sanitized_html_content = DOMPurify.sanitize(html_content);
-      const replaced_tag = "<%= @html ? 'html' : 'body' %>";
-      const html_element = document.getElementsByTagName('body')[0];
-      html_element.innerHTML = sanitized_html_content;
-    </script>
+      <h1><%= @media_item.title %></h1>
+      loading...
+      <script id="load-body">
+        const html_content = <%=  @media_item.description.to_json.html_safe %>;
+        const sanitized_html_content = DOMPurify.sanitize(html_content);
+        const replaced_tag = "<%= @html ? 'html' : 'body' %>";
+        const html_element = document.getElementsByTagName('body')[0];
+        html_element.innerHTML = sanitized_html_content;
+      </script>
   </body>
 </html>
 <!--
   <%= @media_item.attributes.except("title", "id", "description").map do |attr, value|
     [attr, value].map(&:to_s).join(": ")
   end.join("\n")
-            %>
+%>
 -->
-

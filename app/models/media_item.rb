@@ -72,11 +72,16 @@ class MediaItem < ApplicationRecord
         self.description = "Original Video: #{url}\nPublished At: #{published_at}\n #{info["description"]}"
         self.duration_seconds = info["duration"]
         self.thumbnail_url = info["thumbnails"]&.last&.fetch("url", "") || ''
+        CacheVideoJob.perform_later(self.id)
       end
       if changed?
         save!
       end
     end
+  end
+
+  def video?
+    mime_type == VIDEO_MIME_TYPE
   end
 
   def html?
@@ -139,5 +144,11 @@ class MediaItem < ApplicationRecord
     Zlib::GzipWriter.open("#{dir}/article.html.gz") do |gz|
       gz.write html
     end
+  end
+
+  def cache_video
+    return unless video?
+    cache_path = "public/media_items/#{id}/video"
+    File.exist?(cache_path) || system("/home/ubuntu/dl.sh '#{url}' '#{cache_path}'")
   end
 end

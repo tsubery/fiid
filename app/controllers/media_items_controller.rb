@@ -16,7 +16,10 @@ class MediaItemsController < ApplicationController
   end
 
   def video
-    stream(audio: false)
+    CacheVideoJob.perform_later(@media_item.id)
+
+    response.headers["Retry-After"] = 90
+    head :too_many_requests
   end
 
   private

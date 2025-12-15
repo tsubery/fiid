@@ -72,9 +72,9 @@ class MediaItem < ApplicationRecord
         self.description = "Original Video: #{url}\nPublished At: #{published_at}\n #{info["description"]}"
         self.duration_seconds = info["duration"]
         self.thumbnail_url = info["thumbnails"]&.last&.fetch("url", "") || ''
-        CacheVideoJob.perform_later(self.id)
       end
       if changed?
+        CacheVideoJob.perform_later(self.id)
         save!
       end
     end

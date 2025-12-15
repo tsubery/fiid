@@ -3,7 +3,12 @@ class CacheVideoJob < ApplicationJob
 
   TWO_WEEKS = 14 * 24 * 60 * 60
   def perform(media_item_id)
-    MediaItem.find(media_item_id).cache_video
+    video = MediaItem.find(media_item_id)
+    video.transaction do
+      video.lock!
+      video.cache_video
+    end
+
     now = Time.now
     %w[article video].each do |type|
       Dir.glob("public/**/#{type}").each do |relative_path|

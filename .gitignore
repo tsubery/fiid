@@ -41,3 +41,4 @@ config/credentials.yml.env
 !/app/assets/builds/.keep
 core
 public/media_items/
+.idea

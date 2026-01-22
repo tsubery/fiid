@@ -4,6 +4,11 @@ class MediaItemsController < ApplicationController
   include ActionController::Live
 
   def article
+    if @media_item.libraries.none?
+      render plain: 'This article is not visible because it is not associated with any library'
+      return
+    end
+
     if cookies.count > 0
       render :article, layout: false
     else

@@ -63,4 +63,20 @@ class FeedTest < ActiveSupport::TestCase
       assert_equal "https://www.thelastbearstanding.com/feed", f.url
     end
   end
+
+  test "priority validation accepts 0 and positive integers" do
+    feed = feeds(:one)
+    feed.priority = 0
+    assert feed.valid?
+
+    feed.priority = 100
+    assert feed.valid?
+  end
+
+  test "priority validation rejects negative numbers" do
+    feed = feeds(:one)
+    feed.priority = -1
+    assert_not feed.valid?
+    assert feed.errors[:priority].present?
+  end
 end

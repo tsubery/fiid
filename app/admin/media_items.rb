@@ -1,6 +1,26 @@
 ActiveAdmin.register MediaItem do
   permit_params(*(MediaItem.attribute_names(&:to_sym) rescue []), library_ids: [])
 
+  scope :all, default: true
+  scope :articles, -> { MediaItem.articles }
+  scope :unarchived_articles, -> { MediaItem.articles.unarchived }
+
+  index do
+    selectable_column
+    id_column
+    column :title
+    column :feed
+    column :mime_type
+    column :archived
+    column :created_at
+    actions
+  end
+
+  batch_action :archive do |ids|
+    batch_action_collection.find(ids).each(&:archive!)
+    redirect_to collection_path, notice: "Articles archived"
+  end
+
   form do |f|
     f.actions
     f.input :feed
@@ -13,6 +33,7 @@ ActiveAdmin.register MediaItem do
     f.input :published_at
     f.input :reachable
     f.input :mime_type
+    f.input :archived
     f.input :libraries, :as => :select, :input_html => { :multiple => true }
     f.actions
   end

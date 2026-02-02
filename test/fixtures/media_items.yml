@@ -11,6 +11,7 @@ one:
   mime_type: video/mp4
   published_at: 2024-05-02 21:12:18
   feed: one
+  archived: false
 
 two:
   url: http://localhost.local/media_items/42
@@ -23,16 +24,19 @@ two:
   mime_type: text/html
   published_at: 2024-05-02 21:12:18
   feed: two
+  archived: false
 
 youtube_video:
   feed: one
   url: https://www.youtube.com/watch?v=2gqjFoVkHbo
   guid: https://www.youtube.com/watch?v=2gqjFoVkHbo
+  archived: false
 
 short_video:
   feed: one
   url: https://www.youtube.com/watch?v=_CBG3gz6gi4
   guid: https://www.youtube.com/watch?v=_CBG3gz6gi4
+  archived: false
 
 xss_article:
   feed: one
@@ -40,8 +44,43 @@ xss_article:
   guid: https://hackeur.org
   title: evil
   description: <script>alert("injection")</script>
+  archived: false
 
 live_video:
   feed: one
   url: https://www.youtube.com/watch?v=PRWclJd_sIQ
   guid: https://www.youtube.com/watch?v=PRWclJd_sIQ
+  archived: false
+
+article_unarchived:
+  url: http://example.com/article1
+  guid: http://example.com/article1
+  title: Test Article Unarchived
+  description: <html><body><p>This is a test article content.</p></body></html>
+  author: Test Author
+  mime_type: text/html
+  published_at: 2024-06-01 10:00:00
+  feed: one
+  archived: false
+
+article_archived:
+  url: http://example.com/article2
+  guid: http://example.com/article2
+  title: Test Article Archived
+  description: <html><body><p>This is an archived article.</p></body></html>
+  author: Test Author
+  mime_type: text/html
+  published_at: 2024-06-01 09:00:00
+  feed: one
+  archived: true
+
+high_priority_article:
+  url: http://example.com/high-priority-article
+  guid: http://example.com/high-priority-article
+  title: High Priority Article
+  description: <html><body><p>This is a high priority article.</p></body></html>
+  author: Priority Author
+  mime_type: text/html
+  published_at: 2024-06-02 10:00:00
+  feed: high_priority_feed
+  archived: false

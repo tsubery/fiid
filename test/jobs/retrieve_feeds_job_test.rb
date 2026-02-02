@@ -103,7 +103,7 @@ class RetrieveFeedsJobTest < ActiveJob::TestCase
     feed.media_items.destroy_all
     feed.update(etag: 'foo')
     outbox = []
-    PocketClient.set_outbox(outbox)
+    InstapaperClient.set_outbox(outbox)
     VCR.use_cassette("doomberg") do
       RetrieveFeedsJob.new.perform(feed.id)
     end
@@ -114,18 +114,5 @@ class RetrieveFeedsJobTest < ActiveJob::TestCase
     assert_equal library.media_items.map(&:url).sort, outbox.sort
     assert_in_delta feed.last_sync, Time.current, 1
     InstapaperClient.set_outbox(nil)
-  end
-
-  test "pocket feed" do
-    feed = feeds(:pocket)
-    library1 = libraries(:one)
-    feed.libraries << library1
-    VCR.use_cassette("pocket-list") do
-      RetrieveFeedsJob.new.perform(feed.id)
-    end
-    feed.reload
-    assert_equal "", feed.fetch_error_message
-    assert_equal 2, feed.media_items.count
-    assert_equal library1.media_items, feed.media_items
   end
 end

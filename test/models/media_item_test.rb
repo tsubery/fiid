@@ -16,18 +16,15 @@ class MediaItemTest < ActiveSupport::TestCase
   test "creating a private youtube video" do
     feed = feeds(:fedguy_channel)
     yt = feed.media_items.create(url: "https://www.youtube.com/watch?v=zOIOsej4xE8")
-    assert_equal '', yt.title
-    yt.update!(created_at: 1.week.ago)
-    yt.fill_missing_details
-
+    assert_match(/Private video/, yt.title)
     assert_not yt.reachable
   end
 
   test "fill_missing_info waits until video is done streaming" do
     yt = media_items(:live_video)
-    assert_equal '', yt.title
     yt.fill_missing_details
-    assert_equal '', yt.title
+    assert_match(/\[LIVE\]/, yt.title)
+    assert_nil yt.reachable
   end
 
   test "embedding images and resolving links" do
@@ -104,5 +101,41 @@ class MediaItemTest < ActiveSupport::TestCase
     mi.feed = nil
 
     assert_not media_items(:one).valid?
+  end
+
+  test "reading_list scope returns only unarchived HTML articles" do
+    reading_list = MediaItem.reading_list
+    assert reading_list.all? { |item| item.mime_type == MediaItem::HTML_MIME_TYPE }
+    assert reading_list.all? { |item| item.archived == false }
+    assert_not reading_list.include?(media_items(:article_archived))
+    assert_not reading_list.include?(media_items(:one)) # video, not article
+  end
+
+  test "reading_list orders by feed priority then created_at" do
+    reading_list = MediaItem.reading_list
+    high_priority = media_items(:high_priority_article)
+    assert_equal high_priority, reading_list.first
+  end
+
+  test "archive! sets archived to true" do
+    article = media_items(:article_unarchived)
+    assert_not article.archived
+    article.archive!
+    assert article.reload.archived
+  end
+
+  test "unarchive! sets archived to false" do
+    article = media_items(:article_archived)
+    assert article.archived
+    article.unarchive!
+    assert_not article.reload.archived
+  end
+
+  test "article? returns true for HTML mime type" do
+    article = media_items(:article_unarchived)
+    assert article.article?
+
+    video = media_items(:one)
+    assert_not video.article?
   end
 end

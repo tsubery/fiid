@@ -42,3 +42,4 @@ config/credentials.yml.env
 core
 public/media_items/
 .idea
+.claude

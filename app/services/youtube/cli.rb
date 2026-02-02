@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module Youtube
   class CLI
     class << self
@@ -55,7 +57,7 @@ module Youtube
       def cmd(args)
         if Rails.env.test?
           args_hash = Digest::MD5.hexdigest(args)
-          caller_method = caller.first.split(" ").last.gsub(/[^a-z_]/, '')
+          caller_method = caller.first.split(".").last.gsub(/[^a-z_]/, '')
           fixture_file = "test/fixtures/youtube_cli/#{caller_method}-#{args_hash}.json"
           if File.exist?(fixture_file)
             stdout, stderr, status_attrs = JSON.parse(File.read(fixture_file))

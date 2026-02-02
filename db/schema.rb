@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_09_27_165532) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_02_173117) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -64,6 +64,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_09_27_165532) do
     t.string "etag", default: "", null: false
     t.string "last_modified", default: "", null: false
     t.integer "historical_item_count", default: 0, null: false
+    t.integer "priority", default: 100, null: false
+    t.index ["priority"], name: "index_feeds_on_priority"
     t.index ["url"], name: "index_feeds_on_url"
   end
 
@@ -117,6 +119,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_09_27_165532) do
     t.boolean "reachable"
     t.string "guid", null: false
     t.string "sent_to", default: "", null: false
+    t.boolean "archived", default: false, null: false
+    t.index ["archived"], name: "index_media_items_on_archived", where: "(archived = false)"
     t.index ["feed_id", "guid"], name: "index_media_items_on_feed_id_and_guid", unique: true
     t.index ["feed_id"], name: "index_media_items_on_feed_id"
     t.index ["sent_to"], name: "index_media_items_on_sent_to", where: "((sent_to)::text <> ''::text)"

@@ -4,10 +4,22 @@ ActiveAdmin.register Feed do
   preserve_default_filters!
   remove_filter :media_items
 
+  index do
+    selectable_column
+    id_column
+    column :title
+    column :url
+    column :priority
+    column :type
+    column :last_sync
+    actions
+  end
+
   form do |f|
     f.actions
     f.input :url
     f.input :historical_item_count, default: 0
+    f.input :priority, hint: "Lower number = higher priority (0 is highest)"
     f.input :title
     f.input :description
     f.input :thumbnail_url

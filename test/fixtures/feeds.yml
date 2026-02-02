@@ -3,36 +3,50 @@
 one:
   url: https://richarddawkins.substack.com/feed
   type: RssFeed
+  priority: 5
 
 two:
   url: https://www.youtube.com/channel/UCYp-onWoQk6R9kCTij5KkkQ
   type: YoutubeChannelFeed
+  priority: 10
 
 playlist:
   url: https://www.youtube.com/playlist?list=PLp-wXwmbv3z9XdaOhE_ylHMJrybGl2yzq
   type: YoutubePlaylistFeed
   historical_item_count: 100
+  priority: 15
 
 fedguy_channel:
   url: https://www.youtube.com/channel/UCsJxlgjWIOcuEbOJZ591V3Q
   type: YoutubeChannelFeed
   title: Joseph Wang - YouTube
   historical_item_count: 100
+  priority: 20
 
 malformed_channel:
   url: https://www.youtube.com/channel/UC-hKNOj4P-Y8hR9QEHpZPi
   type: YoutubeChannelFeed
+  priority: 25
 
 doomberg:
   url: https://newsletter.doomberg.com/feed
   type: RssFeed
+  priority: 30
 
 spam:
   url: <%= ENV.fetch('SPAM_EMAIL') %>
   type: IncomingEmailFeed
   title: Spam
+  priority: 100
 
 newsletter:
   url: newsletter@example.com
   type: IncomingEmailFeed
   title: Newsletter
+  priority: 35
+
+high_priority_feed:
+  url: https://highpriority.example.com/feed
+  type: RssFeed
+  title: High Priority Feed
+  priority: 0

@@ -10,7 +10,7 @@ one:
   thumbnail_url: https://example.com/thumbnail.jpg
 
 two:
-  title: Libaray2
+  title: Library2
   description: Second Library
   audio: false
   video: true

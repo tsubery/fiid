@@ -15,6 +15,11 @@ class MediaItem < ApplicationRecord
   TEMPORARY_URL = "https://temporary.local".freeze
   VIDEO_MIME_TYPE = "video/mp4"
   AUDIO_MIME_TYPE = "audio/mp4"
+  HTML_MIME_TYPE = "text/html"
+
+  scope :articles, -> { where(mime_type: HTML_MIME_TYPE) }
+  scope :unarchived, -> { where(archived: false) }
+  scope :reading_list, -> { articles.unarchived.joins(:feed).order("feeds.priority ASC, media_items.created_at DESC") }
 
   def self.temporary_url
     [TEMPORARY_URL, SecureRandom.hex].join('/') # Must be unique
@@ -82,6 +87,18 @@ class MediaItem < ApplicationRecord
 
   def video?
     mime_type == VIDEO_MIME_TYPE
+  end
+
+  def article?
+    mime_type == HTML_MIME_TYPE
+  end
+
+  def archive!
+    update!(archived: true)
+  end
+
+  def unarchive!
+    update!(archived: false)
   end
 
   def html?

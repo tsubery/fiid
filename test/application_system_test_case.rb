@@ -7,4 +7,13 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     Capybara.app_host = "http://" + ENV.fetch('HOSTNAME')
     Capybara.server_port = ENV.fetch('HOSTNAME').split(":").second
   end
+
+  def host(subdomain_or_host)
+    if subdomain_or_host.include?(".")
+      Capybara.app_host = "http://#{subdomain_or_host}:#{Capybara.server_port}"
+    else
+      base_host = ENV.fetch('HOSTNAME').split(":").first
+      Capybara.app_host = "http://#{subdomain_or_host}.#{base_host}:#{Capybara.server_port}"
+    end
+  end
 end

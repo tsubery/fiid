@@ -16,7 +16,6 @@ ActiveAdmin.register_page "Reading List" do
       .limit(per_page)
       .pluck(*%i[id
              title
-             description
              feeds.title
              url
              published_at
@@ -26,11 +25,10 @@ ActiveAdmin.register_page "Reading List" do
       .uniq
 
     render json: {
-      items: items.map { |(id, title, description, feed_title, url, published_at, author, sent_to)|
+      items: items.map { |(id, title, feed_title, url, published_at, author, sent_to)|
         {
           id: id,
           title: title,
-          description: description,
           feed_title: feed_title,
           url: url,
           published_at: published_at,
@@ -47,6 +45,8 @@ ActiveAdmin.register_page "Reading List" do
 
   page_action :article, method: :get do
     item = MediaItem.find(params[:id])
+    # Articles are immutable - cache for 1 year
+    response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
     render json: {
       id: item.id,
       title: item.title,

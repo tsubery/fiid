@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!app) return;
 
   const PENDING_ARCHIVES_KEY = "readingList.pendingArchives";
+  const ARTICLES_CACHE_KEY = "readingList.articlesCache";
 
   const ReadingListController = {
     articles: [],
@@ -50,6 +51,40 @@ document.addEventListener("DOMContentLoaded", function () {
     removePendingArchive: function (id) {
       const pending = this.getPendingArchives().filter((i) => i !== id);
       this.savePendingArchives(pending);
+    },
+
+    getCachedArticles: function () {
+      try {
+        return JSON.parse(localStorage.getItem(ARTICLES_CACHE_KEY)) || null;
+      } catch (e) {
+        return null;
+      }
+    },
+
+    cacheArticles: function (data) {
+      try {
+        const maxCacheSize = this.perPage ? parseInt(this.perPage) : 100;
+        const toCache = {
+          ...data,
+          items: data.items.slice(0, maxCacheSize),
+        };
+        localStorage.setItem(ARTICLES_CACHE_KEY, JSON.stringify(toCache));
+      } catch (e) {
+        // localStorage full or unavailable
+      }
+    },
+
+    removeFromCache: function (articleId) {
+      try {
+        const cached = this.getCachedArticles();
+        if (cached && cached.items) {
+          cached.items = cached.items.filter((item) => item.id !== articleId);
+          cached.total = Math.max(0, cached.total - 1);
+          this.cacheArticles(cached);
+        }
+      } catch (e) {
+        // ignore
+      }
     },
 
     syncPendingArchives: function () {
@@ -104,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const archiveIcon = e.target.closest(".sidebar-archive");
         if (archiveIcon) {
-          const index = parseInt(archiveIcon.dataset.index, 10);
+          const index = parseInt(archiveIcon.dataset.index);
           if (!isNaN(index)) {
             self.archiveAtIndex(index);
           }
@@ -113,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const sidebarItem = e.target.closest(".sidebar-item");
         if (sidebarItem) {
-          const index = parseInt(sidebarItem.dataset.index, 10);
+          const index = parseInt(sidebarItem.dataset.index);
           if (!isNaN(index)) {
             self.currentIndex = index;
             self.renderArticle(index);
@@ -191,38 +226,75 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((response) => response.json())
         .then((data) => {
           this.loading = false;
-          this.currentPage = data.page;
-          this.hasMore = data.has_more;
-
-          const pending = this.getPendingArchives();
-          const filteredItems = data.items.filter(
-            (item) => !pending.includes(item.id),
-          );
-          this.total = data.total - pending.length;
-
+          this.processArticlesData(data, page);
+          // Cache first page for offline use
           if (page === 1) {
-            this.articles = filteredItems;
-            this.currentIndex = 0;
-          } else {
-            this.articles = this.articles.concat(filteredItems);
+            this.cacheArticles(data);
           }
-
-          if (this.articles.length === 0) {
-            document.getElementById("reading-list-content").innerHTML =
-              "<p>No articles to read.</p>";
-            this.renderSidebar();
-            return;
-          }
-
-          this.renderSidebar();
-          this.renderArticle(this.currentIndex);
         })
         .catch((error) => {
           this.loading = false;
           console.error("Error fetching articles:", error);
+
+          // Try to load from cache when offline
+          if (page === 1) {
+            const cached = this.getCachedArticles();
+            if (cached) {
+              console.log("Loading from cache");
+              this.processArticlesData(cached, page);
+              return;
+            }
+          }
+
           document.getElementById("reading-list-content").innerHTML =
-            "<p>Error loading articles.</p>";
+            "<p>Error loading articles. You appear to be offline.</p>";
         });
+    },
+
+    processArticlesData: function (data, page) {
+      this.currentPage = data.page;
+      this.hasMore = data.has_more;
+
+      const pending = this.getPendingArchives();
+      const filteredItems = data.items.filter(
+        (item) => !pending.includes(item.id),
+      );
+      this.total = data.total - pending.length;
+
+      if (page === 1) {
+        this.articles = filteredItems;
+        this.currentIndex = 0;
+      } else {
+        this.articles = this.articles.concat(filteredItems);
+      }
+
+      if (this.articles.length === 0) {
+        document.getElementById("reading-list-content").innerHTML =
+          "<p>No articles to read.</p>";
+        this.renderSidebar();
+        return;
+      }
+
+      // Prefetch descriptions for all new articles
+      this.prefetchDescriptions(filteredItems);
+
+      this.renderSidebar();
+      this.renderArticle(this.currentIndex);
+    },
+
+    prefetchDescriptions: function (articles) {
+      articles.forEach((article) => {
+        if (article.description === undefined) {
+          fetch("/admin/reading_list/article?id=" + article.id)
+            .then((response) => response.json())
+            .then((data) => {
+              article.description = data.description;
+            })
+            .catch((e) => {
+              console.error("Error prefetching article:", e);
+            });
+        }
+      });
     },
 
     renderSidebar: function () {
@@ -246,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .join("");
     },
 
-    renderArticle: function (index) {
+    renderArticle: async function (index) {
       if (index < 0 || index >= this.articles.length) return;
 
       const data = this.articles[index];
@@ -254,6 +326,7 @@ document.addEventListener("DOMContentLoaded", function () {
         data.title || "Untitled";
 
       const contentDiv = document.getElementById("reading-list-content");
+      contentDiv.scrollTop = 0;
       const useDescription = data.sent_to != "" || this.isInternalUrl(data.url);
 
       const header = `
@@ -268,6 +341,21 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
 
       if (useDescription) {
+        // Fetch description if not already loaded
+        if (data.description === undefined) {
+          contentDiv.innerHTML = header + "<p>Loading...</p>";
+          try {
+            const response = await fetch(
+              "/admin/reading_list/article?id=" + data.id,
+            );
+            const fullData = await response.json();
+            data.description = fullData.description;
+          } catch (e) {
+            console.error("Error fetching article:", e);
+            data.description = "<p>Failed to load article content.</p>";
+          }
+        }
+
         const sanitizedDescription =
           typeof DOMPurify !== "undefined"
             ? DOMPurify.sanitize(data.description || "")
@@ -334,6 +422,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Immediately update UI
       this.addPendingArchive(article.id);
+      this.removeFromCache(article.id);
       this.articles.splice(index, 1);
       this.total--;
 
@@ -374,6 +463,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Immediately update UI
       this.addPendingArchive(article.id);
+      this.removeFromCache(article.id);
       this.articles.splice(this.currentIndex, 1);
       this.total--;
 

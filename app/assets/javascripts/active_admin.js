@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     days: null,
     perPage: null,
     syncing: false,
+    sidebarCollapsed: false,
 
     init: function () {
       const urlParams = new URLSearchParams(window.location.search);
@@ -87,7 +88,9 @@ document.addEventListener("DOMContentLoaded", function () {
       app.addEventListener("click", function (e) {
         const button = e.target.closest("button");
         if (button) {
-          if (button.id === "prev-btn") {
+          if (button.id === "sidebar-toggle") {
+            self.toggleSidebar();
+          } else if (button.id === "prev-btn") {
             self.prev();
           } else if (button.id === "next-btn") {
             self.next();
@@ -232,9 +235,9 @@ document.addEventListener("DOMContentLoaded", function () {
         .map(
           (article, index) => `
           <div class="sidebar-item" data-index="${index}" style="padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #ddd; position: relative; ${index === this.currentIndex ? "background: #fff; font-weight: bold;" : ""}" onmouseover="this.style.background='#eee'" onmouseout="this.style.background='${index === this.currentIndex ? "#fff" : "transparent"}'">
-            <div style="font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; pointer-events: none;">${this.escapeHtml(article.title || "Untitled").replace(article.feed_title + " - ", "")}</div>
+            <div style="font-size: 13px; white-space: nowrap; pointer-events: none;">${this.escapeHtml(article.title || "Untitled").replace(article.feed_title + " - ", "")}</div>
             <div style="font-size: 11px; color: #888; margin-top: 3px; pointer-events: none;">${this.escapeHtml(article.feed_title || "")}</div>
-            <span class="sidebar-archive" data-index="${index}" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 24px; padding: 2px;" title="Archive">📁</span>
+            <span class="sidebar-archive" data-index="${index}" style="position: absolute; right: 10px; top: 75%; transform: translateY(-50%); cursor: pointer; font-size: 24px; padding: 2px;" title="Archive">📁</span>
           </div>
         `,
         )
@@ -253,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const header = `
         <div style="margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
-          <h1 style="margin: 0 0 10px 0;"><a href="${this.escapeHtml(data.url)}" target="_blank" style="color: inherit; text-decoration: none;">${this.escapeHtml(data.title)}</a></h1>
+          <h1 style="margin: 0 0 10px 0;"><a href="${this.escapeHtml(data.url)}" target="_blank" rel="noopener noreferrer" style="color: inherit;">${this.escapeHtml(data.title)}</a></h1>
           <div style="color: #666; font-size: 14px;">
             ${data.feed_title ? "<span>" + this.escapeHtml(data.feed_title) + "</span> | " : ""}
             ${data.author ? "<span>" + this.escapeHtml(data.author) + "</span> | " : ""}
@@ -270,6 +273,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         contentDiv.innerHTML =
           header + `<div class="article-body">${sanitizedDescription}</div>`;
+
+        contentDiv.querySelectorAll(".article-body a").forEach((link) => {
+          link.setAttribute("target", "_blank");
+          link.setAttribute("rel", "noopener noreferrer");
+        });
       } else {
         contentDiv.innerHTML =
           header +
@@ -281,6 +289,20 @@ document.addEventListener("DOMContentLoaded", function () {
       // Prefetch next page if we're near the end
       if (this.hasMore && index >= this.articles.length - 10) {
         this.fetchArticles(this.currentPage + 1);
+      }
+    },
+
+    toggleSidebar: function () {
+      this.sidebarCollapsed = !this.sidebarCollapsed;
+      const sidebar = document.getElementById("reading-list-sidebar");
+      const content = document.getElementById("reading-list-content");
+
+      if (this.sidebarCollapsed) {
+        sidebar.style.display = "none";
+        content.style.marginLeft = "20px";
+      } else {
+        sidebar.style.display = "block";
+        content.style.marginLeft = "270px";
       }
     },
 

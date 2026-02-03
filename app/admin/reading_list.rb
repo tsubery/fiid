@@ -77,6 +77,7 @@ ActiveAdmin.register_page "Reading List" do
 
     div id: "reading-list-app", data: { days: days, per_page: per_page } do
       div id: "reading-list-toolbar", style: "position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: #fff; border-bottom: 1px solid #ccc; padding: 10px 20px; display: flex; align-items: center;" do
+        button "☰", id: "sidebar-toggle", style: "padding: 6px 12px; cursor: pointer; font-size: 16px; margin-right: 10px;"
         button "Prev", id: "prev-btn", style: "padding: 6px 32px; cursor: pointer; font-size: 14px;"
         button "Archive", id: "archive-btn", style: "padding: 6px 64px; cursor: pointer; background: #dc3545; color: white; border: none; border-radius: 4px; font-size: 14px; margin: 0 auto;"
         button "Next", id: "next-btn", style: "padding: 6px 32px; cursor: pointer; font-size: 14px;"

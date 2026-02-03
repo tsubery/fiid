@@ -1,0 +1,7 @@
+# Join table for libraries <-> media_items HABTM association
+
+article_two_in_library_one:
+  library_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
+  media_item_id: <%= ActiveRecord::FixtureSet.identify(:two) %>
+  created_at: <%= Time.now.utc %>
+  updated_at: <%= Time.now.utc %>

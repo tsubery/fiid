@@ -4,6 +4,8 @@ class CacheVideoJob < ApplicationJob
   TWO_DAYS = 2 * 24 * 60 * 60
   def perform(media_item_id)
     video = MediaItem.find(media_item_id)
+    return unless video
+
     video.transaction do
       video.lock!
       video.cache_video

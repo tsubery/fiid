@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :media_items, only: [] do
     get '/video', action: "video"
     get '/audio', action: "audio"
-    get '/article', action: "article"
+    #get '/article', action: "article"
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

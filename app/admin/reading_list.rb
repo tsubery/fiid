@@ -6,23 +6,36 @@ ActiveAdmin.register_page "Reading List" do
     per_page = (params[:per_page] || 20).to_i
     days = params[:days].present? ? params[:days].to_i : nil
 
-    base_query = MediaItem.reading_list
+    base_query = InstapaperLibrary.first().media_items.reading_list
     base_query = base_query.where("media_items.created_at >= ?", days.days.ago) if days
-
-    items = base_query.offset((page - 1) * per_page).limit(per_page)
+    base_query = base_query
     total = base_query.count
 
+    items = base_query
+      .offset((page - 1) * per_page)
+      .limit(per_page)
+      .pluck(*%i[id
+             title
+             description
+             feeds.title
+             url
+             published_at
+             author
+             sent_to
+             ])
+      .uniq
+
     render json: {
-      items: items.map { |item|
+      items: items.map { |(id, title, description, feed_title, url, published_at, author, sent_to)|
         {
-          id: item.id,
-          title: item.title,
-          description: item.description,
-          feed_title: item.feed&.title,
-          url: item.url,
-          published_at: item.published_at,
-          author: item.author,
-          sent_to: item.sent_to
+          id: id,
+          title: title,
+          description: description,
+          feed_title: feed_title,
+          url: url,
+          published_at: published_at,
+          author: author,
+          sent_to: sent_to
         }
       },
       page: page,

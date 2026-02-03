@@ -1,8 +1,12 @@
 require "test_helper"
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    host! "admin.example.com"
+  end
+
   test "should get new form" do
-    get login_url(subdomain: :admin)
+    get login_url
     assert_response :success
   end
 

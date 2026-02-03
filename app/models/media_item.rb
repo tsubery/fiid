@@ -19,7 +19,7 @@ class MediaItem < ApplicationRecord
 
   scope :articles, -> { where(mime_type: HTML_MIME_TYPE) }
   scope :unarchived, -> { where(archived: false) }
-  scope :reading_list, -> { articles.unarchived.joins(:feed).order("feeds.priority ASC, media_items.created_at DESC") }
+  scope :reading_list, -> { articles.unarchived.joins(:feed, :libraries).order("feeds.priority ASC, media_items.created_at DESC") }
 
   def self.temporary_url
     [TEMPORARY_URL, SecureRandom.hex].join('/') # Must be unique
@@ -79,8 +79,8 @@ class MediaItem < ApplicationRecord
         self.thumbnail_url = info["thumbnails"]&.last&.fetch("url", "") || ''
       end
       if changed?
-        CacheVideoJob.perform_later(self.id)
         save!
+        CacheVideoJob.perform_later(self.id)
       end
     end
   end

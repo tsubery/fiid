@@ -11,6 +11,7 @@ module Fiid
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
     config.active_record.automatically_invert_plural_associations = true
+    config.active_support.to_time_preserves_timezone = :zone
 
     config.action_mailbox.ingress = :sendgrid
 

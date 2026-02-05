@@ -96,29 +96,32 @@ class LibrariesControllerTest < ActionDispatch::IntegrationTest
     library.media_items.clear
     library.update!(audio: true, episode_count: 2)
 
-    5.times do |i|
-      item = MediaItem.create!(
-        url: "http://test.local/episode-#{i}",
-        guid: "http://test.local/episode-#{i}",
-        title: "Episode Number #{i}",
-        description: "Description #{i}",
-        author: "Author",
-        thumbnail_url: "http://test.local/thumb.jpg",
-        duration_seconds: 300,
-        updated_at: Time.current - i.days,
-        feed: feeds(:one),
-        reachable: true
-      )
-      library.media_items << item
+    base_time = Time.utc(2024, 1, 15, 12, 0, 0)
+    travel_to base_time do
+      5.times do |i|
+        item = MediaItem.create!(
+          url: "http://test.local/episode-#{i}",
+          guid: "http://test.local/episode-#{i}",
+          title: "Episode Number #{i}",
+          description: "Description #{i}",
+          author: "Author",
+          thumbnail_url: "http://test.local/thumb.jpg",
+          duration_seconds: 300,
+          updated_at: base_time - i.hours,
+          feed: feeds(:one),
+          reachable: true
+        )
+        library.media_items << item
+      end
+
+      get "/podcasts/#{library.id}"
+
+      assert_response :success
+      # Should only have the 2 most recent episodes
+      assert_includes response.body, "Episode Number 0"
+      assert_includes response.body, "Episode Number 1"
+      assert_not_includes response.body, "Episode Number 2"
     end
-
-    get "/podcasts/#{library.id}"
-
-    assert_response :success
-    # Should only have the 2 most recent episodes
-    assert_includes response.body, "Episode Number 0"
-    assert_includes response.body, "Episode Number 1"
-    assert_not_includes response.body, "Episode Number 2"
   end
 
   test "podcast uses request URL as link" do

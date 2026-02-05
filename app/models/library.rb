@@ -55,6 +55,10 @@ class Library < ApplicationRecord
                 media_item.fill_missing_details
                 next unless media_item.has_all_details?
                 next unless media_item.duration_seconds >= MIN_DURATION_SECONDS
+                if media_item.updated_at > 1.day.ago && !media_item.video_cached?
+                  CacheVideoJob.perform_later(media_item.id)
+                  next
+                end
 
                 guid = media_item.url
                 item.link(media_item_link)

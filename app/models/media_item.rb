@@ -169,7 +169,15 @@ class MediaItem < ApplicationRecord
 
   def cache_video
     return unless video?
-    cache_path = "public/media_items/#{id}/video"
-    File.exist?(cache_path) || system("/home/ubuntu/dl.sh '#{url}' '#{cache_path}'")
+    return if video_cached?
+    system("/home/ubuntu/dl.sh '#{url}' '#{video_cache_file_path}'")
+  end
+
+  def video_cached?
+    video? && File.exist?(video_cache_file_path)
+  end
+
+  def video_cache_file_path
+    "public/media_items/#{id}/video"
   end
 end

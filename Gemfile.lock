@@ -360,18 +360,6 @@ GEM
     stringio (3.1.5)
     sucker_punch (3.2.0)
       concurrent-ruby (~> 1.0)
-    tailwindcss-rails (2.7.9)
-      railties (>= 7.0.0)
-    tailwindcss-rails (2.7.9-aarch64-linux)
-      railties (>= 7.0.0)
-    tailwindcss-rails (2.7.9-arm-linux)
-      railties (>= 7.0.0)
-    tailwindcss-rails (2.7.9-arm64-darwin)
-      railties (>= 7.0.0)
-    tailwindcss-rails (2.7.9-x86_64-darwin)
-      railties (>= 7.0.0)
-    tailwindcss-rails (2.7.9-x86_64-linux)
-      railties (>= 7.0.0)
     thor (1.4.0)
     tilt (2.6.0)
     timeout (0.4.3)
@@ -443,7 +431,6 @@ DEPENDENCIES
   sprockets-rails
   stimulus-rails
   sucker_punch (~> 3.0)
-  tailwindcss-rails (~> 2.6)
   turbo-rails
   typhoeus
   tzinfo-data

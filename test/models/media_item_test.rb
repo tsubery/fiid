@@ -138,4 +138,32 @@ class MediaItemTest < ActiveSupport::TestCase
     video = media_items(:one)
     assert_not video.article?
   end
+
+  test "video_cache_file_path returns correct path" do
+    video = media_items(:one)
+    assert_equal "public/media_items/#{video.id}/video", video.video_cache_file_path
+  end
+
+  test "video_cached? returns false when cache file does not exist" do
+    video = media_items(:one)
+    assert video.video?
+    assert_not video.video_cached?
+  end
+
+  test "video_cached? returns true when cache file exists" do
+    video = media_items(:one)
+    cache_path = video.video_cache_file_path
+    FileUtils.mkdir_p(File.dirname(cache_path))
+    FileUtils.touch(cache_path)
+
+    assert video.video_cached?
+  ensure
+    FileUtils.rm_rf(File.dirname(cache_path))
+  end
+
+  test "video_cached? returns false for non-video items" do
+    article = media_items(:article_unarchived)
+    assert_not article.video?
+    assert_not article.video_cached?
+  end
 end

@@ -1,6 +1,7 @@
 require "test_helper"
 
 class LibraryTest < ActiveSupport::TestCase
+  include ActiveJob::TestHelper
   # Validations
   test "validates episode_count is greater than or equal to zero" do
     library = libraries(:one)
@@ -171,36 +172,39 @@ class LibraryTest < ActiveSupport::TestCase
     library = libraries(:one)
     library.update!(audio: true, video: false, episode_count: 2)
 
-    items = 5.times.map do |i|
-      MediaItem.create!(
-        url: "http://test.local/video#{i}",
-        guid: "http://test.local/video#{i}",
-        title: "Video #{i}",
-        description: "Description #{i}",
-        author: "Author",
-        thumbnail_url: "http://test.local/thumb.jpg",
-        duration_seconds: 300,
-        updated_at: Time.current - i.days,
-        feed: feeds(:one),
-        reachable: true
-      )
+    base_time = Time.utc(2024, 1, 15, 12, 0, 0)
+    travel_to base_time do
+      items = 5.times.map do |i|
+        MediaItem.create!(
+          url: "http://test.local/video#{i}",
+          guid: "http://test.local/video#{i}",
+          title: "Video #{i}",
+          description: "Description #{i}",
+          author: "Author",
+          thumbnail_url: "http://test.local/thumb.jpg",
+          duration_seconds: 300,
+          updated_at: base_time - i.hours,
+          feed: feeds(:one),
+          reachable: true
+        )
+      end
+
+      library.media_items = items
+
+      link = "https://test.local/mypodcast"
+      podcast_xml = library.generate_podcast(
+        link,
+        audio_url: ->(id) { "audio://#{id}" },
+        video_url: ->(id) { "video://#{id}" }
+      ).to_xml
+
+      # Should only include the 2 most recent items (episode_count: 2)
+      assert_includes podcast_xml, "Video 0"
+      assert_includes podcast_xml, "Video 1"
+      assert_not_includes podcast_xml, "Video 2"
+      assert_not_includes podcast_xml, "Video 3"
+      assert_not_includes podcast_xml, "Video 4"
     end
-
-    library.media_items = items
-
-    link = "https://test.local/mypodcast"
-    podcast_xml = library.generate_podcast(
-      link,
-      audio_url: ->(id) { "audio://#{id}" },
-      video_url: ->(id) { "video://#{id}" }
-    ).to_xml
-
-    # Should only include the 2 most recent items (episode_count: 2)
-    assert_includes podcast_xml, "Video 0"
-    assert_includes podcast_xml, "Video 1"
-    assert_not_includes podcast_xml, "Video 2"
-    assert_not_includes podcast_xml, "Video 3"
-    assert_not_includes podcast_xml, "Video 4"
   end
 
   test "generates both audio and video items when both enabled" do
@@ -229,6 +233,111 @@ class LibraryTest < ActiveSupport::TestCase
 
     assert_includes podcast_xml, "audio://#{media_item.id}"
     assert_includes podcast_xml, "video://#{media_item.id}"
+  end
+
+  test "includes recent uncached videos" do
+    library = libraries(:one)
+    library.update!(audio: true, video: false)
+
+    base_time = Time.utc(2024, 1, 15, 12, 0, 0)
+    travel_to base_time do
+      media_item = MediaItem.create!(
+        url: "http://test.local/recent-video",
+        guid: "http://test.local/recent-video",
+        title: "Recent Uncached Video",
+        description: "Should appear because it is recent",
+        author: "Author",
+        thumbnail_url: "http://test.local/thumb.jpg",
+        duration_seconds: 300,
+        updated_at: base_time - 12.hours,
+        feed: feeds(:one),
+        reachable: true
+      )
+      library.media_items = [media_item]
+
+      link = "https://test.local/mypodcast"
+      podcast_xml = library.generate_podcast(
+        link,
+        audio_url: ->(id) { "audio://#{id}" },
+        video_url: ->(id) { "video://#{id}" }
+      ).to_xml
+
+      assert_includes podcast_xml, "Recent Uncached Video"
+    end
+  end
+
+  test "includes old cached videos" do
+    library = libraries(:one)
+    library.update!(audio: true, video: false)
+
+    base_time = Time.utc(2024, 1, 15, 12, 0, 0)
+    travel_to base_time do
+      media_item = MediaItem.create!(
+        url: "http://test.local/old-cached-video",
+        guid: "http://test.local/old-cached-video",
+        title: "Old Cached Video",
+        description: "Should appear because it is cached",
+        author: "Author",
+        thumbnail_url: "http://test.local/thumb.jpg",
+        duration_seconds: 300,
+        updated_at: base_time - 3.days,
+        mime_type: MediaItem::VIDEO_MIME_TYPE,
+        feed: feeds(:one),
+        reachable: true
+      )
+      library.media_items = [media_item]
+
+      # Create cache file
+      cache_path = media_item.video_cache_file_path
+      FileUtils.mkdir_p(File.dirname(cache_path))
+      FileUtils.touch(cache_path)
+
+      link = "https://test.local/mypodcast"
+      podcast_xml = library.generate_podcast(
+        link,
+        audio_url: ->(id) { "audio://#{id}" },
+        video_url: ->(id) { "video://#{id}" }
+      ).to_xml
+
+      assert_includes podcast_xml, "Old Cached Video"
+    ensure
+      FileUtils.rm_rf(File.dirname(cache_path))
+    end
+  end
+
+  test "excludes old uncached videos and enqueues cache job" do
+    library = libraries(:one)
+    library.update!(audio: true, video: false)
+
+    base_time = Time.utc(2024, 1, 15, 12, 0, 0)
+    travel_to base_time do
+      media_item = MediaItem.create!(
+        url: "http://test.local/old-uncached-video",
+        guid: "http://test.local/old-uncached-video",
+        title: "Old Uncached Video",
+        description: "Should not appear because it is old and not cached",
+        author: "Author",
+        thumbnail_url: "http://test.local/thumb.jpg",
+        duration_seconds: 300,
+        updated_at: base_time - 3.days,
+        mime_type: MediaItem::VIDEO_MIME_TYPE,
+        feed: feeds(:one),
+        reachable: true
+      )
+      library.media_items = [media_item]
+
+      link = "https://test.local/mypodcast"
+
+      assert_enqueued_with(job: CacheVideoJob, args: [media_item.id]) do
+        podcast_xml = library.generate_podcast(
+          link,
+          audio_url: ->(id) { "audio://#{id}" },
+          video_url: ->(id) { "video://#{id}" }
+        ).to_xml
+
+        assert_not_includes podcast_xml, "Old Uncached Video"
+      end
+    end
   end
 
   test "excludes items with nil duration_seconds due to has_all_details check" do

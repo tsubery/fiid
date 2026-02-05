@@ -308,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
       sidebar.innerHTML = this.articles
         .map(
           (article, index) => `
-          <div class="sidebar-item" data-index="${index}" style="padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #ddd; position: relative; ${index === this.currentIndex ? "background: #fff; font-weight: bold;" : ""}" onmouseover="this.style.background='#eee'" onmouseout="this.style.background='${index === this.currentIndex ? "#fff" : "transparent"}'">
+          <div class="sidebar-item" data-index="${index}" style="padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #ddd; position: relative; background: ${index === this.currentIndex ? "#ddd; font-weight: bold;" : "#fff"}" onmouseover="this.style.background='#ccc'" onmouseout="this.style.background='${index === this.currentIndex ? "#ddd" : "#fff"}'">
             <div style="font-size: 13px; white-space: nowrap; pointer-events: none;">${this.escapeHtml(article.title || "Untitled").replace(article.feed_title + " - ", "")}</div>
             <div style="font-size: 11px; color: #888; margin-top: 3px; pointer-events: none;">${this.escapeHtml(article.feed_title || "")}</div>
             <span class="sidebar-archive" data-index="${index}" style="position: absolute; right: 10px; top: 75%; transform: translateY(-50%); cursor: pointer; font-size: 24px; padding: 2px;" title="Archive">📁</span>
@@ -326,7 +326,6 @@ document.addEventListener("DOMContentLoaded", function () {
         data.title || "Untitled";
 
       const contentDiv = document.getElementById("reading-list-content");
-      contentDiv.scrollTop = 0;
       const useDescription = data.sent_to != "" || this.isInternalUrl(data.url);
 
       const header = `
@@ -363,6 +362,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         contentDiv.innerHTML =
           header + `<div class="article-body">${sanitizedDescription}</div>`;
+        contentDiv.scrollTop = 0;
 
         contentDiv.querySelectorAll(".article-body a").forEach((link) => {
           link.setAttribute("target", "_blank");
@@ -374,6 +374,7 @@ document.addEventListener("DOMContentLoaded", function () {
           `
           <iframe src="${this.escapeHtml(data.url)}" style="width: 100%; height: calc(100vh - 150px); border: none;"></iframe>
         `;
+        contentDiv.scrollTop = 0;
       }
 
       // Prefetch next page if we're near the end

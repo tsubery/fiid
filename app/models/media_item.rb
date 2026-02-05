@@ -10,7 +10,7 @@ class MediaItem < ApplicationRecord
   before_validation :fill_missing_details
   after_save :replace_temporary_url
   before_save :embed_images_and_resolve_links
-  after_save :cache_article
+  # after_save :cache_article
 
   TEMPORARY_URL = "https://temporary.local".freeze
   VIDEO_MIME_TYPE = "video/mp4"
@@ -152,20 +152,20 @@ class MediaItem < ApplicationRecord
     end
   end
 
-  def cache_article
-    return unless html?
+  # def cache_article
+  #   return unless html?
 
-    dir = "public/media_items/#{id}"
-    FileUtils.mkdir_p(dir)
-    html = ApplicationController.render(
-      template: 'media_items/article',
-      assigns: { media_item: self },
-      layout: false
-    )
-    Zlib::GzipWriter.open("#{dir}/article.html.gz") do |gz|
-      gz.write html
-    end
-  end
+  #   dir = "public/media_items/#{id}"
+  #   FileUtils.mkdir_p(dir)
+  #   html = ApplicationController.render(
+  #     template: 'media_items/article',
+  #     assigns: { media_item: self },
+  #     layout: false
+  #   )
+  #   Zlib::GzipWriter.open("#{dir}/article.html.gz") do |gz|
+  #     gz.write html
+  #   end
+  # end
 
   def cache_video
     return unless video?

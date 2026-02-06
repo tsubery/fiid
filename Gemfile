@@ -84,3 +84,4 @@ gem 'sass-rails' # required for activeadmin
 gem "validate_url"
 gem 'rollbar'
 gem 'ostruct'
+gem 'webauthn'

@@ -15,8 +15,12 @@ class ApplicationController < ActionController::Base
   end
 
   def require_admin
-    unless secret_token_equal?(cookies[:secret_key])
+    unless authenticated?
       redirect_to login_url, allow_other_host: true
     end
+  end
+
+  def authenticated?
+    secret_token_equal?(cookies[:secret_key]) || session[:authenticated] == true
   end
 end

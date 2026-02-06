@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_02_173117) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_06_222702) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -124,6 +124,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_02_173117) do
     t.index ["feed_id", "guid"], name: "index_media_items_on_feed_id_and_guid", unique: true
     t.index ["feed_id"], name: "index_media_items_on_feed_id"
     t.index ["sent_to"], name: "index_media_items_on_sent_to", where: "((sent_to)::text <> ''::text)"
+  end
+
+  create_table "passkeys", force: :cascade do |t|
+    t.string "label", null: false
+    t.string "external_id", null: false
+    t.string "public_key", null: false
+    t.bigint "sign_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_passkeys_on_external_id", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

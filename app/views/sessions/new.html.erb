@@ -4,6 +4,15 @@
       <h2><%= msg %></h2>
     </div>
   <% end %>
+
+  <div id="passkey-login" style="margin-bottom: 2em;">
+    <button id="passkey-btn" type="button" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
+      Sign in with Passkey
+    </button>
+    <p id="passkey-error" style="color: red; display: none;"></p>
+  </div>
+  <hr style="margin-bottom: 2em;">
+
 <%= form_with url: login_path do |f| %>
   <p>
   <div>
@@ -13,3 +22,100 @@
     <%= f.submit 'Login' %>
   </p>
 <% end %>
+
+<script>
+  function bufferToBase64url(buffer) {
+    const bytes = new Uint8Array(buffer);
+    let str = '';
+    for (const b of bytes) str += String.fromCharCode(b);
+    return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+
+  function base64urlToBuffer(base64url) {
+    const base64 = base64url.replace(/-/g, '+').replace(/_/g, '/');
+    const pad = base64.length % 4;
+    const padded = pad ? base64 + '='.repeat(4 - pad) : base64;
+    const binary = atob(padded);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return bytes.buffer;
+  }
+
+  document.getElementById('passkey-btn').addEventListener('click', async function() {
+    const errorEl = document.getElementById('passkey-error');
+    errorEl.style.display = 'none';
+    console.log('[Passkey Auth] Starting authentication...');
+
+    try {
+      console.log('[Passkey Auth] Fetching authenticate_options...');
+      const optionsResp = await fetch('/passkeys/authenticate_options', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      console.log('[Passkey Auth] Response status:', optionsResp.status);
+
+      if (!optionsResp.ok) {
+        const errText = await optionsResp.text();
+        console.error('[Passkey Auth] Server error:', optionsResp.status, errText);
+        throw new Error('Server returned ' + optionsResp.status);
+      }
+
+      const options = await optionsResp.json();
+      console.log('[Passkey Auth] Received options:', JSON.stringify(options, null, 2));
+      console.log('[Passkey Auth] challenge type:', typeof options.challenge, 'value:', options.challenge);
+      console.log('[Passkey Auth] allowCredentials:', options.allowCredentials);
+
+      options.challenge = base64urlToBuffer(options.challenge);
+      if (options.allowCredentials) {
+        options.allowCredentials = options.allowCredentials.map(function(c) {
+          console.log('[Passkey Auth] credential id type:', typeof c.id, 'value:', c.id);
+          return { id: base64urlToBuffer(c.id) };
+        });
+      }
+
+      console.log('[Passkey Auth] Calling navigator.credentials.get()...');
+      const credential = await navigator.credentials.get({ publicKey: options });
+      console.log('[Passkey Auth] Got credential:', credential.id);
+
+      const payload = {
+        credential: {
+          id: credential.id,
+          rawId: bufferToBase64url(credential.rawId),
+          type: credential.type,
+          response: {
+            clientDataJSON: bufferToBase64url(credential.response.clientDataJSON),
+            authenticatorData: bufferToBase64url(credential.response.authenticatorData),
+            signature: bufferToBase64url(credential.response.signature),
+            userHandle: credential.response.userHandle ? bufferToBase64url(credential.response.userHandle) : null
+          }
+        }
+      };
+      console.log('[Passkey Auth] Sending to /passkeys/authenticate:', JSON.stringify(payload, null, 2));
+
+      const authResp = await fetch('/passkeys/authenticate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      console.log('[Passkey Auth] authenticate response status:', authResp.status);
+
+      const result = await authResp.json();
+      console.log('[Passkey Auth] authenticate result:', JSON.stringify(result));
+
+      if (result.status === 'ok') {
+        console.log('[Passkey Auth] Success! Redirecting...');
+        window.location.href = '<%= admin_dashboard_path %>';
+      } else {
+        console.error('[Passkey Auth] Failed:', result.error);
+        errorEl.textContent = result.error || 'Authentication failed';
+        errorEl.style.display = 'block';
+      }
+    } catch (e) {
+      console.error('[Passkey Auth] Error:', e.name, e.message);
+      if (e.stack) console.error('[Passkey Auth] Stack:', e.stack);
+      errorEl.textContent = e.message || 'Passkey authentication failed';
+      errorEl.style.display = 'block';
+    }
+  });
+  console.log('[Passkey Auth] Script loaded');
+</script>

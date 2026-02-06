@@ -3,7 +3,14 @@ Rails.application.routes.draw do
     ActiveAdmin.routes(self)
     get "/login", to: "sessions#new" # , constraints: { subdomain: :admin }
     post "/login", to: "sessions#create" # , constraints: { subdomain: :admin }
+
+    post "/passkeys/create_options", to: "passkeys#create_options"
+    post "/passkeys/create", to: "passkeys#create"
+    delete "/passkeys/:id", to: "passkeys#destroy", as: :passkey
   end
+
+  post "/passkeys/authenticate_options", to: "passkeys#authenticate_options"
+  post "/passkeys/authenticate", to: "passkeys#authenticate"
 
   get "podcasts/:id", to: "libraries#podcast", as: :podcasts
   resources :media_items, only: [] do

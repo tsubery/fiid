@@ -13,9 +13,6 @@ gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 
-# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails"
-
 gem 'sucker_punch', '~> 3.0'
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"

@@ -47,48 +47,56 @@ class LibrariesControllerTest < ActionDispatch::IntegrationTest
     library = libraries(:one)
     library.media_items.clear
 
-    media_item = MediaItem.create!(
-      url: "http://test.local/podcast-episode",
-      guid: "http://test.local/podcast-episode",
-      title: "Test Episode Title",
-      description: "Test episode description",
-      author: "Test Author",
-      thumbnail_url: "http://test.local/thumb.jpg",
-      duration_seconds: 300,
-      feed: feeds(:one),
-      reachable: true
-    )
-    library.media_items << media_item
-    library.update!(audio: true)
+    base_time = Time.utc(2024, 1, 15, 12, 0, 0)
+    travel_to base_time do
+      media_item = MediaItem.create!(
+        url: "http://test.local/podcast-episode",
+        guid: "http://test.local/podcast-episode",
+        title: "Test Episode Title",
+        description: "Test episode description",
+        author: "Test Author",
+        thumbnail_url: "http://test.local/thumb.jpg",
+        duration_seconds: 300,
+        updated_at: base_time - 2.days,
+        feed: feeds(:one),
+        reachable: true
+      )
+      library.media_items << media_item
+      library.update!(audio: true)
 
-    get "/podcasts/#{library.id}"
+      get "/podcasts/#{library.id}"
 
-    assert_response :success
-    assert_includes response.body, "Test Episode Title"
+      assert_response :success
+      assert_includes response.body, "Test Episode Title"
+    end
   end
 
   test "podcast excludes media items with short duration" do
     library = libraries(:one)
     library.media_items.clear
 
-    short_item = MediaItem.create!(
-      url: "http://test.local/short-episode",
-      guid: "http://test.local/short-episode",
-      title: "Short Episode Should Not Appear",
-      description: "Too short",
-      author: "Author",
-      thumbnail_url: "http://test.local/thumb.jpg",
-      duration_seconds: 60,
-      feed: feeds(:one),
-      reachable: true
-    )
-    library.media_items << short_item
-    library.update!(audio: true)
+    base_time = Time.utc(2024, 1, 15, 12, 0, 0)
+    travel_to base_time do
+      short_item = MediaItem.create!(
+        url: "http://test.local/short-episode",
+        guid: "http://test.local/short-episode",
+        title: "Short Episode Should Not Appear",
+        description: "Too short",
+        author: "Author",
+        thumbnail_url: "http://test.local/thumb.jpg",
+        duration_seconds: 60,
+        updated_at: base_time - 2.days,
+        feed: feeds(:one),
+        reachable: true
+      )
+      library.media_items << short_item
+      library.update!(audio: true)
 
-    get "/podcasts/#{library.id}"
+      get "/podcasts/#{library.id}"
 
-    assert_response :success
-    assert_not_includes response.body, "Short Episode Should Not Appear"
+      assert_response :success
+      assert_not_includes response.body, "Short Episode Should Not Appear"
+    end
   end
 
   test "podcast respects episode_count limit" do
@@ -107,7 +115,7 @@ class LibrariesControllerTest < ActionDispatch::IntegrationTest
           author: "Author",
           thumbnail_url: "http://test.local/thumb.jpg",
           duration_seconds: 300,
-          updated_at: base_time - i.hours,
+          updated_at: base_time - (i + 2).days,
           feed: feeds(:one),
           reachable: true
         )

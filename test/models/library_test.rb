@@ -100,72 +100,80 @@ class LibraryTest < ActiveSupport::TestCase
     library = libraries(:one)
     library.update!(audio: true, video: false)
 
-    media_item = MediaItem.create!(
-      url: "http://test.local/video1",
-      guid: "http://test.local/video1",
-      title: "Test Video",
-      description: "A test video description",
-      author: "Test Author",
-      thumbnail_url: "http://test.local/thumb.jpg",
-      duration_seconds: 300,
-      updated_at: Time.current,
-      feed: feeds(:one),
-      reachable: true
-    )
-    library.media_items = [media_item]
+    base_time = Time.utc(2024, 1, 15, 12, 0, 0)
+    travel_to base_time do
+      media_item = MediaItem.create!(
+        url: "http://test.local/video1",
+        guid: "http://test.local/video1",
+        title: "Test Video",
+        description: "A test video description",
+        author: "Test Author",
+        thumbnail_url: "http://test.local/thumb.jpg",
+        duration_seconds: 300,
+        updated_at: base_time - 2.days,
+        feed: feeds(:one),
+        reachable: true
+      )
+      library.media_items = [media_item]
 
-    link = "https://test.local/mypodcast"
-    podcast_xml = library.generate_podcast(
-      link,
-      audio_url: ->(id) { "audio://#{id}" },
-      video_url: ->(id) { "video://#{id}" }
-    ).to_xml
+      link = "https://test.local/mypodcast"
+      podcast_xml = library.generate_podcast(
+        link,
+        audio_url: ->(id) { "audio://#{id}" },
+        video_url: ->(id) { "video://#{id}" }
+      ).to_xml
 
-    assert_includes podcast_xml, "<title>Test Video</title>"
-    assert_includes podcast_xml, "<description>A test video description</description>"
-    assert_includes podcast_xml, "<itunes:author>Test Author</itunes:author>"
-    assert_includes podcast_xml, "audio://#{media_item.id}"
+      assert_includes podcast_xml, "<title>Test Video</title>"
+      assert_includes podcast_xml, "<description>A test video description</description>"
+      assert_includes podcast_xml, "<itunes:author>Test Author</itunes:author>"
+      assert_includes podcast_xml, "audio://#{media_item.id}"
+    end
   end
 
   test "filters out media items shorter than MIN_DURATION_SECONDS" do
     library = libraries(:one)
     library.update!(audio: true, video: false)
 
-    short_item = MediaItem.create!(
-      url: "http://test.local/short",
-      guid: "http://test.local/short",
-      title: "Short Video",
-      description: "Too short",
-      author: "Author",
-      thumbnail_url: "http://test.local/thumb.jpg",
-      duration_seconds: 60,
-      feed: feeds(:one),
-      reachable: true
-    )
+    base_time = Time.utc(2024, 1, 15, 12, 0, 0)
+    travel_to base_time do
+      short_item = MediaItem.create!(
+        url: "http://test.local/short",
+        guid: "http://test.local/short",
+        title: "Short Video",
+        description: "Too short",
+        author: "Author",
+        thumbnail_url: "http://test.local/thumb.jpg",
+        duration_seconds: 60,
+        updated_at: base_time - 2.days,
+        feed: feeds(:one),
+        reachable: true
+      )
 
-    long_item = MediaItem.create!(
-      url: "http://test.local/long",
-      guid: "http://test.local/long",
-      title: "Long Video",
-      description: "Long enough",
-      author: "Author",
-      thumbnail_url: "http://test.local/thumb.jpg",
-      duration_seconds: 300,
-      feed: feeds(:one),
-      reachable: true
-    )
+      long_item = MediaItem.create!(
+        url: "http://test.local/long",
+        guid: "http://test.local/long",
+        title: "Long Video",
+        description: "Long enough",
+        author: "Author",
+        thumbnail_url: "http://test.local/thumb.jpg",
+        duration_seconds: 300,
+        updated_at: base_time - 2.days,
+        feed: feeds(:one),
+        reachable: true
+      )
 
-    library.media_items = [short_item, long_item]
+      library.media_items = [short_item, long_item]
 
-    link = "https://test.local/mypodcast"
-    podcast_xml = library.generate_podcast(
-      link,
-      audio_url: ->(id) { "audio://#{id}" },
-      video_url: ->(id) { "video://#{id}" }
-    ).to_xml
+      link = "https://test.local/mypodcast"
+      podcast_xml = library.generate_podcast(
+        link,
+        audio_url: ->(id) { "audio://#{id}" },
+        video_url: ->(id) { "video://#{id}" }
+      ).to_xml
 
-    assert_not_includes podcast_xml, "Short Video"
-    assert_includes podcast_xml, "Long Video"
+      assert_not_includes podcast_xml, "Short Video"
+      assert_includes podcast_xml, "Long Video"
+    end
   end
 
   test "limits media items to episode_count" do
@@ -183,7 +191,7 @@ class LibraryTest < ActiveSupport::TestCase
           author: "Author",
           thumbnail_url: "http://test.local/thumb.jpg",
           duration_seconds: 300,
-          updated_at: base_time - i.hours,
+          updated_at: base_time - (i + 2).days,
           feed: feeds(:one),
           reachable: true
         )
@@ -211,45 +219,17 @@ class LibraryTest < ActiveSupport::TestCase
     library = libraries(:one)
     library.update!(audio: true, video: true)
 
-    media_item = MediaItem.create!(
-      url: "http://test.local/media",
-      guid: "http://test.local/media",
-      title: "Test Media",
-      description: "A test description",
-      author: "Author",
-      thumbnail_url: "http://test.local/thumb.jpg",
-      duration_seconds: 300,
-      feed: feeds(:one),
-      reachable: true
-    )
-    library.media_items = [media_item]
-
-    link = "https://test.local/mypodcast"
-    podcast_xml = library.generate_podcast(
-      link,
-      audio_url: ->(id) { "audio://#{id}" },
-      video_url: ->(id) { "video://#{id}" }
-    ).to_xml
-
-    assert_includes podcast_xml, "audio://#{media_item.id}"
-    assert_includes podcast_xml, "video://#{media_item.id}"
-  end
-
-  test "includes recent uncached videos" do
-    library = libraries(:one)
-    library.update!(audio: true, video: false)
-
     base_time = Time.utc(2024, 1, 15, 12, 0, 0)
     travel_to base_time do
       media_item = MediaItem.create!(
-        url: "http://test.local/recent-video",
-        guid: "http://test.local/recent-video",
-        title: "Recent Uncached Video",
-        description: "Should appear because it is recent",
+        url: "http://test.local/media",
+        guid: "http://test.local/media",
+        title: "Test Media",
+        description: "A test description",
         author: "Author",
         thumbnail_url: "http://test.local/thumb.jpg",
         duration_seconds: 300,
-        updated_at: base_time - 12.hours,
+        updated_at: base_time - 2.days,
         feed: feeds(:one),
         reachable: true
       )
@@ -262,7 +242,42 @@ class LibraryTest < ActiveSupport::TestCase
         video_url: ->(id) { "video://#{id}" }
       ).to_xml
 
-      assert_includes podcast_xml, "Recent Uncached Video"
+      assert_includes podcast_xml, "audio://#{media_item.id}"
+      assert_includes podcast_xml, "video://#{media_item.id}"
+    end
+  end
+
+  test "excludes recent uncached videos and enqueues cache job" do
+    library = libraries(:one)
+    library.update!(audio: true, video: false)
+
+    base_time = Time.utc(2024, 1, 15, 12, 0, 0)
+    travel_to base_time do
+      media_item = MediaItem.create!(
+        url: "http://test.local/recent-video",
+        guid: "http://test.local/recent-video",
+        title: "Recent Uncached Video",
+        description: "Should not appear because it is recent and uncached",
+        author: "Author",
+        thumbnail_url: "http://test.local/thumb.jpg",
+        duration_seconds: 300,
+        updated_at: base_time - 12.hours,
+        feed: feeds(:one),
+        reachable: true
+      )
+      library.media_items = [media_item]
+
+      link = "https://test.local/mypodcast"
+
+      assert_enqueued_with(job: CacheVideoJob, args: [media_item.id]) do
+        podcast_xml = library.generate_podcast(
+          link,
+          audio_url: ->(id) { "audio://#{id}" },
+          video_url: ->(id) { "video://#{id}" }
+        ).to_xml
+
+        assert_not_includes podcast_xml, "Recent Uncached Video"
+      end
     end
   end
 
@@ -305,7 +320,7 @@ class LibraryTest < ActiveSupport::TestCase
     end
   end
 
-  test "excludes old uncached videos and enqueues cache job" do
+  test "includes old uncached videos" do
     library = libraries(:one)
     library.update!(audio: true, video: false)
 
@@ -315,7 +330,7 @@ class LibraryTest < ActiveSupport::TestCase
         url: "http://test.local/old-uncached-video",
         guid: "http://test.local/old-uncached-video",
         title: "Old Uncached Video",
-        description: "Should not appear because it is old and not cached",
+        description: "Should appear because it is old enough",
         author: "Author",
         thumbnail_url: "http://test.local/thumb.jpg",
         duration_seconds: 300,
@@ -327,16 +342,13 @@ class LibraryTest < ActiveSupport::TestCase
       library.media_items = [media_item]
 
       link = "https://test.local/mypodcast"
+      podcast_xml = library.generate_podcast(
+        link,
+        audio_url: ->(id) { "audio://#{id}" },
+        video_url: ->(id) { "video://#{id}" }
+      ).to_xml
 
-      assert_enqueued_with(job: CacheVideoJob, args: [media_item.id]) do
-        podcast_xml = library.generate_podcast(
-          link,
-          audio_url: ->(id) { "audio://#{id}" },
-          video_url: ->(id) { "video://#{id}" }
-        ).to_xml
-
-        assert_not_includes podcast_xml, "Old Uncached Video"
-      end
+      assert_includes podcast_xml, "Old Uncached Video"
     end
   end
 

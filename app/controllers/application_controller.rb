@@ -21,6 +21,6 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticated?
-    secret_token_equal?(cookies[:secret_key]) || session[:authenticated] == true
+    session[:authenticated] == true
   end
 end

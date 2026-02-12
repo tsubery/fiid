@@ -20,7 +20,6 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert flash.to_a == []
     assert_response :redirect
     assert response.status == 302
-    assert cookies[:secret_key] == ENV.fetch('SECRET_KEY')
     assert response.headers["location"] == admin_dashboard_url
 
     get login_url

@@ -10,7 +10,6 @@ class SessionsController < ApplicationController
   def create
     if secret_token_equal?(params[:secret_key])
       reset_session
-      cookies.permanent[:secret_key] = params[:secret_key]
       session[:authenticated] = true
       redirect_to admin_dashboard_url
     else

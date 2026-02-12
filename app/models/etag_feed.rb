@@ -3,7 +3,7 @@ class EtagFeed < Feed
 
   include Html
 
-  ETAG_IGNORED_PATTERSN =  [
+  ETAG_IGNORED_PATTERNS =  [
     # Some pages fight spam with random encoding of addresses
     /a href="mailto.*/,
     # some pages use timestamp to prevent caching of css
@@ -25,7 +25,7 @@ class EtagFeed < Feed
       return network_error_message(html_response)
     end
 
-    body = ETAG_IGNORED_PATTERSN.reduce(html_response.body) do |str, pattern|
+    body = ETAG_IGNORED_PATTERNS.reduce(html_response.body) do |str, pattern|
       str.gsub(pattern, "")
     end
 

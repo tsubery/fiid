@@ -1,5 +1,5 @@
 class PasskeysController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:create_options, :create, :authenticate_options, :authenticate]
+  skip_before_action :verify_authenticity_token, only: [:authenticate_options, :authenticate]
   before_action :require_admin, only: [:create_options, :create, :destroy]
 
   def create_options

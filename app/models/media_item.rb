@@ -126,7 +126,7 @@ class MediaItem < ApplicationRecord
       next unless content_type && resp.code == 200
 
       image['original_src'] = image_url
-      image['src'] = "data:image/#{content_type};base64, #{Base64.encode64(resp.body)}"
+      image['src'] = "data:#{content_type};base64, #{Base64.encode64(resp.body)}"
       embedded_images += 1
     end
 

@@ -95,7 +95,7 @@ ActiveAdmin.register_page "Passkeys" do
             options.user.id = base64urlToBuffer(options.user.id);
             if (options.excludeCredentials) {
               options.excludeCredentials = options.excludeCredentials.map(function(c) {
-                return Object.assign({}, c, { id: base64urlToBuffer(c.id) });
+                return Object.assign({}, c, { id: base64urlToBuffer(c.id.id) });
               });
             }
             console.log('[Passkey] Decoded options, calling navigator.credentials.create()...');

@@ -69,7 +69,7 @@
       if (options.allowCredentials) {
         options.allowCredentials = options.allowCredentials.map(function(c) {
           console.log('[Passkey Auth] credential id type:', typeof c.id, 'value:', c.id);
-          return { id: base64urlToBuffer(c.id) };
+          return { id: base64urlToBuffer(c.id.id), type: c.type };
         });
       }
 

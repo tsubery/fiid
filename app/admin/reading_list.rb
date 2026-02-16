@@ -76,28 +76,37 @@ ActiveAdmin.register_page "Reading List" do
     if MediaItem.video_url?(url)
       mime_type = MediaItem::VIDEO_MIME_TYPE
       library = Library.where.not(type: 'InstapaperLibrary').first
+
+      video = Youtube::Video.new(url)
+      if video.id.present?
+        url = video.url
+        guid = video.guid
+      end
     else
       mime_type = MediaItem::HTML_MIME_TYPE
       library = Library.where(type: 'InstapaperLibrary').first
     end
+    guid ||= url
 
     unless library
       render json: { success: false, error: "No library to attach to #{url}" }, status: :unprocessable_entity
     end
 
-    media_item = MediaItem.find_or_create_by!(
+    media_item = MediaItem.find_or_initialize_by(
       feed: PersonalFeed.first(),
-      guid: url,
+      guid: guid,
       mime_type: mime_type,
-      title: url,
-      url: url,
     )
+    created = media_item.new_record?
+    media_item.title = url
+    media_item.url = url
+    media_item.save!
 
     unless media_item.libraries.include?(library)
       media_item.libraries << library
     end
 
-    render json: { success: true, id: media_item.id }
+    render json: { success: true, id: media_item.id, created: created }
   end
 
   content do

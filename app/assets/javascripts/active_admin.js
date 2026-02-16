@@ -28,6 +28,31 @@ document.addEventListener("DOMContentLoaded", function () {
       this.fetchArticles(1);
     },
 
+    showToast: function (message) {
+      const toast = document.createElement("div");
+      toast.textContent = message;
+      Object.assign(toast.style, {
+        position: "fixed",
+        bottom: "1.5rem",
+        right: "1.5rem",
+        background: "#333",
+        color: "#fff",
+        padding: "0.75rem 1.25rem",
+        borderRadius: "0.5rem",
+        fontSize: "0.875rem",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.25)",
+        zIndex: "9999",
+        opacity: "0",
+        transition: "opacity 0.3s ease",
+      });
+      document.body.appendChild(toast);
+      requestAnimationFrame(() => (toast.style.opacity = "1"));
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.addEventListener("transitionend", () => toast.remove());
+      }, 3000);
+    },
+
     getPendingArchives: function () {
       try {
         return JSON.parse(localStorage.getItem(PENDING_ARCHIVES_KEY)) || [];
@@ -533,6 +558,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const data = await response.json();
 
         if (data.success) {
+          this.showToast(data.created ? "URL added" : "URL already exists");
           this.fetchArticles(1);
         } else {
           alert("Failed to add URL: " + (data.error || "Unknown error"));

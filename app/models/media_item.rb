@@ -40,7 +40,7 @@ class MediaItem < ApplicationRecord
   end
 
   def self.video_url?(url)
-    %r{\Ahttps://(www\.)?(youtube|vimeo)\.com/} =~ url || %r{\Ahttps://youtu\.be/} =~ url
+    %r{\Ahttps://(m\.|www\.)?(youtube|vimeo)\.com/} =~ url || %r{\Ahttps://youtu\.be/} =~ url
   end
 
   def fill_missing_details

@@ -9,7 +9,11 @@ class YoutubeVideoTest < ActiveSupport::TestCase
       "https://youtu.be/12345" => "12345",
       "https://www.youtube.com/live/12345" => "12345",
       "https://m.youtube.com/live/12345" => "12345",
-      "https://youtube.com/live/12345" => "12345"
+      "https://youtube.com/live/12345" => "12345",
+      "https://www.youtube.com/shorts/12345" => "12345",
+      "https://youtube.com/shorts/12345" => "12345",
+      "https://www.youtube.com/embed/12345" => "12345",
+      "https://youtube.com/v/12345" => "12345"
     }.each do |url, id|
       assert_equal id, Youtube::Video.new(url).id
     end

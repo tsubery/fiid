@@ -32,5 +32,6 @@ module Fiid
     #
     # config.time_zone = "Central Time (US & Canada)"
     config.eager_load_paths << Rails.root.join("lib")
+    Rails.application.config.session_store :cookie_store, key: 'fiid_session', expire_after: 20.years
   end
 end

@@ -37,6 +37,32 @@ ActiveAdmin.register MediaItem do
     f.actions
   end
 
+  show do
+    attributes_table do
+      row :id
+      row :feed
+      row :title
+      row :url
+      row :guid
+      row :mime_type
+      row :author
+      row :published_at
+      row :duration_seconds
+      row :reachable
+      row :archived
+      row :sent_to
+      row :created_at
+      row :updated_at
+      row :libraries
+    end
+
+    if resource.sent_to.present?
+      panel "Email Content" do
+        raw %(<iframe srcdoc="#{ERB::Util.html_escape resource.description}" style="width:100%;height:600px;border:none;" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>)
+      end
+    end
+  end
+
   action_item :fetch_details, only: [:show, :edit] do
     link_to "Fetch Details", fetch_details_admin_media_item_path(resource)
   end

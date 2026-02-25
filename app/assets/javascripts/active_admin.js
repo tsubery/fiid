@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
     perPage: null,
     syncing: false,
     sidebarCollapsed: false,
+    archiveSyncTimeout: null,
 
     init: function () {
       const urlParams = new URLSearchParams(window.location.search);
@@ -51,6 +52,73 @@ document.addEventListener("DOMContentLoaded", function () {
         toast.style.opacity = "0";
         toast.addEventListener("transitionend", () => toast.remove());
       }, 3000);
+    },
+
+    showUndoToast: function (message, onUndo) {
+      const existing = document.getElementById("undo-toast");
+      if (existing) existing.remove();
+
+      const toast = document.createElement("div");
+      toast.id = "undo-toast";
+      Object.assign(toast.style, {
+        position: "fixed",
+        bottom: "1.5rem",
+        right: "1.5rem",
+        background: "#333",
+        color: "#fff",
+        padding: "0.75rem 1.25rem",
+        borderRadius: "0.5rem",
+        fontSize: "0.875rem",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.25)",
+        zIndex: "9999",
+        opacity: "0",
+        transition: "opacity 0.3s ease",
+        display: "flex",
+        alignItems: "center",
+        gap: "1rem",
+      });
+
+      const text = document.createElement("span");
+      text.textContent = message;
+
+      const btn = document.createElement("button");
+      btn.textContent = "Undo";
+      Object.assign(btn.style, {
+        background: "transparent",
+        border: "1px solid #fff",
+        color: "#fff",
+        borderRadius: "0.25rem",
+        padding: "0.2rem 0.6rem",
+        cursor: "pointer",
+        fontSize: "0.8rem",
+      });
+      btn.addEventListener("click", () => {
+        toast.remove();
+        onUndo();
+      });
+
+      toast.appendChild(text);
+      toast.appendChild(btn);
+      document.body.appendChild(toast);
+      requestAnimationFrame(() => (toast.style.opacity = "1"));
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.addEventListener("transitionend", () => toast.remove());
+      }, 4000);
+    },
+
+    undoArchive: function (article, articleIndex, savedCurrentIndex) {
+      if (this.archiveSyncTimeout) {
+        clearTimeout(this.archiveSyncTimeout);
+        this.archiveSyncTimeout = null;
+      }
+      this.removePendingArchive(article.id);
+      const insertAt = Math.min(articleIndex, this.articles.length);
+      this.articles.splice(insertAt, 0, article);
+      this.total++;
+      this.currentIndex = Math.min(savedCurrentIndex, this.articles.length - 1);
+      this.renderSidebar();
+      this.renderArticle(this.currentIndex);
     },
 
     getPendingArchives: function () {
@@ -445,6 +513,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (index < 0 || index >= this.articles.length) return;
 
       const article = this.articles[index];
+      const savedCurrentIndex = this.currentIndex;
 
       // Immediately update UI
       this.addPendingArchive(article.id);
@@ -464,8 +533,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
+      let canUndo = true;
       if (this.articles.length === 0) {
         if (this.hasMore) {
+          canUndo = false;
           this.fetchArticles(this.currentPage + 1);
         } else {
           document.getElementById("reading-list-content").innerHTML =
@@ -478,14 +549,27 @@ document.addEventListener("DOMContentLoaded", function () {
         this.renderArticle(this.currentIndex);
       }
 
-      // Sync in background
-      this.syncPendingArchives();
+      if (this.archiveSyncTimeout) clearTimeout(this.archiveSyncTimeout);
+      const self = this;
+      if (canUndo) {
+        this.showUndoToast("Archived", function () {
+          self.undoArchive(article, index, savedCurrentIndex);
+        });
+        this.archiveSyncTimeout = setTimeout(function () {
+          self.syncPendingArchives();
+        }, 4000);
+      } else {
+        this.showToast("Archived");
+        this.syncPendingArchives();
+      }
     },
 
     archive: function () {
       if (this.articles.length === 0) return;
 
       const article = this.articles[this.currentIndex];
+      const savedIndex = this.currentIndex;
+      const savedCurrentIndex = this.currentIndex;
 
       // Immediately update UI
       this.addPendingArchive(article.id);
@@ -493,8 +577,10 @@ document.addEventListener("DOMContentLoaded", function () {
       this.articles.splice(this.currentIndex, 1);
       this.total--;
 
+      let canUndo = true;
       if (this.articles.length === 0) {
         if (this.hasMore) {
+          canUndo = false;
           this.fetchArticles(this.currentPage + 1);
         } else {
           document.getElementById("reading-list-content").innerHTML =
@@ -510,8 +596,19 @@ document.addEventListener("DOMContentLoaded", function () {
         this.renderArticle(this.currentIndex);
       }
 
-      // Sync in background
-      this.syncPendingArchives();
+      if (this.archiveSyncTimeout) clearTimeout(this.archiveSyncTimeout);
+      const self = this;
+      if (canUndo) {
+        this.showUndoToast("Archived", function () {
+          self.undoArchive(article, savedIndex, savedCurrentIndex);
+        });
+        this.archiveSyncTimeout = setTimeout(function () {
+          self.syncPendingArchives();
+        }, 4000);
+      } else {
+        this.showToast("Archived");
+        this.syncPendingArchives();
+      }
     },
 
     addUrlFromClipboard: async function () {

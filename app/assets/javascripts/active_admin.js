@@ -448,19 +448,12 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         }
 
-        const sanitizedDescription =
-          typeof DOMPurify !== "undefined"
-            ? DOMPurify.sanitize(data.description || "")
-            : this.escapeHtml(data.description || "");
-
-        contentDiv.innerHTML =
-          header + `<div class="article-body">${sanitizedDescription}</div>`;
-        contentDiv.scrollTop = 0;
-
-        contentDiv.querySelectorAll(".article-body a").forEach((link) => {
-          link.setAttribute("target", "_blank");
-          link.setAttribute("rel", "noopener noreferrer");
-        });
+        contentDiv.innerHTML = header;
+        const iframe = document.createElement("iframe");
+        iframe.srcdoc = '<base target="_blank">' + (data.description || '');
+        iframe.style.cssText = "width:100%;height:calc(100vh - 200px);border:none;";
+        iframe.sandbox = "allow-popups";
+        contentDiv.appendChild(iframe);
       } else {
         contentDiv.innerHTML =
           header +

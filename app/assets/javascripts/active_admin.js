@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     hasMore: false,
     total: 0,
     loading: false,
+    _renderRequestId: 0,
     days: null,
     perPage: null,
     syncing: false,
@@ -414,6 +415,7 @@ document.addEventListener("DOMContentLoaded", function () {
     renderArticle: async function (index) {
       if (index < 0 || index >= this.articles.length) return;
 
+      const requestId = ++this._renderRequestId;
       const data = this.articles[index];
       document.getElementById("article-title").textContent =
         data.title || "Untitled";
@@ -440,9 +442,11 @@ document.addEventListener("DOMContentLoaded", function () {
             const response = await fetch(
               "/admin/reading_list/article?id=" + data.id,
             );
+            if (this._renderRequestId !== requestId) return;
             const fullData = await response.json();
             data.description = fullData.description;
           } catch (e) {
+            if (this._renderRequestId !== requestId) return;
             console.error("Error fetching article:", e);
             data.description = "<p>Failed to load article content.</p>";
           }

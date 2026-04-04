@@ -114,6 +114,7 @@ ActiveAdmin.register_page "Reading List" do
       text_node "#header, #title_bar, .breadcrumb { display: none !important; }"
       text_node "#active_admin_content { padding: 0 !important; margin: 0 !important; }"
       text_node "#wrapper { padding-top: 0 !important; }"
+      text_node "div.footer { display: none !important; }"
       text_node "@media (pointer: coarse) { #reading-list-toolbar { padding: 15px 20px !important; } #reading-list-toolbar button { padding: 12px 24px !important; font-size: 18px !important; } #reading-list-content { margin-top: 80px !important; } #reading-list-sidebar { top: 71px !important; height: calc(100vh - 71px) !important; } }"
     end
 
@@ -134,7 +135,7 @@ ActiveAdmin.register_page "Reading List" do
         para "Loading..."
       end
 
-      div id: "reading-list-content", style: "margin-top: 60px; margin-left: 270px; padding: 20px; max-width: 800px;" do
+      div id: "reading-list-content", style: "margin-top: 60px; margin-left: 270px; padding: 20px; " do
         para "Loading..."
       end
     end

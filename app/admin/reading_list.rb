@@ -141,5 +141,22 @@ ActiveAdmin.register_page "Reading List" do
     end
 
     script src: "https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"
+
+    script do
+      text_node <<~JS
+        window.addEventListener('beforeunload', function(e) { if (!navigator.onLine) { e.preventDefault(); } });
+        window.addEventListener('keydown', function(e) {
+          if (!navigator.onLine && ((e.key === 'F5') || (e.key === 'r' && (e.ctrlKey || e.metaKey)))) {
+            e.preventDefault();
+            var t = document.getElementById('offline-toast');
+            if (!t) { t = document.createElement('div'); t.id = 'offline-toast'; t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:4px;z-index:9999;transition:opacity 0.5s;'; document.body.appendChild(t); }
+            t.textContent = 'Refresh prevented — you are offline';
+            t.style.opacity = '1';
+            clearTimeout(t._timer);
+            t._timer = setTimeout(function() { t.style.opacity = '0'; }, 3000);
+          }
+        });
+      JS
+    end
   end
 end

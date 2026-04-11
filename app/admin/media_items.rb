@@ -4,6 +4,12 @@ ActiveAdmin.register MediaItem do
   scope :all, default: true
   scope :articles, -> { MediaItem.articles }
 
+  controller do
+    def scoped_collection
+      super.select(:id, :title, :feed_id, :mime_type, :archived, :created_at)
+    end
+  end
+
   index do
     selectable_column
     id_column

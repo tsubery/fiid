@@ -14,7 +14,7 @@ ActiveAdmin.register_page "Dashboard" do
             th :title
             th :feed
           end
-          MediaItem.includes(:feed).where(mime_type: MediaItem::VIDEO_MIME_TYPE).order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
+          MediaItem.select(:id, :title, :url, :feed_id, :created_at).includes(:feed).where(mime_type: MediaItem::VIDEO_MIME_TYPE).order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
             tr do
               td do
                 a media_item.id, href: admin_media_item_path(media_item.id)
@@ -41,7 +41,7 @@ ActiveAdmin.register_page "Dashboard" do
             th :title
             th :feed
           end
-          MediaItem.includes(:feed).where.not(mime_type: MediaItem::VIDEO_MIME_TYPE).where(sent_to: '').order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
+          MediaItem.select(:id, :title, :url, :feed_id, :created_at).includes(:feed).where.not(mime_type: MediaItem::VIDEO_MIME_TYPE).where(sent_to: '').order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
             tr do
               td do
                 a media_item.id, href: admin_media_item_path(media_item.id)
@@ -70,7 +70,7 @@ ActiveAdmin.register_page "Dashboard" do
             th :sent_to
             th :feed
           end
-          MediaItem.includes(:feed).where.not(sent_to: '').order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
+          MediaItem.select(:id, :title, :url, :feed_id, :sent_to, :created_at).includes(:feed).where.not(sent_to: '').order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
             tr do
               td do
                 a media_item.id, href: admin_media_item_path(media_item.id)

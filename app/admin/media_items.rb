@@ -6,7 +6,11 @@ ActiveAdmin.register MediaItem do
 
   controller do
     def scoped_collection
-      super.select(:id, :title, :feed_id, :mime_type, :archived, :created_at)
+      if action_name == "index"
+        super.select(:id, :title, :feed_id, :mime_type, :archived, :created_at)
+      else
+        super
+      end
     end
   end
 

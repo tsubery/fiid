@@ -293,6 +293,7 @@ class MediaItemTest < ActiveSupport::TestCase
 
   test "video_cached? returns false when cache file does not exist" do
     video = media_items(:one)
+    FileUtils.rm_rf(File.dirname(video.video_cache_file_path))
     assert video.video?
     assert_not video.video_cached?
   end

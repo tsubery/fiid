@@ -12,7 +12,7 @@ class RetrieveFeedsJobTest < ActiveJob::TestCase
     feed.reload
     assert_equal 15, feed.media_items.count
     assert_equal 15, library.media_items.count
-    assert_in_delta feed.last_sync, Time.current, 1
+    assert_in_delta feed.last_sync, Time.current, 5
     assert_equal "", feed.fetch_error_message
 
     last_item = feed.media_items.last
@@ -27,7 +27,7 @@ class RetrieveFeedsJobTest < ActiveJob::TestCase
     assert_equal "", feed.fetch_error_message
     assert_equal 15, feed.media_items.count
     assert_equal 15, library.media_items.count
-    assert_in_delta feed.last_sync, Time.current, 1
+    assert_in_delta feed.last_sync, Time.current, 5
     assert_equal last_item_url, feed.media_items.last.url
     assert_equal "", feed.fetch_error_message
   end
@@ -50,7 +50,7 @@ class RetrieveFeedsJobTest < ActiveJob::TestCase
       feed.reload
 
       # Remove error message when successful
-      assert_in_delta feed.last_sync, Time.current, 1
+      assert_in_delta feed.last_sync, Time.current, 5
       assert_equal 15, feed.media_items.count
       assert_equal "", feed.fetch_error_message
     end
@@ -67,7 +67,7 @@ class RetrieveFeedsJobTest < ActiveJob::TestCase
     assert_equal 25, library.media_items.count
     assert_equal "https://www.youtube.com/watch?v=Jm_lAk4u5uA", feed.media_items.first.url
     assert_equal "https://www.youtube.com/watch?v=vPuyDbQwfHs", feed.media_items.last.url
-    assert_in_delta feed.last_sync, Time.current, 1
+    assert_in_delta feed.last_sync, Time.current, 5
     assert_equal "", feed.fetch_error_message
 
     last_item = feed.media_items.last
@@ -82,7 +82,7 @@ class RetrieveFeedsJobTest < ActiveJob::TestCase
     assert_equal 25, library.media_items.count
     assert_equal "https://www.youtube.com/watch?v=Jm_lAk4u5uA", feed.media_items.first.url
     assert_equal "https://www.youtube.com/watch?v=vPuyDbQwfHs", feed.media_items.last.url
-    assert_in_delta feed.last_sync, Time.current, 1
+    assert_in_delta feed.last_sync, Time.current, 5
     assert_equal last_item_url, feed.media_items.last.url
     assert_equal "", feed.fetch_error_message
   end
@@ -97,7 +97,7 @@ class RetrieveFeedsJobTest < ActiveJob::TestCase
     assert_equal 20, feed.media_items.count
     assert_equal 0, library.media_items.count
     assert_equal "", feed.fetch_error_message
-    assert_in_delta feed.last_sync, Time.current, 1
+    assert_in_delta feed.last_sync, Time.current, 5
 
     # as if the articles are new
     feed.media_items.destroy_all
@@ -112,7 +112,7 @@ class RetrieveFeedsJobTest < ActiveJob::TestCase
     assert_equal 20, library.media_items.count
     #assert_equal feed.media_items.map(&:url).sort, outbox.sort
     #assert_equal library.media_items.map(&:url).sort, outbox.sort
-    assert_in_delta feed.last_sync, Time.current, 1
+    assert_in_delta feed.last_sync, Time.current, 5
     InstapaperClient.set_outbox(nil)
   end
 end

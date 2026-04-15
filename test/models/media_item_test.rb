@@ -27,6 +27,153 @@ class MediaItemTest < ActiveSupport::TestCase
     assert_nil yt.reachable
   end
 
+  LIVE_INFO_DEFAULTS = {
+    "id" => "stubVideoId1",
+    "extractor" => "youtube",
+    "title" => "Fake Stream",
+    "uploader" => "Fake Uploader",
+    "upload_date" => "20240101",
+    "duration" => 3000,
+    "description" => "fake description",
+    "thumbnails" => [{ "url" => "https://example.com/thumb.jpg" }]
+  }.freeze
+
+  def stub_yt_info(overrides)
+    info = LIVE_INFO_DEFAULTS.merge(overrides)
+    sc = Youtube::CLI.singleton_class
+    sc.send(:alias_method, :__orig_gvi, :get_video_information)
+    sc.send(:define_method, :get_video_information) { |*_| info }
+    yield
+  ensure
+    sc.send(:alias_method, :get_video_information, :__orig_gvi)
+    sc.send(:remove_method, :__orig_gvi)
+  end
+
+  def with_stubbed_duration(video, value)
+    video.define_singleton_method(:probe_cached_duration) { value }
+    yield
+  end
+
+  def create_stubbed_video(overrides)
+    feed = feeds(:fedguy_channel)
+    stub_yt_info(overrides) do
+      feed.media_items.create(url: "https://www.youtube.com/watch?v=stubVideoId1")
+    end
+  end
+
+  test "live_status is_live marks unreachable and prefixes [LIVE]" do
+    yt = create_stubbed_video("live_status" => "is_live")
+    assert_nil yt.reachable
+    assert_match(/\[LIVE\]/, yt.title)
+  end
+
+  test "live_status is_upcoming marks unreachable and prefixes [UPCOMING]" do
+    yt = create_stubbed_video("live_status" => "is_upcoming")
+    assert_nil yt.reachable
+    assert_match(/\[UPCOMING\]/, yt.title)
+  end
+
+  test "live_status post_live marks unreachable and prefixes [PROCESSING]" do
+    yt = create_stubbed_video("live_status" => "post_live")
+    assert_nil yt.reachable
+    assert_match(/\[PROCESSING\]/, yt.title)
+  end
+
+  test "live_status not_live marks reachable and adds no prefix" do
+    yt = create_stubbed_video("live_status" => "not_live")
+    assert_equal true, yt.reachable
+    assert_no_match(/\[(LIVE|UPCOMING|PROCESSING)\]/, yt.title)
+  end
+
+  test "live_status was_live past cooldown marks reachable" do
+    release = (Time.now - 10.hours).to_i
+    yt = create_stubbed_video(
+      "live_status" => "was_live",
+      "release_timestamp" => release,
+      "duration" => 3000
+    )
+    assert_equal true, yt.reachable
+  end
+
+  test "live_status was_live within cooldown stays unreachable" do
+    release = (Time.now - 5.minutes).to_i
+    yt = create_stubbed_video(
+      "live_status" => "was_live",
+      "release_timestamp" => release,
+      "duration" => 3000
+    )
+    assert_nil yt.reachable
+  end
+
+  test "live_status was_live without release_timestamp marks reachable" do
+    yt = create_stubbed_video(
+      "live_status" => "was_live",
+      "release_timestamp" => nil
+    )
+    assert_equal true, yt.reachable
+  end
+
+  test "flag_missing_duration! prefixes title when cached file is short" do
+    video = media_items(:one)
+    video.update_columns(duration_seconds: 100, title: "Original", reachable: true)
+    cache_path = video.video_cache_file_path
+    FileUtils.mkdir_p(File.dirname(cache_path))
+    FileUtils.touch(cache_path)
+
+    with_stubbed_duration(video, 40.0) do
+      video.flag_missing_duration!
+    end
+
+    assert_equal "[60s missing] Original", video.reload.title
+  ensure
+    FileUtils.rm_rf(File.dirname(cache_path)) if cache_path
+  end
+
+  test "flag_missing_duration! is a no-op within threshold" do
+    video = media_items(:one)
+    video.update_columns(duration_seconds: 100, title: "Original", reachable: true)
+    cache_path = video.video_cache_file_path
+    FileUtils.mkdir_p(File.dirname(cache_path))
+    FileUtils.touch(cache_path)
+
+    with_stubbed_duration(video, 97.0) do
+      video.flag_missing_duration!
+    end
+
+    assert_equal "Original", video.reload.title
+  ensure
+    FileUtils.rm_rf(File.dirname(cache_path)) if cache_path
+  end
+
+  test "flag_missing_duration! is idempotent" do
+    video = media_items(:one)
+    video.update_columns(duration_seconds: 100, title: "Original", reachable: true)
+    cache_path = video.video_cache_file_path
+    FileUtils.mkdir_p(File.dirname(cache_path))
+    FileUtils.touch(cache_path)
+
+    with_stubbed_duration(video, 40.0) do
+      2.times { video.flag_missing_duration! }
+    end
+
+    assert_equal "[60s missing] Original", video.reload.title
+  ensure
+    FileUtils.rm_rf(File.dirname(cache_path)) if cache_path
+  end
+
+  test "flag_missing_duration! no-op when file missing" do
+    video = media_items(:one)
+    video.update_columns(duration_seconds: 100, title: "Original", reachable: true)
+    FileUtils.rm_rf(File.dirname(video.video_cache_file_path))
+    assert_not video.video_cached?
+
+    with_stubbed_duration(video, 10.0) do
+      video.flag_missing_duration!
+    end
+
+    assert_equal "Original", video.reload.title
+  end
+
   test "embedding images and resolving links" do
     original_html = File.read("test/fixtures/articles/substack_email.html")
     VCR.use_cassette("embedded-images-test", record: :new_episodes) do

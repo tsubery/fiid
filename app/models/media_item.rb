@@ -17,6 +17,15 @@ class MediaItem < ApplicationRecord
   AUDIO_MIME_TYPE = "audio/mp4"
   HTML_MIME_TYPE = "text/html"
 
+  UNFINISHED_LIVE_STATUSES = %w[is_live is_upcoming post_live].freeze
+  LIVE_STATUS_LABELS = {
+    "is_live" => "[LIVE]",
+    "is_upcoming" => "[UPCOMING]",
+    "post_live" => "[PROCESSING]"
+  }.freeze
+  WAS_LIVE_COOLDOWN = 30.minutes
+  MISSING_DURATION_THRESHOLD = 5
+
   scope :articles, -> { where(mime_type: HTML_MIME_TYPE) }
   scope :unarchived, -> { where(archived: false) }
   scope :reading_list, -> { articles.unarchived.joins(:feed, :libraries).order("feeds.priority ASC, media_items.created_at DESC") }
@@ -73,10 +82,15 @@ class MediaItem < ApplicationRecord
           self.url =  video.url
         end
 
-        # Wait for stream to finish
-        self.reachable = info["id"].present? && !info["is_live"] || nil
+        live_status = info["live_status"]
+        unfinished_live = UNFINISHED_LIVE_STATUSES.include?(live_status)
+        release_ts = info["release_timestamp"]
+        too_fresh = live_status == "was_live" && release_ts &&
+                    Time.now.to_i < release_ts.to_i + info["duration"].to_i + WAS_LIVE_COOLDOWN.to_i
+
+        self.reachable = info["id"].present? && !unfinished_live && !too_fresh || nil
         self.author = info["uploader"] || ''
-        self.title = [info["is_live"] && "[LIVE]", feed&.title, info["title"]].select(&:present?).join(" - ")
+        self.title = [LIVE_STATUS_LABELS[live_status], feed&.title, info["title"]].select(&:present?).join(" - ")
         self.published_at = info["upload_date"] && Date.parse(info["upload_date"])
         self.description = "Original Video: #{url}\nPublished At: #{published_at}\n #{info["description"]}"
         self.duration_seconds = info["duration"]
@@ -171,6 +185,25 @@ class MediaItem < ApplicationRecord
     return unless video?
     return if video_cached?
     system("/home/ubuntu/dl.sh '#{url}' '#{video_cache_file_path}'")
+    flag_missing_duration!
+  end
+
+  def flag_missing_duration!
+    return unless video_cached? && duration_seconds.to_i > 0
+
+    actual = probe_cached_duration
+    return if actual.zero?
+
+    missing = duration_seconds - actual.round
+    return if missing <= MISSING_DURATION_THRESHOLD
+
+    prefix = "[#{missing}s missing]"
+    return if title.to_s.start_with?(prefix)
+    update!(title: "#{prefix} #{title}")
+  end
+
+  def probe_cached_duration
+    `ffprobe -v error -show_entries format=duration -of csv=p=0 #{video_cache_file_path.shellescape}`.strip.to_f
   end
 
   def video_cached?

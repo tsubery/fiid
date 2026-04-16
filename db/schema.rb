@@ -10,38 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_06_222702) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_15_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
-    t.integer "status", default: 0, null: false
-    t.string "message_id", null: false
-    t.string "message_checksum", null: false
     t.datetime "created_at", null: false
+    t.string "message_checksum", null: false
+    t.string "message_id", null: false
+    t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
     t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
-    t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
+    t.string "content_type"
     t.datetime "created_at", null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.text "metadata"
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -52,51 +52,52 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_06_222702) do
   end
 
   create_table "feeds", force: :cascade do |t|
-    t.string "url", null: false
-    t.string "type", default: "", null: false
-    t.datetime "last_sync", precision: nil
-    t.text "fetch_error_message", default: "", null: false
+    t.jsonb "config", default: {}, null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "description", default: "", null: false
-    t.string "title", default: "", null: false
-    t.string "thumbnail_url", default: "", null: false
     t.string "etag", default: "", null: false
-    t.string "last_modified", default: "", null: false
+    t.text "fetch_error_message", default: "", null: false
     t.integer "historical_item_count", default: 0, null: false
+    t.string "last_modified", default: "", null: false
+    t.datetime "last_sync", precision: nil
     t.integer "priority", default: 100, null: false
+    t.string "thumbnail_url", default: "", null: false
+    t.string "title", default: "", null: false
+    t.string "type", default: "", null: false
+    t.datetime "updated_at", null: false
+    t.string "url", null: false
     t.index ["priority"], name: "index_feeds_on_priority"
     t.index ["url"], name: "index_feeds_on_url"
   end
 
   create_table "feeds_libraries", force: :cascade do |t|
-    t.bigint "feed_id", null: false
-    t.bigint "library_id", null: false
-    t.json "filter", default: "{}", null: false
     t.datetime "created_at", null: false
+    t.bigint "feed_id", null: false
+    t.json "filter", default: "{}", null: false
+    t.bigint "library_id", null: false
     t.datetime "updated_at", null: false
     t.index ["feed_id"], name: "index_feeds_libraries_on_feed_id"
     t.index ["library_id"], name: "index_feeds_libraries_on_library_id"
   end
 
   create_table "libraries", force: :cascade do |t|
-    t.string "title", default: "", null: false
-    t.string "author", default: "", null: false
-    t.string "type", default: "", null: false
-    t.text "description", default: "", null: false
-    t.boolean "audio", default: false
-    t.boolean "video", default: true, null: false
     t.boolean "archive", default: false, null: false
-    t.string "thumbnail_url", default: "", null: false
+    t.boolean "audio", default: false
+    t.string "author", default: "", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text "description", default: "", null: false
     t.integer "episode_count", default: 200, null: false
+    t.string "thumbnail_url", default: "", null: false
+    t.string "title", default: "", null: false
+    t.string "type", default: "", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "video", default: true, null: false
   end
 
   create_table "libraries_media_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.bigint "library_id", null: false
     t.bigint "media_item_id", null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["library_id", "media_item_id"], name: "index_libraries_media_items_on_library_id_and_media_item_id", unique: true
     t.index ["library_id"], name: "index_libraries_media_items_on_library_id"
@@ -104,22 +105,22 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_06_222702) do
   end
 
   create_table "media_items", force: :cascade do |t|
-    t.string "url", null: false
-    t.integer "duration_seconds"
-    t.string "title", default: "", null: false
-    t.text "description", default: "", null: false
+    t.boolean "archived", default: false, null: false
     t.string "author", default: "", null: false
-    t.string "thumbnail_url", default: "", null: false
-    t.string "mime_type", default: "", null: false
-    t.datetime "published_at", precision: nil
-    t.bigint "feed_id", null: false
     t.string "copy_url", default: "", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "reachable"
+    t.text "description", default: "", null: false
+    t.integer "duration_seconds"
+    t.bigint "feed_id", null: false
     t.string "guid", null: false
+    t.string "mime_type", default: "", null: false
+    t.datetime "published_at", precision: nil
+    t.boolean "reachable"
     t.string "sent_to", default: "", null: false
-    t.boolean "archived", default: false, null: false
+    t.string "thumbnail_url", default: "", null: false
+    t.string "title", default: "", null: false
+    t.datetime "updated_at", null: false
+    t.string "url", null: false
     t.index ["archived"], name: "index_media_items_on_archived", where: "(archived = false)"
     t.index ["feed_id", "guid"], name: "index_media_items_on_feed_id_and_guid", unique: true
     t.index ["feed_id"], name: "index_media_items_on_feed_id"
@@ -127,11 +128,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_06_222702) do
   end
 
   create_table "passkeys", force: :cascade do |t|
-    t.string "label", null: false
+    t.datetime "created_at", null: false
     t.string "external_id", null: false
+    t.string "label", null: false
     t.string "public_key", null: false
     t.bigint "sign_count", default: 0, null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["external_id"], name: "index_passkeys_on_external_id", unique: true
   end

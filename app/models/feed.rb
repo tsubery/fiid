@@ -1,4 +1,6 @@
 class Feed < ApplicationRecord
+  store_accessor :config, :article_link_selector
+
   has_and_belongs_to_many :libraries
   has_many :media_items
   before_validation :set_type
@@ -58,6 +60,7 @@ class Feed < ApplicationRecord
     url = self.url || ''
     return if EtagFeed.name == type
     return if PersonalFeed.name == type
+    return if WebScrapeFeed.name == type
 
     self.type = YoutubePlaylistFeed.parse_id(url) && YoutubePlaylistFeed.name ||
                 YoutubeChannelFeed.parse_id(url) && YoutubeChannelFeed.name ||

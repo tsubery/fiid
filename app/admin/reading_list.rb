@@ -1,6 +1,18 @@
 ActiveAdmin.register_page "Reading List" do
   menu label: "Reading List"
 
+  controller do
+    skip_before_action :verify_authenticity_token, only: [:ingest_html]
+  end
+
+  page_action :ingest_html, method: :post do
+    feed = WebScrapeFeed.find_by!(url: params[:url])
+    count = feed.ingest_html(params[:html])
+    render json: { success: true, new_items: count }
+  rescue => e
+    render json: { success: false, error: e.message }, status: :unprocessable_entity
+  end
+
   page_action :articles, method: :get do
     page = (params[:page] || 1).to_i
     per_page = (params[:per_page] || 20).to_i
@@ -24,7 +36,7 @@ ActiveAdmin.register_page "Reading List" do
              ])
       .uniq
 
-    render json: {
+    response_json = {
       items: items.map { |(id, title, feed_title, url, published_at, author, sent_to)|
         {
           id: id,
@@ -36,11 +48,25 @@ ActiveAdmin.register_page "Reading List" do
           sent_to: sent_to
         }
       },
+      scrape_feeds: [],
       page: page,
       per_page: per_page,
       total: total,
       has_more: (page * per_page) < total
     }
+
+    if page == 1
+      scrape_feeds = WebScrapeFeed
+        .joins(:libraries)
+        .where("feeds.last_sync IS NULL OR feeds.last_sync < ?", 24.hours.ago)
+        .where("config @> ?", { browser_fetch: true }.to_json)
+        .distinct
+        .pluck(:url)
+
+      response_json[:scrape_feeds] = scrape_feeds
+    end
+
+    render json: response_json
   end
 
   page_action :article, method: :get do

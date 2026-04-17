@@ -1,5 +1,5 @@
 ActiveAdmin.register Feed do
-  permit_params(*(Feed.attribute_names(&:to_sym) rescue []), :article_link_selector, library_ids: [])
+  permit_params(*(Feed.attribute_names(&:to_sym) rescue []), :article_link_selector, :browser_fetch, library_ids: [])
 
   preserve_default_filters!
   remove_filter :media_items
@@ -26,6 +26,7 @@ ActiveAdmin.register Feed do
     f.input :last_modified
     f.input :etag
     f.input :article_link_selector, label: "CSS Selector (WebScrapeFeed)", hint: "CSS selector for article links on the page"
+    f.input :browser_fetch, as: :boolean, label: "Browser Fetch", hint: "Use browser popup to bypass bot protection (WebScrapeFeed)"
     f.input :fetch_error_message
     f.input :last_sync
     f.input :last_sync

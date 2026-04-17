@@ -25,11 +25,11 @@ class WebScrapeFeedTest < ActiveSupport::TestCase
     end
   end
 
-  def create_feed(selector: "a.article")
+  def create_feed(selector: "a.article", browser_fetch: false)
     WebScrapeFeed.create!(
       url: "https://example.com/articles",
       title: "Test Feed",
-      config: { "article_link_selector" => selector }
+      config: { "article_link_selector" => selector, "browser_fetch" => browser_fetch }
     )
   end
 
@@ -171,5 +171,62 @@ class WebScrapeFeedTest < ActiveSupport::TestCase
     feed = create_feed(selector: "div.card > a")
     assert_equal "div.card > a", feed.article_link_selector
     assert_equal "div.card > a", feed.config["article_link_selector"]
+  end
+
+  # browser_fetch tests
+
+  test "browser_fetch flag stored as boolean in config" do
+    feed = create_feed(browser_fetch: true)
+    assert_equal true, feed.browser_fetch
+    assert feed.browser_fetch?
+
+    feed2 = create_feed(browser_fetch: false)
+    assert_equal false, feed2.browser_fetch
+    assert_not feed2.browser_fetch?
+  end
+
+  test "recent_media_items returns empty when browser_fetch is true" do
+    feed = create_feed(browser_fetch: true)
+    assert_equal [], feed.recent_media_items
+  end
+
+  test "ingest_html creates new media items" do
+    feed = create_feed(browser_fetch: true)
+    feed.libraries << Library.first
+
+    count = feed.ingest_html(LISTING_HTML)
+    assert_equal 2, count
+    assert_equal 2, feed.media_items.count
+    assert feed.last_sync.present?
+    assert_equal "", feed.fetch_error_message
+  end
+
+  test "ingest_html deduplicates existing items" do
+    feed = create_feed(browser_fetch: true)
+    feed.libraries << Library.first
+
+    feed.ingest_html(LISTING_HTML)
+    count = feed.ingest_html(LISTING_HTML)
+    assert_equal 0, count
+    assert_equal 2, feed.media_items.count
+  end
+
+  test "ingest_html reports Rollbar error when selector matches nothing" do
+    feed = create_feed(selector: "a.nonexistent", browser_fetch: true)
+
+    with_rollbar_tracking do |calls|
+      count = feed.ingest_html(LISTING_HTML)
+      assert_equal 0, count
+      assert_equal 1, calls.size
+    end
+  end
+
+  test "ingest_html adds items to feed libraries" do
+    feed = create_feed(browser_fetch: true)
+    library = Library.first
+    feed.libraries << library
+
+    feed.ingest_html(LISTING_HTML)
+    assert_equal 2, library.media_items.where(feed: feed).count
   end
 end

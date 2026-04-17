@@ -1,5 +1,13 @@
 class Feed < ApplicationRecord
-  store_accessor :config, :article_link_selector
+  store_accessor :config, :article_link_selector, :browser_fetch
+
+  def browser_fetch=(value)
+    super(ActiveModel::Type::Boolean.new.cast(value))
+  end
+
+  def browser_fetch?
+    browser_fetch == true
+  end
 
   has_and_belongs_to_many :libraries
   has_many :media_items

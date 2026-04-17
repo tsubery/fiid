@@ -30,6 +30,13 @@ document.addEventListener("DOMContentLoaded", function () {
       this.fetchArticles(1);
     },
 
+    openScrapeFeeds: function (urls) {
+      const ingestUrl = location.origin + "/admin/reading_list/ingest_html";
+      urls.forEach(function (url) {
+        window.open(url, "fiid_scrape|" + ingestUrl);
+      });
+    },
+
     showToast: function (message) {
       const toast = document.createElement("div");
       toast.textContent = message;
@@ -358,6 +365,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (page === 1) {
         this.articles = filteredItems;
         this.currentIndex = 0;
+        this.openScrapeFeeds(data.scrape_feeds);
       } else {
         this.articles = this.articles.concat(filteredItems);
       }
@@ -454,8 +462,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         contentDiv.innerHTML = header;
         const iframe = document.createElement("iframe");
-        iframe.srcdoc = '<base target="_blank">' + (data.description || '');
-        iframe.style.cssText = "width:100%;height:calc(100vh - 200px);border:none;";
+        iframe.srcdoc = '<base target="_blank">' + (data.description || "");
+        iframe.style.cssText =
+          "width:100%;height:calc(100vh - 200px);border:none;";
         iframe.sandbox = "allow-popups allow-popups-to-escape-sandbox";
         contentDiv.appendChild(iframe);
       } else {

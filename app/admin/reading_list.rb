@@ -169,7 +169,7 @@ ActiveAdmin.register_page "Reading List" do
     script src: "https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"
 
     script do
-      text_node <<~JS
+      raw <<~JS
         window.addEventListener('beforeunload', function(e) { if (!navigator.onLine) { e.preventDefault(); } });
         window.addEventListener('keydown', function(e) {
           if (!navigator.onLine && ((e.key === 'F5') || (e.key === 'r' && (e.ctrlKey || e.metaKey)))) {

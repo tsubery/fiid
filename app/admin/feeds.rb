@@ -34,6 +34,10 @@ ActiveAdmin.register Feed do
     f.actions
   end
 
+  action_item :refresh, only: :show do
+    link_to "Refresh", refresh_admin_feed_path(resource)
+  end
+
   member_action :refresh, method: :get do
     RetrieveFeedsJob.new.perform(resource.id)
     error_message = Feed.find(resource.id).fetch_error_message

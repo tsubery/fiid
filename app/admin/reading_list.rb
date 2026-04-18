@@ -58,7 +58,7 @@ ActiveAdmin.register_page "Reading List" do
     if page == 1
       scrape_feeds = BrowserFetchedWebScrapeFeed
         .joins(:libraries)
-        .where("feeds.last_sync IS NULL OR feeds.last_sync < ?", 24.hours.ago)
+        .where("feeds.last_sync IS NULL OR feeds.last_sync < ?", 8.hours.ago)
         .distinct
         .pluck(:url)
 

@@ -49,8 +49,9 @@ class MediaItemTest < ActiveSupport::TestCase
     sc.send(:remove_method, :__orig_gvi)
   end
 
-  def with_stubbed_duration(video, value)
+  def with_stubbed_duration(video, value, cached: false)
     video.define_singleton_method(:probe_cached_duration) { value }
+    video.define_singleton_method(:video_cached?) { true } if cached
     yield
   end
 
@@ -116,49 +117,34 @@ class MediaItemTest < ActiveSupport::TestCase
   test "flag_missing_duration! prefixes title when cached file is short" do
     video = media_items(:one)
     video.update_columns(duration_seconds: 100, title: "Original", reachable: true)
-    cache_path = video.video_cache_file_path
-    FileUtils.mkdir_p(File.dirname(cache_path))
-    FileUtils.touch(cache_path)
 
-    with_stubbed_duration(video, 40.0) do
+    with_stubbed_duration(video, 40.0, cached: true) do
       video.flag_missing_duration!
     end
 
     assert_equal "[60s missing] Original", video.reload.title
-  ensure
-    FileUtils.rm_rf(File.dirname(cache_path)) if cache_path
   end
 
   test "flag_missing_duration! is a no-op within threshold" do
     video = media_items(:one)
     video.update_columns(duration_seconds: 100, title: "Original", reachable: true)
-    cache_path = video.video_cache_file_path
-    FileUtils.mkdir_p(File.dirname(cache_path))
-    FileUtils.touch(cache_path)
 
-    with_stubbed_duration(video, 97.0) do
+    with_stubbed_duration(video, 97.0, cached: true) do
       video.flag_missing_duration!
     end
 
     assert_equal "Original", video.reload.title
-  ensure
-    FileUtils.rm_rf(File.dirname(cache_path)) if cache_path
   end
 
   test "flag_missing_duration! is idempotent" do
     video = media_items(:one)
     video.update_columns(duration_seconds: 100, title: "Original", reachable: true)
-    cache_path = video.video_cache_file_path
-    FileUtils.mkdir_p(File.dirname(cache_path))
-    FileUtils.touch(cache_path)
 
-    with_stubbed_duration(video, 40.0) do
+    with_stubbed_duration(video, 40.0, cached: true) do
       2.times { video.flag_missing_duration! }
     end
 
     assert_equal "[60s missing] Original", video.reload.title
-  ensure
-    FileUtils.rm_rf(File.dirname(cache_path)) if cache_path
   end
 
   test "flag_missing_duration! no-op when file missing" do

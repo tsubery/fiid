@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         FIID Scrape Feed
 // @namespace    fiid
-// @version      1.1
+// @version      1.2
 // @description  Sends page HTML to FIID for web scrape feeds
 // @run-at       document-start
 // @match        https://www.rabobank.com/knowledge/*
@@ -13,11 +13,19 @@
   "use strict";
 
   var marker = window.name;
+  if (marker !== "fiid_scrape") return;
+
+  // Clear immediately so page JS cannot read it
   window.name = "";
 
-  if (!marker.startsWith("fiid_scrape|")) return;
+  // Restore before navigations (e.g. Cloudflare challenge -> real page)
+  var done = false;
+  window.addEventListener("beforeunload", function () {
+    if (!done) window.name = marker;
+  });
 
-  var ingestUrl = marker.split("|")[1];
+  // Hardcode your ingest endpoint here
+  var ingestUrl = "https://admin.example.com/admin/reading_list/ingest_html";
   var CHALLENGE_TITLES = ["just a moment", "attention required", "please wait"];
 
   function isContentReady() {
@@ -30,6 +38,7 @@
   }
 
   function sendHtml() {
+    done = true;
     GM_xmlhttpRequest({
       method: "POST",
       url: ingestUrl,

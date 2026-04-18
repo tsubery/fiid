@@ -1,13 +1,7 @@
 class Feed < ApplicationRecord
-  store_accessor :config, :article_link_selector, :browser_fetch
+  store_accessor :config, :article_link_selector
 
-  def browser_fetch=(value)
-    super(ActiveModel::Type::Boolean.new.cast(value))
-  end
-
-  def browser_fetch?
-    browser_fetch == true
-  end
+  scope :pollable, -> { where(type: descendants.select(&:poll?).map(&:name)) }
 
   has_and_belongs_to_many :libraries
   has_many :media_items
@@ -66,9 +60,7 @@ class Feed < ApplicationRecord
 
   def set_type
     url = self.url || ''
-    return if EtagFeed.name == type
-    return if PersonalFeed.name == type
-    return if WebScrapeFeed.name == type
+    return if [EtagFeed, PersonalFeed, WebScrapeFeed, BrowserFetchedWebScrapeFeed].map(&:name).include?(type)
 
     self.type = YoutubePlaylistFeed.parse_id(url) && YoutubePlaylistFeed.name ||
                 YoutubeChannelFeed.parse_id(url) && YoutubeChannelFeed.name ||

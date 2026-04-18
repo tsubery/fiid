@@ -6,7 +6,7 @@ ActiveAdmin.register_page "Reading List" do
   end
 
   page_action :ingest_html, method: :post do
-    feed = WebScrapeFeed.find_by!(url: params[:url])
+    feed = BrowserFetchedWebScrapeFeed.find_by!(url: params[:url])
     count = feed.ingest_html(params[:html])
     render json: { success: true, new_items: count }
   rescue => e
@@ -56,10 +56,9 @@ ActiveAdmin.register_page "Reading List" do
     }
 
     if page == 1
-      scrape_feeds = WebScrapeFeed
+      scrape_feeds = BrowserFetchedWebScrapeFeed
         .joins(:libraries)
         .where("feeds.last_sync IS NULL OR feeds.last_sync < ?", 24.hours.ago)
-        .where("config @> ?", { browser_fetch: true }.to_json)
         .distinct
         .pluck(:url)
 

@@ -49,8 +49,7 @@ class RetrieveFeedsJob < ApplicationJob
   def self.enqueue_all
     ids = Feed
           .where("last_sync IS NULL or last_sync < ?", rand(15..30).minutes.ago)
-          .where(type: Feed.descendants.select(&:poll?).map(&:name))
-          .where.not("config @> ?", { browser_fetch: true }.to_json)
+          .pollable
           .joins(:libraries) # Do not bother if the feed doesn't have libraries
           .distinct
           .pluck(:id)

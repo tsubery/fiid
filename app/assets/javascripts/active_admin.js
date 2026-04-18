@@ -31,9 +31,9 @@ document.addEventListener("DOMContentLoaded", function () {
     },
 
     openScrapeFeeds: function (urls) {
-      const ingestUrl = location.origin + "/admin/reading_list/ingest_html";
       urls.forEach(function (url) {
-        window.open(url, "fiid_scrape|" + ingestUrl);
+        var w = window.open(url, "_blank");
+        if (w) w.name = "fiid_scrape";
       });
     },
 

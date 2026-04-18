@@ -3,19 +3,16 @@ require "test_helper"
 class WebScrapeFeedTest < ActiveSupport::TestCase
   LISTING_HTML = <<~HTML.freeze
     <html>
-    <head><title>Test Site</title></head>
+    <head>
+      <title>Test Site</title>
+      <meta name="description" content="A test description">
+      <meta property="og:image" content="https://example.com/thumb.jpg">
+    </head>
     <body>
       <a class="article" href="/knowledge/article-one">Article One</a>
       <a class="article" href="/knowledge/article-two">Article Two</a>
       <a class="nav-link" href="/about">About</a>
     </body>
-    </html>
-  HTML
-
-  EMPTY_HTML = <<~HTML.freeze
-    <html>
-    <head><title>Test Site</title></head>
-    <body><p>No articles here</p></body>
     </html>
   HTML
 
@@ -25,11 +22,11 @@ class WebScrapeFeedTest < ActiveSupport::TestCase
     end
   end
 
-  def create_feed(selector: "a.article", browser_fetch: false)
-    WebScrapeFeed.create!(
+  def create_feed(selector: "a.article", type: WebScrapeFeed, title: "Test Feed")
+    type.create!(
       url: "https://example.com/articles",
-      title: "Test Feed",
-      config: { "article_link_selector" => selector, "browser_fetch" => browser_fetch }
+      title: title,
+      config: { "article_link_selector" => selector }
     )
   end
 
@@ -167,31 +164,33 @@ class WebScrapeFeedTest < ActiveSupport::TestCase
     assert_equal "WebScrapeFeed", feed.type
   end
 
+  test "set_type does not override BrowserFetchedWebScrapeFeed" do
+    feed = BrowserFetchedWebScrapeFeed.new(url: "https://example.com/articles", title: "Test")
+    feed.valid?
+    assert_equal "BrowserFetchedWebScrapeFeed", feed.type
+  end
+
   test "article_link_selector stored in config" do
     feed = create_feed(selector: "div.card > a")
     assert_equal "div.card > a", feed.article_link_selector
     assert_equal "div.card > a", feed.config["article_link_selector"]
   end
 
-  # browser_fetch tests
-
-  test "browser_fetch flag stored as boolean in config" do
-    feed = create_feed(browser_fetch: true)
-    assert_equal true, feed.browser_fetch
-    assert feed.browser_fetch?
-
-    feed2 = create_feed(browser_fetch: false)
-    assert_equal false, feed2.browser_fetch
-    assert_not feed2.browser_fetch?
+  test "WebScrapeFeed.poll? returns true" do
+    assert WebScrapeFeed.poll?
   end
 
-  test "recent_media_items returns empty when browser_fetch is true" do
-    feed = create_feed(browser_fetch: true)
+  test "BrowserFetchedWebScrapeFeed.poll? returns false" do
+    assert_not BrowserFetchedWebScrapeFeed.poll?
+  end
+
+  test "BrowserFetchedWebScrapeFeed#recent_media_items returns empty" do
+    feed = create_feed(type: BrowserFetchedWebScrapeFeed)
     assert_equal [], feed.recent_media_items
   end
 
   test "ingest_html creates new media items" do
-    feed = create_feed(browser_fetch: true)
+    feed = create_feed(type: BrowserFetchedWebScrapeFeed)
     feed.libraries << Library.first
 
     count = feed.ingest_html(LISTING_HTML)
@@ -202,7 +201,7 @@ class WebScrapeFeedTest < ActiveSupport::TestCase
   end
 
   test "ingest_html deduplicates existing items" do
-    feed = create_feed(browser_fetch: true)
+    feed = create_feed(type: BrowserFetchedWebScrapeFeed)
     feed.libraries << Library.first
 
     feed.ingest_html(LISTING_HTML)
@@ -212,7 +211,7 @@ class WebScrapeFeedTest < ActiveSupport::TestCase
   end
 
   test "ingest_html reports Rollbar error when selector matches nothing" do
-    feed = create_feed(selector: "a.nonexistent", browser_fetch: true)
+    feed = create_feed(selector: "a.nonexistent", type: BrowserFetchedWebScrapeFeed)
 
     with_rollbar_tracking do |calls|
       count = feed.ingest_html(LISTING_HTML)
@@ -222,11 +221,126 @@ class WebScrapeFeedTest < ActiveSupport::TestCase
   end
 
   test "ingest_html adds items to feed libraries" do
-    feed = create_feed(browser_fetch: true)
+    feed = create_feed(type: BrowserFetchedWebScrapeFeed)
     library = Library.first
     feed.libraries << library
 
     feed.ingest_html(LISTING_HTML)
     assert_equal 2, library.media_items.where(feed: feed).count
+  end
+
+  test "BrowserFetchedWebScrapeFeed fill_missing_details does not fetch remotely" do
+    feed = BrowserFetchedWebScrapeFeed.new(
+      url: "https://example.com/articles",
+      config: { "article_link_selector" => "a" }
+    )
+    feed.valid?
+    assert_equal "", feed.title
+    assert_equal "", feed.description
+    assert_equal "", feed.thumbnail_url
+  end
+
+  test "WebScrapeFeed fill_missing_details sets title from HTML" do
+    feed = WebScrapeFeed.new(
+      url: "https://example.com/articles",
+      config: { "article_link_selector" => "a.article" }
+    )
+    feed.instance_variable_set(:@html_response, MockResponse.new(code: 200, body: LISTING_HTML))
+    feed.valid?
+    assert_equal "Test Site", feed.title
+    assert_equal "A test description", feed.description
+    assert_equal "https://example.com/thumb.jpg", feed.thumbnail_url
+  end
+
+  test "WebScrapeFeed fill_missing_details does not overwrite existing title" do
+    feed = WebScrapeFeed.new(
+      url: "https://example.com/articles",
+      title: "Custom Title",
+      config: { "article_link_selector" => "a.article" }
+    )
+    feed.valid?
+    assert_equal "Custom Title", feed.title
+  end
+
+  test "ingest_html fills title from HTML when title is blank" do
+    feed = create_feed(type: BrowserFetchedWebScrapeFeed, title: "")
+    feed.libraries << Library.first
+
+    feed.ingest_html(LISTING_HTML)
+    assert_equal "Test Site", feed.title
+    assert_equal "A test description", feed.description
+    assert_equal "https://example.com/thumb.jpg", feed.thumbnail_url
+  end
+
+  test "ingest_html does not overwrite existing title" do
+    feed = create_feed(type: BrowserFetchedWebScrapeFeed, title: "My Feed")
+    feed.libraries << Library.first
+
+    feed.ingest_html(LISTING_HTML)
+    assert_equal "My Feed", feed.title
+  end
+
+  test "ingest_html updates last_sync on duplicate ingest" do
+    feed = create_feed(type: BrowserFetchedWebScrapeFeed)
+    feed.libraries << Library.first
+
+    feed.ingest_html(LISTING_HTML)
+    first_sync = feed.last_sync
+
+    travel 1.minute do
+      feed.ingest_html(LISTING_HTML)
+      assert feed.last_sync > first_sync
+    end
+  end
+
+  test "ingest_html skips links without href" do
+    html = <<~HTML
+      <html><body>
+        <a class="article">No href</a>
+        <a class="article" href="/real">Real link</a>
+      </body></html>
+    HTML
+    feed = create_feed(type: BrowserFetchedWebScrapeFeed)
+    feed.libraries << Library.first
+
+    count = feed.ingest_html(html)
+    assert_equal 1, count
+    assert_equal 1, feed.media_items.count
+  end
+
+  test "ingest_html adds items to all feed libraries" do
+    feed = create_feed(type: BrowserFetchedWebScrapeFeed)
+    libraries = Library.limit(2).to_a
+    return if libraries.size < 2
+
+    libraries.each { |lib| feed.libraries << lib }
+
+    feed.ingest_html(LISTING_HTML)
+    libraries.each do |lib|
+      assert_equal 2, lib.media_items.where(feed: feed).count
+    end
+  end
+
+  test "ingest_html clears fetch_error_message" do
+    feed = create_feed(type: BrowserFetchedWebScrapeFeed)
+    feed.libraries << Library.first
+    feed.update!(fetch_error_message: "previous error")
+
+    feed.ingest_html(LISTING_HTML)
+    assert_equal "", feed.fetch_error_message
+  end
+
+  test "BrowserFetchedWebScrapeFeed is not included in pollable scope" do
+    feed = create_feed(type: BrowserFetchedWebScrapeFeed)
+    feed.libraries << Library.first
+
+    assert_not_includes Feed.pollable.pluck(:id), feed.id
+  end
+
+  test "WebScrapeFeed is included in pollable scope" do
+    feed = create_feed
+    feed.libraries << Library.first
+
+    assert_includes Feed.pollable.pluck(:id), feed.id
   end
 end

@@ -3,13 +3,8 @@ class WebScrapeFeed < Feed
 
   before_validation :fill_missing_details
 
-  def poll?
-    !browser_fetch?
-  end
-
   def fill_missing_details
     return if title.present?
-    return if browser_fetch?
 
     self.title = get_title || ''
     self.description = get_description || ''
@@ -17,8 +12,6 @@ class WebScrapeFeed < Feed
   end
 
   def recent_media_items(*)
-    return [] if browser_fetch?
-
     unless html_response.code == 200
       return network_error_message(html_response)
     end
@@ -26,22 +19,6 @@ class WebScrapeFeed < Feed
     extract_media_items(html)
   rescue => e
     "Error fetching feed ##{id}: #{e.inspect}"
-  end
-
-  def ingest_html(raw_html)
-    doc = Nokogiri::HTML(raw_html)
-    items = extract_media_items(doc)
-
-    count = 0
-    items.reject(&:persisted?).each do |item|
-      if item.save
-        libraries.each { |lib| lib.add_media_item(item) }
-        count += 1
-      end
-    end
-
-    update!(last_sync: Time.current, fetch_error_message: '')
-    count
   end
 
   private

@@ -30,8 +30,8 @@ class WebScrapeFeedTest < ActiveSupport::TestCase
     )
   end
 
-  def stub_response(feed, code: 200, body: LISTING_HTML)
-    feed.instance_variable_set(:@html_response, MockResponse.new(code: code, body: body))
+  def stub_response(feed, code: 200, body: LISTING_HTML, headers: {})
+    feed.instance_variable_set(:@html_response, MockResponse.new(code: code, body: body, headers: headers))
   end
 
   def with_rollbar_tracking
@@ -156,6 +156,49 @@ class WebScrapeFeedTest < ActiveSupport::TestCase
     items = feed.recent_media_items
     assert_equal 1, items.size
     assert_equal "https://example.com/about", items[0].url
+  end
+
+  test "returns empty array on 304 response" do
+    feed = create_feed
+    stub_response(feed, code: 304)
+
+    assert_equal [], feed.recent_media_items
+  end
+
+  test "stores etag from response header" do
+    feed = create_feed
+    stub_response(feed, headers: { "ETag" => "abc123" })
+
+    feed.recent_media_items
+    assert_equal "abc123", feed.reload.etag
+  end
+
+  test "stores body checksum as etag when header absent" do
+    feed = create_feed
+    stub_response(feed)
+
+    feed.recent_media_items
+    assert_equal Digest::MD5.hexdigest(LISTING_HTML), feed.reload.etag
+  end
+
+  test "returns empty array when etag matches" do
+    feed = create_feed
+    stub_response(feed, headers: { "ETag" => "abc123" })
+    feed.recent_media_items
+
+    stub_response(feed, headers: { "ETag" => "abc123" })
+    assert_equal [], feed.recent_media_items
+  end
+
+  test "returns items when etag changes" do
+    feed = create_feed
+    stub_response(feed, headers: { "ETag" => "old" })
+    feed.recent_media_items
+
+    stub_response(feed, headers: { "ETag" => "new" })
+    items = feed.recent_media_items
+    assert_equal 2, items.size
+    assert_equal "new", feed.reload.etag
   end
 
   test "set_type does not override WebScrapeFeed" do

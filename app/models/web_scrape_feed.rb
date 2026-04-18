@@ -12,11 +12,22 @@ class WebScrapeFeed < Feed
   end
 
   def recent_media_items(*)
+    return [] if html_response.code == 304
+
     unless html_response.code == 200
       return network_error_message(html_response)
     end
 
-    extract_media_items(html)
+    new_checksum =
+      html_headers["etag"].presence ||
+      Digest::MD5.hexdigest(html_response.body)
+
+    if new_checksum == etag
+      []
+    else
+      update!(etag: new_checksum)
+      extract_media_items(html)
+    end
   rescue => e
     "Error fetching feed ##{id}: #{e.inspect}"
   end

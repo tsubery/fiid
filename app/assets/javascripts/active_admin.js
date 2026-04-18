@@ -662,7 +662,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (data.success) {
           this.showToast(data.created ? "URL added" : "URL already exists");
-          this.fetchArticles(1);
+          //this.fetchArticles(1);
         } else {
           alert("Failed to add URL: " + (data.error || "Unknown error"));
         }

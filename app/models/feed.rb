@@ -53,21 +53,22 @@ class Feed < ApplicationRecord
   end
 
   def normalize_url
-    if normalized_url != url
-      self.url = normalized_url
-    end
+    target_url = if self.class.name != type && type.present?
+                   becomes(type.constantize).normalized_url
+                 else
+                   normalized_url
+                 end
+    self.url = target_url if target_url != url
   end
 
-  MANUALLY_TYPED_FEED_NAMES = %w[
-    EtagFeed PersonalFeed, WebScrapeFeed
-    BrowserFetchedWebScrapeFeed PodchaserGuestFeed
-  ].freeze
+  MANUALLY_TYPED_FEED_NAMES = %w[EtagFeed PersonalFeed WebScrapeFeed BrowserFetchedWebScrapeFeed].freeze
 
   def set_type
     url = self.url || ''
     return if MANUALLY_TYPED_FEED_NAMES.include?(type)
 
-    self.type = YoutubePlaylistFeed.parse_id(url) && YoutubePlaylistFeed.name ||
+    self.type = podchaser_guest_name.present? && PodchaserGuestFeed.name ||
+                YoutubePlaylistFeed.parse_id(url) && YoutubePlaylistFeed.name ||
                 YoutubeChannelFeed.parse_id(url) && YoutubeChannelFeed.name ||
                 url =~ URI::MailTo::EMAIL_REGEXP && IncomingEmailFeed.name ||
                 RssFeed.name

@@ -28,10 +28,11 @@ class PodchaserGuestFeed < Feed
             episode {
               id
               title
+              description
               airDate
               url
               audioUrl
-              length
+              lengthSeconds: length
               imageUrl
               podcast { title, imageUrl }
             }
@@ -61,10 +62,13 @@ class PodchaserGuestFeed < Feed
     end
 
     self.podchaser_guest_pcid = guest.pcid
-    self.thumbnail_url = guest.image_url if thumbnail_url.blank?
+    self.thumbnail_url = guest.image_url || ""
   end
 
+  PODCHASER_DEBOUNCE_INTERVAL = 12.hours
+
   def recent_media_items(*)
+    return [] if last_sync.present? && last_sync > PODCHASER_DEBOUNCE_INTERVAL.ago
     return "PodchaserGuestFeed##{id}: no guest ID resolved" unless podchaser_guest_pcid.present?
 
     result = Podchaser::Client.query(
@@ -72,8 +76,12 @@ class PodchaserGuestFeed < Feed
       variables: { pcid: podchaser_guest_pcid, first: 25 }
     )
 
+    if result.errors&.any?
+      return "Error fetching feed ##{id}: #{result.errors.messages.values.join(', ')}"
+    end
+
     guest = result.data&.creator
-    return "Error fetching feed ##{id}: guest not found" unless guest
+    return "Error fetching feed ##{id}: guest '#{podchaser_guest_name}' not found" unless guest
 
     credits = guest.episode_credits&.data || []
 
@@ -86,13 +94,14 @@ class PodchaserGuestFeed < Feed
       media_items.find_by(guid: guid) ||
         media_items.new(
           guid: guid,
+          reachable: true,
           url: ep.audio_url || ep.url,
           title: [title, "#{ep.podcast&.title} - #{ep.title}"].compact.join(": "),
           author: ep.podcast&.title || title,
-          description: '',
-          mime_type: ep.audio_url.present? ? MediaItem::VIDEO_MIME_TYPE : MediaItem::HTML_MIME_TYPE,
+          description: ep.description || '',
+          mime_type: ep.audio_url.present? ? MediaItem::AUDIO_MIME_TYPE : MediaItem::HTML_MIME_TYPE,
           published_at: ep.air_date,
-          duration_seconds: ep.length,
+          duration_seconds: ep.length_seconds,
           thumbnail_url: ep.image_url || ep.podcast&.image_url || ''
         )
     end

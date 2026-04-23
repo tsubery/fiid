@@ -9,8 +9,8 @@ http_interactions:
         $first: Int!) {\n  creator(identifier: {type: PCID, id: $pcid}) {\n    pcid\n    name\n    imageUrl\n    episodeCredits(first:
         $first, filters: {role: [\"guest\"]}, sort: {sortBy: DATE, direction: DESCENDING})
         {\n      paginatorInfo {\n        count\n        hasMorePages\n      }\n      data
-        {\n        episode {\n          id\n          title\n          airDate\n          url\n          audioUrl\n          length\n          imageUrl\n          podcast
-        {\n            title\n            imageUrl\n          }\n        }\n      }\n    }\n  }\n}","variables":{"pcid":"791950","first":25},"operationName":"PodchaserGuestFeed__EpisodeCreditsQuery"}'
+        {\n        episode {\n          id\n          title\n          description\n          airDate\n          url\n          audioUrl\n          lengthSeconds:
+        length\n          imageUrl\n          podcast {\n            title\n            imageUrl\n          }\n        }\n      }\n    }\n  }\n}","variables":{"pcid":"791950","first":25},"operationName":"PodchaserGuestFeed__EpisodeCreditsQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -34,10 +34,10 @@ http_interactions:
       Connection:
       - keep-alive
       Date:
-      - Thu, 23 Apr 2026 00:04:29 GMT
+      - Thu, 23 Apr 2026 01:50:32 GMT
       Set-Cookie:
-      - laravel_session=eyJpdiI6IkRvLytYeHpWdHk1OFFUbnR0NHhId2c9PSIsInZhbHVlIjoiQmpKRjdtdDlSTWdNSWxXNlIzd2N1V25sOVZ4dzJrejUwK1VOTHNnQzBtY2wvaUJvRkpjRmhCbG1kYTZzUG8yRUdXS0tuNW9Gd29SZk9PVG9ERlF3S3c4V29LRHFaWTU5TmVJdVROK0RlTG5sVjUrRFh0TjRwemxLQzlSVGw2RG8iLCJtYWMiOiJkNjVkNGRmYjRkNTFkODAwMDAwNmEyNThmMzIyNzEwMzdlMTI4N2FkODFmZDM4N2FmZDM4Y2JmOTI3MjUyMzdmIiwidGFnIjoiIn0%3D;
-        expires=Thu, 23-Apr-2026 02:04:29 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+      - laravel_session=eyJpdiI6IldENTRGTmhSQStBVTV6QTFRZTFNbVE9PSIsInZhbHVlIjoiZHRtc3l3clNMQ1F4VUVBYytDeFp6OVFrZFhZdU9YU0ZNWnZzOHBsMThPaE9ESnlGdHZZVUUvYzFrU3pnRHIyblJUZDR5SFFBNE9lMnVoQWlHejY4Wm16ejVmVXQwNWxjVjd0Mk5mU0RKZlZnbSt5S0RHdUdIOUFGNEtEaDFPNVMiLCJtYWMiOiIyOWQ4NDBiNTFhNDhiY2YwYzViY2Y0ODY3MDU3ZmJhMmI2ODhkNWFjYTEzZGU2YzlhMWM4YTk1ZjlkYjQ1MzdiIiwidGFnIjoiIn0%3D;
+        expires=Thu, 23-Apr-2026 03:50:32 GMT; Max-Age=7200; path=/; httponly; samesite=lax
       Server:
       - nginx/1.18.0 (Ubuntu)
       Vary:
@@ -46,28 +46,84 @@ http_interactions:
       Cache-Control:
       - no-cache, private
       X-Podchaser-Points-Remaining:
-      - '23810'
+      - '20817'
       X-Podchaser-Query-Cost:
-      - '283'
+      - '308'
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 c3ffaeb503085f4c58bb8fe7eab1a1b2.cloudfront.net (CloudFront)
+      - 1.1 147a9efb8cd71412151c5449818d4846.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - MIA50-P2
       X-Amz-Cf-Id:
-      - 4HT8noxy-DX2n03Zn2NuTpTcoOmvHQ2BtJVvv7r59kVq4IRWVYx5-w==
+      - jDsZmjeM-SKjArienup7QayRRUTKeKMIbL5GqhgCfqLwfkZEyRKDLg==
     body:
       encoding: ASCII-8BIT
       string: '{"data":{"creator":{"pcid":"791950","name":"Jim Chanos","imageUrl":"https:\/\/creator-images.podchaser.com\/392fd011a7bf454dda540173fe5b2e49.jpeg","episodeCredits":{"paginatorInfo":{"count":2,"hasMorePages":false},"data":[{"episode":{"id":"259526122","title":"BTC243:
-        Jim Chanos Vs Pierre Rochard MSTR mNAV debate (Bitcoin Podcast)","airDate":"2025-07-16
-        00:00:00","url":"https:\/\/www.podchaser.com\/podcasts\/the-investors-podcast-we-study-7068\/episodes\/btc243-jim-chanos-vs-pierre-ro-259526122","audioUrl":"https:\/\/www.podtrac.com\/pts\/redirect.mp3\/pdst.fm\/e\/traffic.megaphone.fm\/PPLLC5507239494.mp3?updated=1752604146","length":3292,"imageUrl":"https:\/\/megaphone.imgix.net\/podcasts\/8d32d4ea-61a0-11f0-8ac9-ef02c1c15bb7\/image\/7e6c9fd439174b0b41a400e4e9125583.jpg?ixlib=rails-4.3.1&max-w=3000&max-h=3000&fit=crop&auto=format%2Ccompress","podcast":{"title":"The
+        Jim Chanos Vs Pierre Rochard MSTR mNAV debate (Bitcoin Podcast)","description":"Jim
+        Chanos and Pierre Rochard face off on Bitcoin-native corporates, debating
+        governance, valuation models, capital structure, and whether BTC on the balance
+        sheet adds value or risk.\n\n\n\nIN THIS EPISODE YOU\u2019LL LEARN:\n\n00:00
+        - Intro\u00a0\n\n02:27 - Why Jim Chanos is short BTC companies but long Bitcoin
+        itself\n\n05:44 - Pierre Rochard''s view on using corporate debt\/equity to
+        acquire BTC\n\n13:03 - Capital structure tools best suited for BTC-native
+        companies\n\n14:12 - Whether BTC treasuries offer more than just bull-market
+        beta\n\n19:23 - The risks of NAV premiums and misaligned management incentives\n\n20:16
+        - Debate over proper valuation frameworks: NAV vs. cash flow\n\n24:30 - Could
+        BTC treasuries evolve into financial infrastructure\u2014or stay niche?\n\n26:25
+        - The systemic implications of too many firms holding BTC on balance sheets\n\n36:22
+        - 2030 predictions: spot BTC vs. BTC-native equities vs. ETFs\n\n40:17 - What
+        a \u201cresponsible\u201d BTC treasury strategy could look like\n\n\n\nDisclaimer:
+        Slight discrepancies in the timestamps may occur due to podcast platform differences.\n\n\n\n\ufeffBOOKS
+        AND RESOURCES\n\n\n  Jim\u2019s X Account.\n\n  Pierre\u2019s X Account.\n\n\n  Related
+        Episode: Bitcoin Energy Survey and the Speculative Attack w\/ Pierre Rochard.\n\n  Check
+        out all the books mentioned and discussed in our podcast episodes\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060
+        \u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060here\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n  Enjoy
+        ad-free episodes when you subscribe to our\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060
+        \u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060Premium Feed\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n\n\n\nNEW
+        TO THE SHOW?\n\n\n  Join the exclusive \u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060TIP
+        Mastermind Community\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060
+        to engage in meaningful stock investing discussions with Stig, Clay, Kyle,
+        and the other community members.\n\n  Follow our official social media accounts:\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060X
+        (Twitter)\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u00a0|\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060LinkedIn\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u00a0|\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060Instagram\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u00a0|\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060Facebook\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u00a0|\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060TikTok\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n  Check
+        out our \u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060Bitcoin
+        Fundamentals Starter Packs\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n  Browse
+        through all our episodes (complete with transcripts)\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060here\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n  Try
+        our tool for picking stock winners and managing our portfolios:\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060TIP
+        Finance Tool\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n  Enjoy
+        exclusive perks from our\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060favorite
+        Apps and Services\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n  Get
+        smarter about valuing businesses in just a few minutes each week through our
+        newsletter,\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060The
+        Intrinsic Value Newsletter\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n  Learn
+        how to better start, manage, and grow your business with the\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060best
+        business podcasts\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n\n\n\n\nSPONSORS\n\nSupport
+        our free podcast by supporting our\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060sponsors\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060:\n\n\n  \nSimpleMining\n\n\n  \nHardblock\n\n\n  \nAnchorWatch\n\n\n  \nOnramp\n\n\n  \nHuman
+        Rights Foundation\n\n\n  \nUnchained\n\n\n  \nIntuit\n\n\n  \nVanta\n\n\n  \nreMarkable\n\n\n  \nShopify\n\n\n\nLearn
+        more about your ad choices. Visit megaphone.fm\/adchoices\nSupport our show
+        by becoming a premium member! https:\/\/theinvestorspodcastnetwork.supportingcast.fm","airDate":"2025-07-16
+        00:00:00","url":"https:\/\/www.podchaser.com\/podcasts\/the-investors-podcast-we-study-7068\/episodes\/btc243-jim-chanos-vs-pierre-ro-259526122","audioUrl":"https:\/\/www.podtrac.com\/pts\/redirect.mp3\/pdst.fm\/e\/traffic.megaphone.fm\/PPLLC5507239494.mp3?updated=1752604146","lengthSeconds":3292,"imageUrl":"https:\/\/megaphone.imgix.net\/podcasts\/8d32d4ea-61a0-11f0-8ac9-ef02c1c15bb7\/image\/7e6c9fd439174b0b41a400e4e9125583.jpg?ixlib=rails-4.3.1&max-w=3000&max-h=3000&fit=crop&auto=format%2Ccompress","podcast":{"title":"The
         Investor''s Podcast (We Study Billionaires)  - The Investor\u2019s Podcast
         Network","imageUrl":"https:\/\/megaphone.imgix.net\/podcasts\/b2b12274-75fe-11ee-ae2d-1760f2a748b1\/image\/9e29d14a398eee5388bd2827faf66f93.jpg?ixlib=rails-4.3.1&max-w=3000&max-h=3000&fit=crop&auto=format%2Ccompress"}}},{"episode":{"id":"257682886","title":"Jim
-        Chanos on the Nuttiness of ''Bitcoin Treasury Companies''","airDate":"2025-06-30
-        08:00:00","url":"https:\/\/www.podchaser.com\/podcasts\/odd-lots-40661\/episodes\/jim-chanos-on-the-nuttiness-of-257682886","audioUrl":"https:\/\/podtrac.com\/pts\/redirect.mp3\/tracking.swap.fm\/track\/UVBrz8bN8aM2Xe47PEPu\/traffic.omny.fm\/d\/clips\/e73c998e-6e60-432f-8610-ae210140c5b1\/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b\/f6f737e1-0d97-486d-b2b8-b309014fa8ed\/audio.mp3?utm_source=Podcast&in_playlist=982f5071-765c-403d-969d-ae27003a8d83","length":2253,"imageUrl":"https:\/\/www.omnycontent.com\/d\/playlist\/e73c998e-6e60-432f-8610-ae210140c5b1\/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b\/982f5071-765c-403d-969d-ae27003a8d83\/image.jpg?t=1681322812&size=Large","podcast":{"title":"Odd
+        Chanos on the Nuttiness of ''Bitcoin Treasury Companies''","description":"For
+        awhile there was just MicroStrategy (which has since been renamed as Strategy.)
+        It started buying Bitcoin, and then raised money to buy more Bitcoin, and
+        the stock has done phenomenally well, despite the company not doing much else
+        beside holding Bitcoin. But now it has spawned numerous copycats all doing
+        the same thing. But the question is why? Why are people willing to buy shares
+        of a company that owns Bitcoin, rather than just buying Bitcoin outright (which
+        anyone can easily do now that there''s an ETF)? On this episode of the podcast,
+        recorded live in New York City, we speak with famed short-seller Jim Chanos
+        about this phenomenon. We also talk about NYC real estate in the age of Zohran
+        Mamdani, the latest at Tesla, private equity, and whether AI can replace people
+        who understand accounting. Read more:Michael Saylor Shifts to Using Preferred
+        Shares to Buy Bitcoin as Criticism RisesMusk Confidant Afshar Leaves Tesla
+        in Latest High-Level Exit Only http:\/\/Bloomberg.com subscribers can get
+        the Odd Lots newsletter in their inbox each week, plus unlimited access to
+        the site and app. Subscribe at\u00a0 bloomberg.com\/subscriptions\/oddlotsSee
+        omnystudio.com\/listener for privacy information.","airDate":"2025-06-30 08:00:00","url":"https:\/\/www.podchaser.com\/podcasts\/odd-lots-40661\/episodes\/jim-chanos-on-the-nuttiness-of-257682886","audioUrl":"https:\/\/podtrac.com\/pts\/redirect.mp3\/tracking.swap.fm\/track\/UVBrz8bN8aM2Xe47PEPu\/traffic.omny.fm\/d\/clips\/e73c998e-6e60-432f-8610-ae210140c5b1\/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b\/f6f737e1-0d97-486d-b2b8-b309014fa8ed\/audio.mp3?utm_source=Podcast&in_playlist=982f5071-765c-403d-969d-ae27003a8d83","lengthSeconds":2253,"imageUrl":"https:\/\/www.omnycontent.com\/d\/playlist\/e73c998e-6e60-432f-8610-ae210140c5b1\/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b\/982f5071-765c-403d-969d-ae27003a8d83\/image.jpg?t=1681322812&size=Large","podcast":{"title":"Odd
         Lots","imageUrl":"https:\/\/www.omnycontent.com\/d\/playlist\/e73c998e-6e60-432f-8610-ae210140c5b1\/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b\/982f5071-765c-403d-969d-ae27003a8d83\/image.jpg?t=1681322812&size=Large"}}}]}}}}'
-  recorded_at: Thu, 23 Apr 2026 00:04:29 GMT
+  recorded_at: Thu, 23 Apr 2026 01:50:32 GMT
 - request:
     method: post
     uri: https://api.podchaser.com/graphql
@@ -77,8 +133,8 @@ http_interactions:
         $first: Int!) {\n  creator(identifier: {type: PCID, id: $pcid}) {\n    pcid\n    name\n    imageUrl\n    episodeCredits(first:
         $first, filters: {role: [\"guest\"]}, sort: {sortBy: DATE, direction: DESCENDING})
         {\n      paginatorInfo {\n        count\n        hasMorePages\n      }\n      data
-        {\n        episode {\n          id\n          title\n          airDate\n          url\n          audioUrl\n          length\n          imageUrl\n          podcast
-        {\n            title\n            imageUrl\n          }\n        }\n      }\n    }\n  }\n}","variables":{"pcid":"791950","first":25},"operationName":"PodchaserGuestFeed__EpisodeCreditsQuery"}'
+        {\n        episode {\n          id\n          title\n          description\n          airDate\n          url\n          audioUrl\n          lengthSeconds:
+        length\n          imageUrl\n          podcast {\n            title\n            imageUrl\n          }\n        }\n      }\n    }\n  }\n}","variables":{"pcid":"791950","first":25},"operationName":"PodchaserGuestFeed__EpisodeCreditsQuery"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -102,10 +158,10 @@ http_interactions:
       Connection:
       - keep-alive
       Date:
-      - Thu, 23 Apr 2026 00:04:30 GMT
+      - Thu, 23 Apr 2026 01:51:23 GMT
       Set-Cookie:
-      - laravel_session=eyJpdiI6ImloUm5ZYytHRFNzSTMrenFtNERwaVE9PSIsInZhbHVlIjoiSVRaNXJ1a3BIeHpvSUlpbFlSdGNxMlEvOUZKY2VDc1hNbHlxRGpiWTJGVllnNE81MTNad2RoNW5iWjIwaEFraTY5d1phYVRMQ3BPbVhZU0lEelN4b3RIbVV3NjNJUk0vQ2x5NnhMdzlLSFN4WnRkSll0UDQvWldVSmU2eHlocisiLCJtYWMiOiJlNGM4YWJmMzhiYzQ1OGVhMDlmOTY0ZjBhNjVhNmUwMjgxZmI4NDMwODc2NDYyMDE5MDYxZjZmZTMxZDlkZDBkIiwidGFnIjoiIn0%3D;
-        expires=Thu, 23-Apr-2026 02:04:30 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+      - laravel_session=eyJpdiI6IlJmZDh3U2dPNTBCTFM0cE1iTzBBMWc9PSIsInZhbHVlIjoiUnFMeWNpQ1d1SWFvTkR5bnhrRWhwUHVQZ0Q1aXFQWWxTSThYanJaaXBjVVB5YU5GaFBzQ2JlT0FhRXlEamJCVnpsN09XK0tBdktzREFZLzFuakZ4bnp5OG1SL1pJT2dhZXlrMFJOcjNIL3F6eEV4QTNTKzNXZUlwRXUxVUJRM04iLCJtYWMiOiJkYzIyZDdlNzM2NGMyZGM1NDFkNWJiNjU3YWQ1YjE2Yjg2OGYwMzg0YzJmNzM3YmEwYzQ0ZmUxYmRmOGVlZDBhIiwidGFnIjoiIn0%3D;
+        expires=Thu, 23-Apr-2026 03:51:23 GMT; Max-Age=7200; path=/; httponly; samesite=lax
       Server:
       - nginx/1.18.0 (Ubuntu)
       Vary:
@@ -114,26 +170,82 @@ http_interactions:
       Cache-Control:
       - no-cache, private
       X-Podchaser-Points-Remaining:
-      - '23806'
+      - '20509'
       X-Podchaser-Query-Cost:
-      - '283'
+      - '308'
       X-Cache:
       - Miss from cloudfront
       Via:
-      - 1.1 5afe13d9a6dd513ea0054947fa28dc18.cloudfront.net (CloudFront)
+      - 1.1 5043a37395ddf7859d2515fd2a9125d6.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - IAD55-P7
       X-Amz-Cf-Id:
-      - kjQWl0kmlqc9foVU1JmxxqmknIobqJK4WNBJlb8Jc2usL0yIQWM-fQ==
+      - 7w3P9wU0jdbT60tIouBp0MjlfYSnIhnUtH7mSF_1oteG7aDOl4KQvA==
     body:
       encoding: ASCII-8BIT
       string: '{"data":{"creator":{"pcid":"791950","name":"Jim Chanos","imageUrl":"https:\/\/creator-images.podchaser.com\/392fd011a7bf454dda540173fe5b2e49.jpeg","episodeCredits":{"paginatorInfo":{"count":2,"hasMorePages":false},"data":[{"episode":{"id":"259526122","title":"BTC243:
-        Jim Chanos Vs Pierre Rochard MSTR mNAV debate (Bitcoin Podcast)","airDate":"2025-07-16
-        00:00:00","url":"https:\/\/www.podchaser.com\/podcasts\/the-investors-podcast-we-study-7068\/episodes\/btc243-jim-chanos-vs-pierre-ro-259526122","audioUrl":"https:\/\/www.podtrac.com\/pts\/redirect.mp3\/pdst.fm\/e\/traffic.megaphone.fm\/PPLLC5507239494.mp3?updated=1752604146","length":3292,"imageUrl":"https:\/\/megaphone.imgix.net\/podcasts\/8d32d4ea-61a0-11f0-8ac9-ef02c1c15bb7\/image\/7e6c9fd439174b0b41a400e4e9125583.jpg?ixlib=rails-4.3.1&max-w=3000&max-h=3000&fit=crop&auto=format%2Ccompress","podcast":{"title":"The
+        Jim Chanos Vs Pierre Rochard MSTR mNAV debate (Bitcoin Podcast)","description":"Jim
+        Chanos and Pierre Rochard face off on Bitcoin-native corporates, debating
+        governance, valuation models, capital structure, and whether BTC on the balance
+        sheet adds value or risk.\n\n\n\nIN THIS EPISODE YOU\u2019LL LEARN:\n\n00:00
+        - Intro\u00a0\n\n02:27 - Why Jim Chanos is short BTC companies but long Bitcoin
+        itself\n\n05:44 - Pierre Rochard''s view on using corporate debt\/equity to
+        acquire BTC\n\n13:03 - Capital structure tools best suited for BTC-native
+        companies\n\n14:12 - Whether BTC treasuries offer more than just bull-market
+        beta\n\n19:23 - The risks of NAV premiums and misaligned management incentives\n\n20:16
+        - Debate over proper valuation frameworks: NAV vs. cash flow\n\n24:30 - Could
+        BTC treasuries evolve into financial infrastructure\u2014or stay niche?\n\n26:25
+        - The systemic implications of too many firms holding BTC on balance sheets\n\n36:22
+        - 2030 predictions: spot BTC vs. BTC-native equities vs. ETFs\n\n40:17 - What
+        a \u201cresponsible\u201d BTC treasury strategy could look like\n\n\n\nDisclaimer:
+        Slight discrepancies in the timestamps may occur due to podcast platform differences.\n\n\n\n\ufeffBOOKS
+        AND RESOURCES\n\n\n  Jim\u2019s X Account.\n\n  Pierre\u2019s X Account.\n\n\n  Related
+        Episode: Bitcoin Energy Survey and the Speculative Attack w\/ Pierre Rochard.\n\n  Check
+        out all the books mentioned and discussed in our podcast episodes\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060
+        \u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060here\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n  Enjoy
+        ad-free episodes when you subscribe to our\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060
+        \u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060Premium Feed\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n\n\n\nNEW
+        TO THE SHOW?\n\n\n  Join the exclusive \u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060TIP
+        Mastermind Community\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060
+        to engage in meaningful stock investing discussions with Stig, Clay, Kyle,
+        and the other community members.\n\n  Follow our official social media accounts:\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060X
+        (Twitter)\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u00a0|\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060LinkedIn\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u00a0|\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060Instagram\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u00a0|\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060Facebook\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u00a0|\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060TikTok\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n  Check
+        out our \u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060Bitcoin
+        Fundamentals Starter Packs\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n  Browse
+        through all our episodes (complete with transcripts)\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060here\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n  Try
+        our tool for picking stock winners and managing our portfolios:\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060TIP
+        Finance Tool\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n  Enjoy
+        exclusive perks from our\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060favorite
+        Apps and Services\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n  Get
+        smarter about valuing businesses in just a few minutes each week through our
+        newsletter,\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060The
+        Intrinsic Value Newsletter\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n  Learn
+        how to better start, manage, and grow your business with the\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060best
+        business podcasts\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060.\n\n\n\n\n\nSPONSORS\n\nSupport
+        our free podcast by supporting our\u00a0\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060sponsors\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060\u2060:\n\n\n  \nSimpleMining\n\n\n  \nHardblock\n\n\n  \nAnchorWatch\n\n\n  \nOnramp\n\n\n  \nHuman
+        Rights Foundation\n\n\n  \nUnchained\n\n\n  \nIntuit\n\n\n  \nVanta\n\n\n  \nreMarkable\n\n\n  \nShopify\n\n\n\nLearn
+        more about your ad choices. Visit megaphone.fm\/adchoices\nSupport our show
+        by becoming a premium member! https:\/\/theinvestorspodcastnetwork.supportingcast.fm","airDate":"2025-07-16
+        00:00:00","url":"https:\/\/www.podchaser.com\/podcasts\/the-investors-podcast-we-study-7068\/episodes\/btc243-jim-chanos-vs-pierre-ro-259526122","audioUrl":"https:\/\/www.podtrac.com\/pts\/redirect.mp3\/pdst.fm\/e\/traffic.megaphone.fm\/PPLLC5507239494.mp3?updated=1752604146","lengthSeconds":3292,"imageUrl":"https:\/\/megaphone.imgix.net\/podcasts\/8d32d4ea-61a0-11f0-8ac9-ef02c1c15bb7\/image\/7e6c9fd439174b0b41a400e4e9125583.jpg?ixlib=rails-4.3.1&max-w=3000&max-h=3000&fit=crop&auto=format%2Ccompress","podcast":{"title":"The
         Investor''s Podcast (We Study Billionaires)  - The Investor\u2019s Podcast
         Network","imageUrl":"https:\/\/megaphone.imgix.net\/podcasts\/b2b12274-75fe-11ee-ae2d-1760f2a748b1\/image\/9e29d14a398eee5388bd2827faf66f93.jpg?ixlib=rails-4.3.1&max-w=3000&max-h=3000&fit=crop&auto=format%2Ccompress"}}},{"episode":{"id":"257682886","title":"Jim
-        Chanos on the Nuttiness of ''Bitcoin Treasury Companies''","airDate":"2025-06-30
-        08:00:00","url":"https:\/\/www.podchaser.com\/podcasts\/odd-lots-40661\/episodes\/jim-chanos-on-the-nuttiness-of-257682886","audioUrl":"https:\/\/podtrac.com\/pts\/redirect.mp3\/tracking.swap.fm\/track\/UVBrz8bN8aM2Xe47PEPu\/traffic.omny.fm\/d\/clips\/e73c998e-6e60-432f-8610-ae210140c5b1\/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b\/f6f737e1-0d97-486d-b2b8-b309014fa8ed\/audio.mp3?utm_source=Podcast&in_playlist=982f5071-765c-403d-969d-ae27003a8d83","length":2253,"imageUrl":"https:\/\/www.omnycontent.com\/d\/playlist\/e73c998e-6e60-432f-8610-ae210140c5b1\/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b\/982f5071-765c-403d-969d-ae27003a8d83\/image.jpg?t=1681322812&size=Large","podcast":{"title":"Odd
+        Chanos on the Nuttiness of ''Bitcoin Treasury Companies''","description":"For
+        awhile there was just MicroStrategy (which has since been renamed as Strategy.)
+        It started buying Bitcoin, and then raised money to buy more Bitcoin, and
+        the stock has done phenomenally well, despite the company not doing much else
+        beside holding Bitcoin. But now it has spawned numerous copycats all doing
+        the same thing. But the question is why? Why are people willing to buy shares
+        of a company that owns Bitcoin, rather than just buying Bitcoin outright (which
+        anyone can easily do now that there''s an ETF)? On this episode of the podcast,
+        recorded live in New York City, we speak with famed short-seller Jim Chanos
+        about this phenomenon. We also talk about NYC real estate in the age of Zohran
+        Mamdani, the latest at Tesla, private equity, and whether AI can replace people
+        who understand accounting. Read more:Michael Saylor Shifts to Using Preferred
+        Shares to Buy Bitcoin as Criticism RisesMusk Confidant Afshar Leaves Tesla
+        in Latest High-Level Exit Only http:\/\/Bloomberg.com subscribers can get
+        the Odd Lots newsletter in their inbox each week, plus unlimited access to
+        the site and app. Subscribe at\u00a0 bloomberg.com\/subscriptions\/oddlotsSee
+        omnystudio.com\/listener for privacy information.","airDate":"2025-06-30 08:00:00","url":"https:\/\/www.podchaser.com\/podcasts\/odd-lots-40661\/episodes\/jim-chanos-on-the-nuttiness-of-257682886","audioUrl":"https:\/\/podtrac.com\/pts\/redirect.mp3\/tracking.swap.fm\/track\/UVBrz8bN8aM2Xe47PEPu\/traffic.omny.fm\/d\/clips\/e73c998e-6e60-432f-8610-ae210140c5b1\/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b\/f6f737e1-0d97-486d-b2b8-b309014fa8ed\/audio.mp3?utm_source=Podcast&in_playlist=982f5071-765c-403d-969d-ae27003a8d83","lengthSeconds":2253,"imageUrl":"https:\/\/www.omnycontent.com\/d\/playlist\/e73c998e-6e60-432f-8610-ae210140c5b1\/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b\/982f5071-765c-403d-969d-ae27003a8d83\/image.jpg?t=1681322812&size=Large","podcast":{"title":"Odd
         Lots","imageUrl":"https:\/\/www.omnycontent.com\/d\/playlist\/e73c998e-6e60-432f-8610-ae210140c5b1\/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b\/982f5071-765c-403d-969d-ae27003a8d83\/image.jpg?t=1681322812&size=Large"}}}]}}}}'
-  recorded_at: Thu, 23 Apr 2026 00:04:30 GMT
+  recorded_at: Thu, 23 Apr 2026 01:51:23 GMT
 recorded_with: VCR 6.4.0

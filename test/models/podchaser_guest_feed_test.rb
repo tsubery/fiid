@@ -96,22 +96,31 @@ class PodchaserGuestFeedTest < ActiveSupport::TestCase
     end
   end
 
-  test "recent_media_items returns guest episodes" do
+  test "recent_media_items returns guest episodes with expected values" do
     VCR.use_cassette("podchaser_episodes_jim_chanos", record: :new_episodes) do
       feed = create_feed
 
       items = feed.recent_media_items
-      assert_kind_of Array, items
-      assert items.size > 0
+      assert_equal 2, items.size
 
-      item = items.first
-      assert item.guid.start_with?("podchaser:")
-      assert item.url.present?
-      assert item.title.include?("PodChaser - Jim Chanos")
-      assert item.author.present?
-      assert item.published_at.present?
-      assert item.duration_seconds.present?
-      assert item.thumbnail_url.present?
+      rochard = items.find { |i| i.title.include?("Pierre Rochard") }
+      assert_equal "podchaser:259526122", rochard.guid
+      assert_equal "PodChaser - Jim Chanos: The Investor's Podcast (We Study Billionaires)  - The Investor\u2019s Podcast Network - BTC243: Jim Chanos Vs Pierre Rochard MSTR mNAV debate (Bitcoin Podcast)", rochard.title
+      assert_equal "The Investor's Podcast (We Study Billionaires)  - The Investor\u2019s Podcast Network", rochard.author
+      assert_equal 3292, rochard.duration_seconds
+      assert_equal MediaItem::AUDIO_MIME_TYPE, rochard.mime_type
+      assert_match(%r{mp3}, rochard.url)
+      assert_match(/Bitcoin/, rochard.description)
+      assert_match(/NAV/, rochard.description)
+      assert_equal DateTime.parse("2025-07-16 00:00:00"), rochard.published_at
+      assert_equal "https://megaphone.imgix.net/podcasts/8d32d4ea-61a0-11f0-8ac9-ef02c1c15bb7/image/7e6c9fd439174b0b41a400e4e9125583.jpg?ixlib=rails-4.3.1&max-w=3000&max-h=3000&fit=crop&auto=format%2Ccompress", rochard.thumbnail_url
+
+      odd_lots = items.find { |i| i.title.include?("Odd Lots") }
+      assert_equal "podchaser:257682886", odd_lots.guid
+      assert_equal 2253, odd_lots.duration_seconds
+      assert_match(/Nuttiness/, odd_lots.title)
+      assert_equal DateTime.parse("2025-06-30 08:00:00"), odd_lots.published_at
+      assert_equal "https://www.omnycontent.com/d/playlist/e73c998e-6e60-432f-8610-ae210140c5b1/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b/982f5071-765c-403d-969d-ae27003a8d83/image.jpg?t=1681322812&size=Large", odd_lots.thumbnail_url
     end
   end
 
@@ -120,7 +129,7 @@ class PodchaserGuestFeedTest < ActiveSupport::TestCase
       feed = create_feed
 
       items = feed.recent_media_items
-      audio_items = items.select { |i| i.mime_type == MediaItem::VIDEO_MIME_TYPE }
+      audio_items = items.select { |i| i.mime_type == MediaItem::AUDIO_MIME_TYPE }
       assert audio_items.size > 0
     end
   end
@@ -134,6 +143,30 @@ class PodchaserGuestFeedTest < ActiveSupport::TestCase
 
       items_again = feed.recent_media_items
       assert items_again.all?(&:persisted?)
+    end
+  end
+
+  test "recent_media_items returns empty when synced within debounce interval" do
+    feed = create_feed
+    feed.update_column(:config, { "podchaser_guest_name" => "Jim Chanos" })
+
+    result = feed.recent_media_items
+    assert_kind_of String, result
+    assert_match(/no guest ID resolved/, result)
+
+    feed.define_singleton_method(:fill_missing_details) {}
+    feed.update!(last_sync: 6.hours.ago)
+    assert_equal [], feed.recent_media_items
+  end
+
+  test "recent_media_items fetches when last sync exceeds debounce interval" do
+    VCR.use_cassette("podchaser_episodes_jim_chanos", record: :new_episodes) do
+      feed = create_feed
+      feed.update!(last_sync: 13.hours.ago)
+
+      items = feed.recent_media_items
+      assert_kind_of Array, items
+      assert items.size > 0
     end
   end
 
@@ -166,9 +199,9 @@ class PodchaserGuestFeedTest < ActiveSupport::TestCase
     end
   end
 
-  test "set_type does not override PodchaserGuestFeed" do
-    feed = PodchaserGuestFeed.new(
-      url: "podchaser://jim-chanos",
+  test "set_type detects PodchaserGuestFeed from guest name" do
+    feed = Feed.new(
+      url: "anything",
       config: {
         "podchaser_guest_name" => "Jim Chanos",
         "podchaser_guest_pcid" => JIM_CHANOS_PCID
@@ -176,6 +209,15 @@ class PodchaserGuestFeedTest < ActiveSupport::TestCase
     )
     feed.valid?
     assert_equal "PodchaserGuestFeed", feed.type
+  end
+
+  test "Feed.create with guest name sets type and url" do
+    VCR.use_cassette("podchaser_search_jim_chanos", record: :new_episodes) do
+      feed = Feed.create!(config: { "podchaser_guest_name" => "Jim Chanos" })
+      assert_equal "PodchaserGuestFeed", feed.type
+      assert_equal "podchaser://jim-chanos", feed.url
+      assert_equal "PodChaser - Jim Chanos", feed.title
+    end
   end
 
   test "PodchaserGuestFeed.poll? returns true" do

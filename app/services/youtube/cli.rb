@@ -50,7 +50,7 @@ module Youtube
 
       def stream(url, audio: false, &block)
         sanitize_url!(url)
-        cmd = "#{DL_BINARY} -r 50M -q --no-call-home #{audio ? "--format bestaudio --extract-audio " : ""} '#{url}' -o -"
+        cmd = "#{DL_BINARY} -r 50M -q --no-call-home #{audio ? "--format bestaudio --extract-audio " : ""} #{url.shellescape} -o -"
         Open3.popen3(cmd, &block)
       end
 

@@ -1,5 +1,5 @@
 ActiveAdmin.register Feed do
-  permit_params(*(Feed.attribute_names(&:to_sym) rescue []), :article_link_selector, :podchaser_guest_name, library_ids: [])
+  permit_params(*(Feed.attribute_names(&:to_sym) rescue []), :article_link_selector, :article_link_attribute, :podchaser_guest_name, library_ids: [])
 
   preserve_default_filters!
   remove_filter :media_items

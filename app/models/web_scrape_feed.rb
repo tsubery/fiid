@@ -50,7 +50,7 @@ class WebScrapeFeed < Feed
     base_uri = URI.parse(url)
 
     links.filter_map do |link|
-      href = link[article_link_attribute.presence? || "href"]
+      href = link[article_link_attribute.presence || "href"]
       next unless href
 
       article_url = URI.join(base_uri, href).to_s rescue next

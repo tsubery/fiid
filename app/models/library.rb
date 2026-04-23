@@ -11,7 +11,7 @@ class Library < ApplicationRecord
   DEFAULT_EPISODE_COUNT = 200
   MIN_DURATION_SECONDS = 120
 
-  def generate_podcast(current_url, audio_url:, video_url:)
+  def generate_podcast(current_url, video_url:)
     Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
       xml.rss(
         'version' => '2.0',
@@ -46,21 +46,27 @@ class Library < ApplicationRecord
             .where("duration_seconds IS NULL OR duration_seconds = 0 OR duration_seconds > ?", MIN_DURATION_SECONDS)
             .order(updated_at: :desc, id: :asc)
             .limit(episode_count)
-            .flat_map do |media_item|
-            [
-              [audio, audio_url.call(media_item.id), 'audio/mpeg'],
-              [video, video_url.call(media_item.id), 'video/mpeg']
-            ].select(&:first).map do |_enabled, media_item_link, mime_type|
+            .map do |media_item|
+              media_item.fill_missing_details
+              next unless media_item.has_all_details?
+              next unless media_item.duration_seconds >= MIN_DURATION_SECONDS
+              if media_item.video? && media_item.updated_at > 1.day.ago && !media_item.video_cached?
+                CacheVideoJob.perform_later(media_item.id)
+                next
+              end
+
+
               channel.item do |item|
-                media_item.fill_missing_details
-                next unless media_item.has_all_details?
-                next unless media_item.duration_seconds >= MIN_DURATION_SECONDS
-                if media_item.video? && media_item.updated_at > 1.day.ago && !media_item.video_cached?
-                  CacheVideoJob.perform_later(media_item.id)
-                  next
+                guid = media_item.url
+
+                if media_item.video?
+                  media_item_link = video_url.call(media_item.id)
+                  enclosure_type = 'video/mpeg'
+                else
+                  media_item_link = media_item.url
+                  enclosure_type = 'audio/mpeg'
                 end
 
-                guid = media_item.url
                 item.link(media_item_link)
 
                 title = media_item.title
@@ -70,14 +76,13 @@ class Library < ApplicationRecord
                 item.description(media_item.description)
                 item.guid(guid)
                 item.pubDate(media_item.updated_at&.rfc822)
-                item.enclosure(url: media_item_link, type: mime_type, length: (media_item.duration_seconds || 100) * 1000) # arbitrary length
+                item.enclosure(url: media_item_link, type: enclosure_type, length: media_item.duration_seconds * 1000)
                 item['itunes'].image(media_item.thumbnail_url)
                 item['itunes'].duration(Time.at(media_item.duration_seconds || 0).utc.strftime("%H:%M:%S"))
                 item['itunes'].title(title)
                 item['itunes'].author(media_item.author)
               end
-            end
-          end
+            end.compact
         end
       end
     end

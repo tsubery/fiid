@@ -11,8 +11,7 @@ class LibrariesController < ApplicationController
 
       podcast = @library.generate_podcast(
         request.url,
-        video_url: method(:media_item_video_url),
-        audio_url: method(:media_item_audio_url)
+        video_url: method(:media_item_video_url)
       )
       if Nokogiri::XML::Builder === podcast
         render xml: podcast, content_type: 'application/rss+xml'

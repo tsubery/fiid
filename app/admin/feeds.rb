@@ -25,7 +25,8 @@ ActiveAdmin.register Feed do
     f.input :thumbnail_url
     f.input :last_modified
     f.input :etag
-    f.input :article_link_selector, label: "CSS Selector (WebScrapeFeed)", hint: "CSS selector for article links on the page"
+    f.input :article_link_selector, label: "CSS Selector (WebScrapeFeed)", hint: "CSS selector for article elements on the page"
+    f.input :article_link_attribute, label: "CSS Attribute (WebScrapeFeed)", hint: "CSS attribute for article elements on the page"
     f.input :podchaser_guest_name, label: "Guest Name (PodchaserGuestFeed)", hint: "Name of the podcast guest to track"
     f.input :fetch_error_message
     f.input :last_sync

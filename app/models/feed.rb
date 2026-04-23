@@ -1,5 +1,5 @@
 class Feed < ApplicationRecord
-  store_accessor :config, :article_link_selector, :podchaser_guest_name
+  store_accessor :config, :article_link_selector, :article_link_attribute, :podchaser_guest_name
 
   scope :pollable, -> { where(type: descendants.select(&:poll?).map(&:name)) }
 

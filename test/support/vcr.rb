@@ -10,4 +10,7 @@ VCR.configure do |config|
   end
   config.ignore_localhost = true
   config.default_cassette_options = { :record => :none }
+  %w[PODCHASER_DEV_TOKEN PODCHASER_PROD_TOKEN].each do |key|
+    config.filter_sensitive_data("<#{key}>") { ENV[key] } if ENV[key]
+  end
 end

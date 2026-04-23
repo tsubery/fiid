@@ -1,0 +1,61 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.podchaser.com/graphql
+    body:
+      encoding: UTF-8
+      string: '{"query":"query PodchaserGuestFeed__SearchQuery($searchTerm: String!)
+        {\n  creators(searchTerm: $searchTerm, first: 1) {\n    data {\n      pcid\n      name\n      imageUrl\n    }\n  }\n}","variables":{"searchTerm":"Jim
+        Chanos"},"operationName":"PodchaserGuestFeed__SearchQuery"}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <PODCHASER_DEV_TOKEN>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Date:
+      - Thu, 23 Apr 2026 00:04:29 GMT
+      Set-Cookie:
+      - laravel_session=eyJpdiI6IkdLU1RGaUpldkVjSkRGZmozbXJyQXc9PSIsInZhbHVlIjoiZFFoMEVNL3BudXBtOUtkMFdJa2dqOFd2RkZsK2NOSG9JMXFsMTU5L2ZibmR2VnA0RElKZm1nMkxVcFVYOVFKYVVFY2F5ekxKd21XNWIxckNzUi9STDRPbmNId0s1R3lFS0YrMVQyTVlVMVZqeUIrZnVoWDgrNXFlZEFSbW5FR08iLCJtYWMiOiJmNWEwYWM2OTdjYjZlYTBjZGM5NDUyM2U5MmJmNDc5ZWE5ZGZhZjBhMzdlMTVmNjBmNzIzOWI5YjMzODU0NTk4IiwidGFnIjoiIn0%3D;
+        expires=Thu, 23-Apr-2026 02:04:29 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+      Server:
+      - nginx/1.18.0 (Ubuntu)
+      Vary:
+      - Accept-Encoding
+      - Origin
+      Cache-Control:
+      - no-cache, private
+      X-Podchaser-Points-Remaining:
+      - '24089'
+      X-Podchaser-Query-Cost:
+      - '4'
+      X-Cache:
+      - Miss from cloudfront
+      Via:
+      - 1.1 05240f8e0c8c9c13023806273b1311b6.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - MIA50-P2
+      X-Amz-Cf-Id:
+      - ivCoNzsbttEi6QPC_HDtQHV1IvdvXm3Pb_nrpD0D1Mp_fCLDfx30Yg==
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":{"creators":{"data":[{"pcid":"791950","name":"Jim Chanos","imageUrl":"https:\/\/creator-images.podchaser.com\/392fd011a7bf454dda540173fe5b2e49.jpeg"}]}}}'
+  recorded_at: Thu, 23 Apr 2026 00:04:29 GMT
+recorded_with: VCR 6.4.0

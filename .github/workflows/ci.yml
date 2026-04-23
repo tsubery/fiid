@@ -36,6 +36,7 @@ jobs:
       SPAM_EMAIL: spam@test.local
       ROLLBAR_ACCESS_TOKEN: none
       RAILS_INBOUND_EMAIL_PASSWORD: test_password
+      PODCHASER_DEV_TOKEN: ${{ secrets.PODCHASER_DEV_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4

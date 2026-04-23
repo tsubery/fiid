@@ -64,6 +64,7 @@ group :test do
 end
 
 gem 'feedjira'
+gem 'graphql-client'
 gem 'typhoeus'
 
 gem "activeadmin", "~> 3.2"

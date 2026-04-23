@@ -1,5 +1,5 @@
 class Feed < ApplicationRecord
-  store_accessor :config, :article_link_selector
+  store_accessor :config, :article_link_selector, :podchaser_guest_name
 
   scope :pollable, -> { where(type: descendants.select(&:poll?).map(&:name)) }
 
@@ -58,9 +58,14 @@ class Feed < ApplicationRecord
     end
   end
 
+  MANUALLY_TYPED_FEED_NAMES = %w[
+    EtagFeed PersonalFeed, WebScrapeFeed
+    BrowserFetchedWebScrapeFeed PodchaserGuestFeed
+  ].freeze
+
   def set_type
     url = self.url || ''
-    return if [EtagFeed, PersonalFeed, WebScrapeFeed, BrowserFetchedWebScrapeFeed].map(&:name).include?(type)
+    return if MANUALLY_TYPED_FEED_NAMES.include?(type)
 
     self.type = YoutubePlaylistFeed.parse_id(url) && YoutubePlaylistFeed.name ||
                 YoutubeChannelFeed.parse_id(url) && YoutubeChannelFeed.name ||

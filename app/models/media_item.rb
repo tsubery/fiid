@@ -9,6 +9,7 @@ class MediaItem < ApplicationRecord
 
   before_validation :fill_missing_details
   after_save :replace_temporary_url
+  before_save :widen_substack_email
   before_save :embed_images_and_resolve_links
   # after_save :cache_article
 
@@ -121,6 +122,20 @@ class MediaItem < ApplicationRecord
 
   def html?
     description && description =~ /\A[^<]*<(!DOCTYPE )?html/mi
+  end
+
+  def widen_substack_email
+    return unless html?
+
+    doc = Nokogiri::HTML(description)
+    td = doc.at_css('td.content[width="550"]')
+    div = doc.css('div').find { |d| d['style']&.match?(/max-width:\s*550px/) }
+    return unless td && div
+
+    td['width'] = '950'
+    div['style'] = div['style'].sub(/max-width:\s*550px/, 'max-width: 950px')
+
+    self.description = doc.to_html
   end
 
   def embed_images_and_resolve_links

@@ -39,13 +39,7 @@ class WebScrapeFeed < Feed
     links = doc.css(article_link_selector)
 
     if links.empty?
-      Rollbar.error(
-        "WebScrapeFeed##{id}: selector matched 0 items",
-        feed_id: id,
-        url: url,
-        selector: article_link_selector
-      )
-      return []
+      return "WebScrapeFeed##{id}: selector #{article_link_selector.inspect} matched 0 items"
     end
 
     base_uri = URI.parse(url)

@@ -34,17 +34,6 @@ class WebScrapeFeedTest < ActiveSupport::TestCase
     feed.instance_variable_set(:@html_response, MockResponse.new(code: code, body: body, headers: headers))
   end
 
-  def with_rollbar_tracking
-    calls = []
-    sc = Rollbar.singleton_class
-    sc.send(:alias_method, :__orig_error, :error)
-    sc.send(:define_method, :error) { |*args, **kwargs| calls << [args, kwargs] }
-    yield calls
-  ensure
-    sc.send(:alias_method, :error, :__orig_error)
-    sc.send(:remove_method, :__orig_error)
-  end
-
   test "extracts articles matching CSS selector" do
     feed = create_feed
     stub_response(feed)
@@ -94,26 +83,13 @@ class WebScrapeFeedTest < ActiveSupport::TestCase
     assert items_again.all?(&:persisted?)
   end
 
-  test "reports Rollbar error when selector matches nothing on valid page" do
+  test "returns error string when selector matches nothing on valid page" do
     feed = create_feed(selector: "a.nonexistent")
     stub_response(feed, body: LISTING_HTML)
 
-    with_rollbar_tracking do |calls|
-      items = feed.recent_media_items
-      assert_equal [], items
-      assert_equal 1, calls.size
-      assert_match(/matched 0 items/, calls.first[0].first)
-    end
-  end
-
-  test "does not report Rollbar error when articles are found" do
-    feed = create_feed
-    stub_response(feed)
-
-    with_rollbar_tracking do |calls|
-      feed.recent_media_items
-      assert_empty calls
-    end
+    result = feed.recent_media_items
+    assert_kind_of String, result
+    assert_match(/matched 0 items/, result)
   end
 
   test "returns error string on HTTP failure" do
@@ -284,14 +260,12 @@ class WebScrapeFeedTest < ActiveSupport::TestCase
     assert_equal 2, feed.media_items.count
   end
 
-  test "ingest_html reports Rollbar error when selector matches nothing" do
+  test "ingest_html stores fetch_error_message when selector matches nothing" do
     feed = create_feed(selector: "a.nonexistent", type: BrowserFetchedWebScrapeFeed)
 
-    with_rollbar_tracking do |calls|
-      count = feed.ingest_html(LISTING_HTML)
-      assert_equal 0, count
-      assert_equal 1, calls.size
-    end
+    count = feed.ingest_html(LISTING_HTML)
+    assert_equal 0, count
+    assert_match(/matched 0 items/, feed.fetch_error_message)
   end
 
   test "ingest_html adds items to feed libraries" do

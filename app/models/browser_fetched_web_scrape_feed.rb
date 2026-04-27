@@ -15,6 +15,11 @@ class BrowserFetchedWebScrapeFeed < WebScrapeFeed
     fill_details_from(doc) unless title.present?
     items = extract_media_items(doc)
 
+    if items.is_a?(String)
+      update!(fetch_error_message: items)
+      return 0
+    end
+
     count = 0
     items.reject(&:persisted?).each do |item|
       if item.save

@@ -10,6 +10,7 @@ class MediaItem < ApplicationRecord
   before_validation :fill_missing_details
   after_save :replace_temporary_url
   before_save :widen_substack_email
+  before_save :widen_bloomberg_email
   before_save :embed_images_and_resolve_links
   # after_save :cache_article
 
@@ -26,6 +27,7 @@ class MediaItem < ApplicationRecord
   }.freeze
   WAS_LIVE_COOLDOWN = 30.minutes
   MISSING_DURATION_THRESHOLD = 5
+  EMAIL_WIDE_LAYOUT_PX = 950
 
   scope :articles, -> { where(mime_type: HTML_MIME_TYPE) }
   scope :unarchived, -> { where(archived: false) }
@@ -132,8 +134,20 @@ class MediaItem < ApplicationRecord
     div = doc.css('div').find { |d| d['style']&.match?(/max-width:\s*550px/) }
     return unless td && div
 
-    td['width'] = '950'
-    div['style'] = div['style'].sub(/max-width:\s*550px/, 'max-width: 950px')
+    td['width'] = EMAIL_WIDE_LAYOUT_PX.to_s
+    div['style'] = div['style'].sub(/max-width:\s*550px/, "max-width: #{EMAIL_WIDE_LAYOUT_PX}px")
+
+    self.description = doc.to_html
+  end
+
+  def widen_bloomberg_email
+    return unless html?
+
+    doc = Nokogiri::HTML(description)
+    wrapper = doc.at_css('table#wrapper')
+    return unless wrapper && wrapper['style']&.match?(/max-width:\s*550px/)
+
+    wrapper['style'] = wrapper['style'].sub(/max-width:\s*550px/, "max-width: #{EMAIL_WIDE_LAYOUT_PX}px")
 
     self.description = doc.to_html
   end

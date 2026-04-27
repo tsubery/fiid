@@ -2,6 +2,7 @@ class WebScrapeFeed < Feed
   include Html
 
   before_validation :fill_missing_details
+  validates :article_link_selector, presence: true
 
   def fill_missing_details
     return if title.present?

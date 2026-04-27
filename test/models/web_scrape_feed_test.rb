@@ -219,6 +219,37 @@ class WebScrapeFeedTest < ActiveSupport::TestCase
     assert_equal "div.card > a", feed.config["article_link_selector"]
   end
 
+  test "WebScrapeFeed is invalid without article_link_selector" do
+    feed = WebScrapeFeed.new(url: "https://example.com/articles", title: "Test")
+    assert_not feed.valid?
+    assert_includes feed.errors[:article_link_selector], "can't be blank"
+  end
+
+  test "WebScrapeFeed is invalid when article_link_attribute is set but article_link_selector is blank" do
+    feed = WebScrapeFeed.new(
+      url: "https://example.com/articles",
+      title: "Test",
+      config: { "article_link_attribute" => "data-href" }
+    )
+    assert_not feed.valid?
+    assert_includes feed.errors[:article_link_selector], "can't be blank"
+  end
+
+  test "BrowserFetchedWebScrapeFeed is invalid without article_link_selector" do
+    feed = BrowserFetchedWebScrapeFeed.new(url: "https://example.com/articles", title: "Test")
+    assert_not feed.valid?
+    assert_includes feed.errors[:article_link_selector], "can't be blank"
+  end
+
+  test "WebScrapeFeed is valid with article_link_selector" do
+    feed = WebScrapeFeed.new(
+      url: "https://example.com/articles",
+      title: "Test",
+      config: { "article_link_selector" => "a.article" }
+    )
+    assert feed.valid?
+  end
+
   test "WebScrapeFeed.poll? returns true" do
     assert WebScrapeFeed.poll?
   end

@@ -79,4 +79,32 @@ class FeedTest < ActiveSupport::TestCase
     assert_not feed.valid?
     assert feed.errors[:priority].present?
   end
+
+  test "article_link_attribute is rejected on non-WebScrapeFeed" do
+    feed = RssFeed.new(
+      url: "https://example.com/feed.xml",
+      title: "Test",
+      config: { "article_link_attribute" => "data-href" }
+    )
+    assert_not feed.valid?
+    assert_includes feed.errors[:article_link_attribute], "is only allowed on WebScrapeFeed"
+  end
+
+  test "article_link_attribute is allowed on WebScrapeFeed" do
+    feed = WebScrapeFeed.new(
+      url: "https://example.com/articles",
+      title: "Test",
+      config: { "article_link_selector" => "a", "article_link_attribute" => "data-href" }
+    )
+    assert feed.valid?
+  end
+
+  test "article_link_attribute is allowed on BrowserFetchedWebScrapeFeed" do
+    feed = BrowserFetchedWebScrapeFeed.new(
+      url: "https://example.com/articles",
+      title: "Test",
+      config: { "article_link_selector" => "a", "article_link_attribute" => "data-href" }
+    )
+    assert feed.valid?
+  end
 end

@@ -12,6 +12,14 @@ class Feed < ApplicationRecord
   after_create :refresh_later
   validates :historical_item_count, numericality: { greater_than_or_equal_to: 0 }
   validates :priority, numericality: { greater_than_or_equal_to: 0 }
+  validate :article_link_attribute_only_on_web_scrape_feed
+
+  def article_link_attribute_only_on_web_scrape_feed
+    return if article_link_attribute.blank?
+    return if is_a?(WebScrapeFeed)
+
+    errors.add(:article_link_attribute, "is only allowed on WebScrapeFeed")
+  end
 
   def user_agent
     # Cloudflare protection sometimes blocks default user agent

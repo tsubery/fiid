@@ -30,7 +30,6 @@ ActiveAdmin.register Feed do
     f.input :podchaser_guest_name, label: "Guest Name (PodchaserGuestFeed)", hint: "Name of the podcast guest to track"
     f.input :fetch_error_message
     f.input :last_sync
-    f.input :last_sync
     f.input :libraries, :as => :select, :input_html => { :multiple => true }
     f.input :type, as: :select, collection: Feed.descendants.map { |c| [c.name, c.name] }
     f.actions

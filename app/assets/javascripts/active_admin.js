@@ -32,8 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     openScrapeFeeds: function (urls) {
       urls.forEach(function (url) {
-        var w = window.open(url, "_blank");
-        if (w) w.name = "fiid_scrape";
+        window.open(url, "_blank", "noreferrer");
       });
     },
 

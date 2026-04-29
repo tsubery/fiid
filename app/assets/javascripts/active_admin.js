@@ -6,6 +6,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const PENDING_ARCHIVES_KEY = "readingList.pendingArchives";
   const ARTICLES_CACHE_KEY = "readingList.articlesCache";
+  const COOKIE_PER_PAGE = "readingList.perPage";
+  const COOKIE_DAYS = "readingList.days";
+
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp("(^|; )" + name + "=([^;]*)"));
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+
+  function setCookie(name, value) {
+    if (value === null || value === "") {
+      document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax";
+    } else {
+      const expires = new Date(Date.now() + 365 * 86400000).toUTCString();
+      document.cookie = name + "=" + encodeURIComponent(value) + "; expires=" + expires + "; path=/; SameSite=Lax";
+    }
+  }
 
   const ReadingListController = {
     articles: [],
@@ -23,8 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     init: function () {
       const urlParams = new URLSearchParams(window.location.search);
-      this.days = urlParams.get("days") || null;
-      this.perPage = urlParams.get("per_page") || null;
+      this.days = urlParams.get("days") || getCookie(COOKIE_DAYS) || null;
+      this.perPage = urlParams.get("per_page") || getCookie(COOKIE_PER_PAGE) || null;
       this.bindEvents();
       this.syncPendingArchives();
       this.fetchArticles(1);
@@ -233,6 +249,8 @@ document.addEventListener("DOMContentLoaded", function () {
             self.next();
           } else if (button.id === "archive-btn") {
             self.archive();
+          } else if (button.id === "settings-btn") {
+            self.toggleSettings();
           }
           return;
         }
@@ -280,6 +298,31 @@ document.addEventListener("DOMContentLoaded", function () {
       window.addEventListener("online", () => {
         this.syncPendingArchives();
       });
+
+      const perPageInput = document.getElementById("settings-per-page");
+      const daysInput = document.getElementById("settings-days");
+      if (perPageInput) perPageInput.value = this.perPage || "";
+      if (daysInput) daysInput.value = this.days || "";
+
+      perPageInput?.addEventListener("change", (e) => {
+        const v = e.target.value.trim();
+        this.perPage = v || null;
+        setCookie(COOKIE_PER_PAGE, v);
+        this.fetchArticles(1);
+      });
+      daysInput?.addEventListener("change", (e) => {
+        const v = e.target.value.trim();
+        this.days = v || null;
+        setCookie(COOKIE_DAYS, v);
+        this.fetchArticles(1);
+      });
+    },
+
+    toggleSettings: function () {
+      const panel = document.getElementById("settings-panel");
+      if (panel) {
+        panel.style.display = panel.style.display === "none" ? "block" : "none";
+      }
     },
 
     escapeHtml: function (text) {

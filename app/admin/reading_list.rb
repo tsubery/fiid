@@ -153,7 +153,19 @@ ActiveAdmin.register_page "Reading List" do
         button "Prev", id: "prev-btn", style: "padding: 6px 32px; cursor: pointer; font-size: 14px;"
         button "Archive", id: "archive-btn", style: "padding: 6px 64px; cursor: pointer; background: #dc3545; color: white; border: none; border-radius: 4px; font-size: 14px; margin: 0 auto;"
         button "Next", id: "next-btn", style: "padding: 6px 32px; cursor: pointer; font-size: 14px;"
+        button "⚙", id: "settings-btn", style: "padding: 6px 12px; cursor: pointer; font-size: 16px; margin-left: 10px;", title: "Settings"
         span id: "article-title", style: "display: none;"
+      end
+
+      div id: "settings-panel", style: "position: fixed; top: 51px; right: 10px; z-index: 1001; background: #fff; border: 1px solid #ccc; border-radius: 4px; padding: 12px; display: none; box-shadow: 0 2px 8px rgba(0,0,0,0.15); min-width: 220px;" do
+        div style: "margin-bottom: 8px; display: flex; align-items: center;" do
+          label "Per page:", for: "settings-per-page", style: "flex: 1; font-size: 14px;"
+          input type: "number", id: "settings-per-page", min: "1", max: "200", style: "width: 80px; padding: 4px;"
+        end
+        div style: "display: flex; align-items: center;" do
+          label "Days:", for: "settings-days", style: "flex: 1; font-size: 14px;"
+          input type: "number", id: "settings-days", min: "0", placeholder: "all", style: "width: 80px; padding: 4px;"
+        end
       end
 
       div id: "reading-list-sidebar", style: "position: fixed; top: 51px; left: 0; width: 250px; height: calc(100vh - 51px); overflow-y: auto; background: #f5f5f5; border-right: 1px solid #ccc; padding: 10px 0;" do
@@ -169,16 +181,24 @@ ActiveAdmin.register_page "Reading List" do
 
     script do
       raw <<~JS
-        window.addEventListener('beforeunload', function(e) { if (!navigator.onLine) { e.preventDefault(); } });
+        function showOfflineToast() {
+          var t = document.getElementById('offline-toast');
+          if (!t) { t = document.createElement('div'); t.id = 'offline-toast'; t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:4px;z-index:9999;transition:opacity 0.5s;'; document.body.appendChild(t); }
+          t.textContent = 'Refresh prevented — you are offline';
+          t.style.opacity = '1';
+          clearTimeout(t._timer);
+          t._timer = setTimeout(function() { t.style.opacity = '0'; }, 3000);
+        }
+        window.addEventListener('beforeunload', function(e) {
+          if (!navigator.onLine) {
+            e.preventDefault();
+            showOfflineToast();
+          }
+        });
         window.addEventListener('keydown', function(e) {
           if (!navigator.onLine && ((e.key === 'F5') || (e.key === 'r' && (e.ctrlKey || e.metaKey)))) {
             e.preventDefault();
-            var t = document.getElementById('offline-toast');
-            if (!t) { t = document.createElement('div'); t.id = 'offline-toast'; t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:4px;z-index:9999;transition:opacity 0.5s;'; document.body.appendChild(t); }
-            t.textContent = 'Refresh prevented — you are offline';
-            t.style.opacity = '1';
-            clearTimeout(t._timer);
-            t._timer = setTimeout(function() { t.style.opacity = '0'; }, 3000);
+            showOfflineToast();
           }
         });
       JS

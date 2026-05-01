@@ -18,7 +18,7 @@ ActiveAdmin.register_page "Reading List" do
     per_page = (params[:per_page] || 20).to_i
     days = params[:days].present? ? params[:days].to_i : nil
 
-    base_query = InstapaperLibrary.first().media_items.reading_list
+    base_query = ReadingLibrary.first().media_items.reading_list
     base_query = base_query.where("media_items.created_at >= ?", days.days.ago) if days
     base_query = base_query
     total = base_query.count
@@ -100,7 +100,7 @@ ActiveAdmin.register_page "Reading List" do
 
     if MediaItem.video_url?(url)
       mime_type = MediaItem::VIDEO_MIME_TYPE
-      library = Library.where.not(type: 'InstapaperLibrary').first
+      library = Library.where.not(type: 'ReadingLibrary').first
 
       video = Youtube::Video.new(url)
       if video.id.present?
@@ -109,7 +109,7 @@ ActiveAdmin.register_page "Reading List" do
       end
     else
       mime_type = MediaItem::HTML_MIME_TYPE
-      library = Library.where(type: 'InstapaperLibrary').first
+      library = ReadingLibrary.first
     end
     guid ||= url
 

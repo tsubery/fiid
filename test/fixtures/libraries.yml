@@ -17,11 +17,11 @@ two:
   archive: false
   thumbnail_url: thumb2
 
-instapaper:
-  title: Instapaper
+reading_list:
+  title: ReadingList
   description: ReadingList
   audio: false
   video: true
   archive: false
   thumbnail_url: thumb2
-  type: InstapaperLibrary
+  type: ReadingLibrary

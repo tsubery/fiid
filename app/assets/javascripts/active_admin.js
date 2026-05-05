@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const ARTICLES_CACHE_KEY = "readingList.articlesCache";
   const COOKIE_PER_PAGE = "readingList.perPage";
   const COOKIE_DAYS = "readingList.days";
+  const COOKIE_SCRAPER = "fiid_scraper";
 
   function getCookie(name) {
     const match = document.cookie.match(new RegExp("(^|; )" + name + "=([^;]*)"));
@@ -47,8 +48,15 @@ document.addEventListener("DOMContentLoaded", function () {
     },
 
     openScrapeFeeds: function (urls) {
+      if (!getCookie(COOKIE_SCRAPER)) return;
       urls.forEach(function (url) {
-        window.open(url, "_blank", "noreferrer");
+        const a = document.createElement("a");
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noreferrer";
+        a.dispatchEvent(
+          new MouseEvent("click", { ctrlKey: true, metaKey: true }),
+        );
       });
     },
 

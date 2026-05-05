@@ -514,7 +514,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const iframe = document.createElement("iframe");
         iframe.srcdoc = '<base target="_blank">' + (data.description || "");
         iframe.style.cssText =
-          "width:100%;height:calc(100vh - 200px);border:none;";
+          "display:block;margin:0 auto;width:100%;max-width:950px;height:calc(100vh - 200px);border:none;";
         iframe.sandbox = "allow-popups allow-popups-to-escape-sandbox";
         contentDiv.appendChild(iframe);
       } else {

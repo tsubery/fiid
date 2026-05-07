@@ -6,47 +6,25 @@ ActiveAdmin.register_page "Dashboard" do
   content title: proc { I18n.t("active_admin.dashboard") } do
     div class: "blank_slate_container", id: "latest_media_items" do
       span class: "blank_slate" do
-        h2 "Latest Videos"
+        h2 "Latest Videos & Audio"
         table do
           thead do
+            th :kind
             th :id
             th :created_at
+            th :published_at
             th :title
             th :feed
           end
-          MediaItem.select(:id, :title, :url, :feed_id, :created_at).includes(:feed).where(mime_type: MediaItem::VIDEO_MIME_TYPE).order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
+          MediaItem.select(:id, :title, :url, :feed_id, :mime_type, :published_at, :created_at).includes(:feed).where(mime_type: [MediaItem::VIDEO_MIME_TYPE, MediaItem::AUDIO_MIME_TYPE]).order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
+            is_video = media_item.mime_type == MediaItem::VIDEO_MIME_TYPE
             tr do
+              td(is_video ? "🎬" : "🎧", title: is_video ? "Video" : "Audio")
               td do
                 a media_item.id, href: admin_media_item_path(media_item.id)
               end
               td time_ago_in_words(media_item.created_at)
-              td do
-                a media_item.title, href: media_item.url
-              end
-              td do
-                a media_item.feed.title, href: admin_feed_path(media_item.feed_id)
-              end
-            end
-          end
-        end
-      end
-    end
-    div class: "blank_slate_container", id: "latest_articles" do
-      span class: "blank_slate" do
-        h2 "Latest Articles"
-        table do
-          thead do
-            th :id
-            th :created_at
-            th :title
-            th :feed
-          end
-          MediaItem.select(:id, :title, :url, :feed_id, :created_at).includes(:feed).where.not(mime_type: MediaItem::VIDEO_MIME_TYPE).where(sent_to: '').order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
-            tr do
-              td do
-                a media_item.id, href: admin_media_item_path(media_item.id)
-              end
-              td time_ago_in_words(media_item.created_at)
+              td(media_item.published_at ? time_ago_in_words(media_item.published_at) : "—")
               td do
                 a media_item.title, href: media_item.url
               end
@@ -59,23 +37,37 @@ ActiveAdmin.register_page "Dashboard" do
       end
     end
 
-    div class: "blank_slate_container", id: "latest_articles" do
+    div class: "blank_slate_container", id: "latest_text" do
       span class: "blank_slate" do
-        h2 "Latest Emails"
+        h2 "Latest Text"
         table do
           thead do
+            th :kind
             th :id
             th :created_at
+            th :published_at
             th :title
             th :sent_to
             th :feed
           end
-          MediaItem.select(:id, :title, :url, :feed_id, :sent_to, :created_at).includes(:feed).where.not(sent_to: '').order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
+          MediaItem.select(:id, :title, :url, :feed_id, :sent_to, :published_at, :created_at).includes(:feed).where(mime_type: MediaItem::HTML_MIME_TYPE).order(created_at: :desc).first(params[:count]&.to_i || 10).each do |media_item|
+            icon, kind =
+              if media_item.sent_to.present?
+                ["✉️", "Email"]
+              elsif media_item.feed.is_a?(WebScrapeFeed)
+                ["🌐", "Web Scrape"]
+              elsif media_item.feed.is_a?(RssFeed)
+                ["📡", "RSS"]
+              else
+                ["📄", media_item.feed&.type.to_s.sub(/Feed\z/, "").presence || "Article"]
+              end
             tr do
+              td icon, title: kind
               td do
                 a media_item.id, href: admin_media_item_path(media_item.id)
               end
               td time_ago_in_words(media_item.created_at)
+              td(media_item.published_at ? time_ago_in_words(media_item.published_at) : "—")
               td do
                 a media_item.title, href: media_item.url
               end

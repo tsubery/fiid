@@ -73,7 +73,7 @@ ActiveAdmin.register_page "Dashboard" do
               end
               td media_item.sent_to
               td do
-                if media_item.feed&.spam?
+                if media_item.feed&.respond_to?(:spam?) && media_item.feed.spam?
                   form_with(model: [:admin, Feed.new]) do |f|
                     f.hidden_field(:url, value: media_item.sent_to) +
                       f.hidden_field('library_ids', multiple: true, value: ReadingLibrary.pluck(:id)) +

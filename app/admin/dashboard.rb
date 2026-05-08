@@ -21,11 +21,11 @@ ActiveAdmin.register_page "Dashboard" do
         table do
           thead do
             th :id
+            th :libraries
             th :created_at
             th :published_at
             th :title
             th :feed
-            th :libraries
           end
           av_items = MediaItem.select(:id, :title, :url, :feed_id, :mime_type, :published_at, :created_at).includes(:feed).where(mime_type: [MediaItem::VIDEO_MIME_TYPE, MediaItem::AUDIO_MIME_TYPE]).order(created_at: :desc).first(params[:count]&.to_i || 10)
           av_memberships = fetch_memberships.call(av_items)
@@ -33,19 +33,8 @@ ActiveAdmin.register_page "Dashboard" do
             is_video = media_item.mime_type == MediaItem::VIDEO_MIME_TYPE
             tr do
               td style: "white-space: nowrap;" do
-                a media_item.id, href: admin_media_item_path(media_item.id)
-                span " "
                 span(is_video ? "🎬" : "🎧", title: is_video ? "Video" : "Audio")
-              end
-              td time_ago_in_words(media_item.created_at)
-              td(media_item.published_at ? time_ago_in_words(media_item.published_at) : "—")
-              td do
-                a media_item.title, href: media_item.url
-              end
-              td do
-                a media_item.feed.title, href: admin_feed_path(media_item.feed_id)
-              end
-              td do
+                span " "
                 lib_ids = av_memberships[media_item.id] || []
                 if lib_ids.empty?
                   span "⚠️", title: "No libraries"
@@ -55,6 +44,16 @@ ActiveAdmin.register_page "Dashboard" do
                     span icon, title: lib_title
                   end
                 end
+                span " "
+                a media_item.id, href: admin_media_item_path(media_item.id)
+              end
+              td time_ago_in_words(media_item.created_at)
+              td(media_item.published_at ? time_ago_in_words(media_item.published_at) : "—")
+              td do
+                a media_item.title, href: media_item.url
+              end
+              td do
+                a media_item.feed.title, href: admin_feed_path(media_item.feed_id)
               end
             end
           end
@@ -74,7 +73,6 @@ ActiveAdmin.register_page "Dashboard" do
             th :title
             th :sent_to
             th :feed
-            th :libraries
           end
           text_items = MediaItem.select(:id, :title, :url, :feed_id, :sent_to, :published_at, :created_at).includes(:feed).where(mime_type: MediaItem::HTML_MIME_TYPE).order(created_at: :desc).first(params[:count]&.to_i || 10)
           text_memberships = fetch_memberships.call(text_items)
@@ -91,9 +89,19 @@ ActiveAdmin.register_page "Dashboard" do
               end
             tr do
               td style: "white-space: nowrap;" do
-                a media_item.id, href: admin_media_item_path(media_item.id)
-                span " "
                 span icon, title: kind
+                span " "
+                lib_ids = text_memberships[media_item.id] || []
+                if lib_ids.empty?
+                  span "⚠️", title: "No libraries"
+                else
+                  lib_ids.each do |lib_id|
+                    icon, lib_title = library_meta[lib_id]
+                    span icon, title: lib_title
+                  end
+                end
+                span " "
+                a media_item.id, href: admin_media_item_path(media_item.id)
               end
               td time_ago_in_words(media_item.created_at)
               td(media_item.published_at ? time_ago_in_words(media_item.published_at) : "—")
@@ -110,17 +118,6 @@ ActiveAdmin.register_page "Dashboard" do
                   end
                 else
                   a media_item.feed.title, href: admin_feed_path(media_item.feed_id)
-                end
-              end
-              td do
-                lib_ids = text_memberships[media_item.id] || []
-                if lib_ids.empty?
-                  span "⚠️", title: "No libraries"
-                else
-                  lib_ids.each do |lib_id|
-                    icon, lib_title = library_meta[lib_id]
-                    span icon, title: lib_title
-                  end
                 end
               end
             end

@@ -32,7 +32,7 @@ ActiveAdmin.register_page "Dashboard" do
           av_items.each do |media_item|
             is_video = media_item.mime_type == MediaItem::VIDEO_MIME_TYPE
             tr do
-              td do
+              td style: "white-space: nowrap;" do
                 a media_item.id, href: admin_media_item_path(media_item.id)
                 span " "
                 span(is_video ? "🎬" : "🎧", title: is_video ? "Video" : "Audio")
@@ -90,7 +90,7 @@ ActiveAdmin.register_page "Dashboard" do
                 ["📄", media_item.feed&.type.to_s.sub(/Feed\z/, "").presence || "Article"]
               end
             tr do
-              td do
+              td style: "white-space: nowrap;" do
                 a media_item.id, href: admin_media_item_path(media_item.id)
                 span " "
                 span icon, title: kind

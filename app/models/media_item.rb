@@ -12,6 +12,7 @@ class MediaItem < ApplicationRecord
   before_save :widen_substack_email
   before_save :widen_bloomberg_email
   before_save :embed_images_and_resolve_links
+  before_save :strip_tracking_params
   # after_save :cache_article
 
   TEMPORARY_URL = "https://temporary.local".freeze
@@ -28,6 +29,22 @@ class MediaItem < ApplicationRecord
   WAS_LIVE_COOLDOWN = 30.minutes
   MISSING_DURATION_THRESHOLD = 5
   EMAIL_WIDE_LAYOUT_PX = 950
+
+  TRACKING_PARAM_PATTERNS = [
+    /\Autm_/i,         # Google Analytics — utm_source, utm_medium, utm_campaign, ...
+    /\Asi\z/i,         # YouTube share id
+    /\Afbclid\z/i,     # Facebook click id
+    /\Agclid\z/i,      # Google ads click id
+    /\Agbraid\z/i,     # Google ads (iOS app)
+    /\Awbraid\z/i,     # Google ads (web)
+    /\Amc_(cid|eid)\z/i, # Mailchimp
+    /\A_hsenc\z/i,     # HubSpot
+    /\A_hsmi\z/i,      # HubSpot
+    /\AhsCtaTracking\z/i, # HubSpot
+    /\Aigshid\z/i,     # Instagram share id
+    /\Ayclid\z/i,      # Yandex
+    /\Amsclkid\z/i,    # Microsoft ads
+  ].freeze
 
   scope :articles, -> { where(mime_type: HTML_MIME_TYPE) }
   scope :unarchived, -> { where(archived: false) }
@@ -150,6 +167,35 @@ class MediaItem < ApplicationRecord
     wrapper['style'] = wrapper['style'].sub(/max-width:\s*550px/, "max-width: #{EMAIL_WIDE_LAYOUT_PX}px")
 
     self.description = doc.to_html
+  end
+
+  def self.strip_tracking_params(url)
+    return url if url.blank?
+    uri = URI.parse(url)
+    return url if uri.query.blank?
+    params = URI.decode_www_form(uri.query).reject do |key, _|
+      TRACKING_PARAM_PATTERNS.any? { |p| key.match?(p) }
+    end
+    uri.query = params.empty? ? nil : URI.encode_www_form(params)
+    uri.to_s
+  rescue URI::InvalidURIError
+    url
+  end
+
+  def strip_tracking_params
+    self.url = self.class.strip_tracking_params(url)
+    return unless html?
+
+    doc = Nokogiri::HTML(description)
+    changed = false
+    doc.css('a[href]').each do |link|
+      cleaned = self.class.strip_tracking_params(link['href'])
+      if cleaned != link['href']
+        link['href'] = cleaned
+        changed = true
+      end
+    end
+    self.description = doc.to_html if changed
   end
 
   def embed_images_and_resolve_links

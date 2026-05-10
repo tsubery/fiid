@@ -300,4 +300,78 @@ class MediaItemTest < ActiveSupport::TestCase
     assert_not article.video?
     assert_not article.video_cached?
   end
+
+  test "strip_tracking_params removes utm_* keys" do
+    url = "https://example.com/page?utm_source=x&utm_medium=y&utm_campaign=z&kept=1"
+    assert_equal "https://example.com/page?kept=1", MediaItem.strip_tracking_params(url)
+  end
+
+  test "strip_tracking_params removes youtube si parameter" do
+    url = "https://www.youtube.com/watch?v=abc123&si=AbCdEf"
+    assert_equal "https://www.youtube.com/watch?v=abc123", MediaItem.strip_tracking_params(url)
+  end
+
+  test "strip_tracking_params removes other known trackers" do
+    %w[fbclid gclid gbraid wbraid mc_cid mc_eid _hsenc _hsmi hsCtaTracking igshid yclid msclkid].each do |key|
+      url = "https://example.com/page?#{key}=value&kept=1"
+      assert_equal "https://example.com/page?kept=1", MediaItem.strip_tracking_params(url),
+                   "expected #{key} to be stripped"
+    end
+  end
+
+  test "strip_tracking_params preserves non-tracking parameters" do
+    url = "https://example.com/page?id=42&q=hello"
+    assert_equal "https://example.com/page?id=42&q=hello", MediaItem.strip_tracking_params(url)
+  end
+
+  test "strip_tracking_params returns url unchanged when query is empty" do
+    url = "https://example.com/page"
+    assert_equal "https://example.com/page", MediaItem.strip_tracking_params(url)
+  end
+
+  test "strip_tracking_params drops the query string when all params are trackers" do
+    url = "https://example.com/page?utm_source=a&fbclid=b"
+    assert_equal "https://example.com/page", MediaItem.strip_tracking_params(url)
+  end
+
+  test "strip_tracking_params preserves fragment after stripping all params" do
+    url = "https://example.com/page?utm_source=a#section"
+    assert_equal "https://example.com/page#section", MediaItem.strip_tracking_params(url)
+  end
+
+  test "strip_tracking_params returns blank input unchanged" do
+    assert_nil MediaItem.strip_tracking_params(nil)
+    assert_equal "", MediaItem.strip_tracking_params("")
+  end
+
+  test "strip_tracking_params returns invalid url unchanged" do
+    bad = "http://exa mple.com/?utm_source=x"
+    assert_equal bad, MediaItem.strip_tracking_params(bad)
+  end
+
+  test "before_save strips tracking params from url" do
+    feed = feeds(:one)
+    mi = feed.media_items.create!(
+      url: "https://example.com/post?utm_source=newsletter&id=42",
+      guid: "https://example.com/post-#{SecureRandom.hex}",
+      title: "T",
+      description: "plain text",
+      mime_type: MediaItem::HTML_MIME_TYPE
+    )
+    assert_equal "https://example.com/post?id=42", mi.url
+  end
+
+  test "before_save strips tracking params from anchor hrefs in description" do
+    feed = feeds(:one)
+    description = '<html><body><a href="https://www.youtube.com/watch?v=abc&si=tracker">v</a></body></html>'
+    mi = feed.media_items.create!(
+      url: "https://example.com/post",
+      guid: "https://example.com/post-anchor-#{SecureRandom.hex}",
+      title: "T",
+      description: description,
+      mime_type: MediaItem::HTML_MIME_TYPE
+    )
+    assert_includes mi.description, 'href="https://www.youtube.com/watch?v=abc"'
+    assert_not_includes mi.description, "si=tracker"
+  end
 end

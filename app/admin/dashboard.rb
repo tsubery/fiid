@@ -21,7 +21,6 @@ ActiveAdmin.register_page "Dashboard" do
         table do
           thead do
             th :id
-            th :libraries
             th :created_at
             th :published_at
             th :title

@@ -4,11 +4,39 @@ ActiveAdmin.register_page "Reading List" do
   controller do
     skip_before_action :verify_authenticity_token, only: [:ingest_html]
 
-    def fetch_html_title(url)
+    def fetch_article_metadata(url)
       resp = Typhoeus.get(url, timeout: 5, followlocation: true)
-      return nil unless resp.code == 200
-      Nokogiri::HTML(resp.body).css("title").text.strip.presence
+      return {} unless resp.code == 200
+      doc = Nokogiri::HTML(resp.body)
+      {
+        title: meta_property(doc, "og:title") ||
+               doc.css("title").text.strip.presence,
+        description: meta_name(doc, "description") ||
+                     meta_property(doc, "og:description"),
+        author: meta_name(doc, "author") ||
+                meta_property(doc, "article:author"),
+        published_at: parse_meta_date(
+          meta_property(doc, "article:published_time") ||
+          meta_name(doc, "article:published_time") ||
+          doc.at_css("time[datetime]")&.[]("datetime")
+        )
+      }
     rescue
+      {}
+    end
+
+    def meta_property(doc, key)
+      doc.at_css("meta[property='#{key}']")&.[]("content")&.strip.presence
+    end
+
+    def meta_name(doc, key)
+      doc.at_css("meta[name='#{key}']")&.[]("content")&.strip.presence
+    end
+
+    def parse_meta_date(str)
+      return nil if str.blank?
+      Time.parse(str)
+    rescue ArgumentError
       nil
     end
   end
@@ -135,7 +163,9 @@ ActiveAdmin.register_page "Reading List" do
     created = media_item.new_record?
     media_item.url = url
     if created && mime_type == MediaItem::HTML_MIME_TYPE
-      media_item.title = fetch_html_title(url) || url
+      meta = fetch_article_metadata(url)
+      meta[:title] ||= url
+      media_item.assign_attributes(meta.compact)
     end
     media_item.save!
 

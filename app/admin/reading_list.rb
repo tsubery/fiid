@@ -3,6 +3,14 @@ ActiveAdmin.register_page "Reading List" do
 
   controller do
     skip_before_action :verify_authenticity_token, only: [:ingest_html]
+
+    def fetch_html_title(url)
+      resp = Typhoeus.get(url, timeout: 5, followlocation: true)
+      return nil unless resp.code == 200
+      Nokogiri::HTML(resp.body).css("title").text.strip.presence
+    rescue
+      nil
+    end
   end
 
   page_action :ingest_html, method: :post do
@@ -98,6 +106,8 @@ ActiveAdmin.register_page "Reading List" do
       return
     end
 
+    url = MediaItem.strip_tracking_params(url)
+
     if MediaItem.video_url?(url)
       mime_type = MediaItem::VIDEO_MIME_TYPE
       library = Library.where.not(type: 'ReadingLibrary').first
@@ -123,8 +133,10 @@ ActiveAdmin.register_page "Reading List" do
       mime_type: mime_type,
     )
     created = media_item.new_record?
-    media_item.title = url
     media_item.url = url
+    if created && mime_type == MediaItem::HTML_MIME_TYPE
+      media_item.title = fetch_html_title(url) || url
+    end
     media_item.save!
 
     unless media_item.libraries.include?(library)

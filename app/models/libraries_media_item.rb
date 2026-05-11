@@ -1,0 +1,2 @@
+class LibrariesMediaItem < ApplicationRecord
+end

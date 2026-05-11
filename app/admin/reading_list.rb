@@ -169,9 +169,10 @@ ActiveAdmin.register_page "Reading List" do
     end
     media_item.save!
 
-    unless media_item.libraries.include?(library)
-      media_item.libraries << library
-    end
+    LibrariesMediaItem.upsert(
+      { library_id: library.id, media_item_id: media_item.id },
+      unique_by: [:library_id, :media_item_id]
+    )
 
     render json: { success: true, id: media_item.id, created: created }
   end

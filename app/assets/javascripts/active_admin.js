@@ -312,6 +312,22 @@ document.addEventListener("DOMContentLoaded", function () {
       if (perPageInput) perPageInput.value = this.perPage || "";
       if (daysInput) daysInput.value = this.days || "";
 
+      const contentEl = document.getElementById("reading-list-content");
+      contentEl?.addEventListener(
+        "wheel",
+        (e) => {
+          const iframe = contentEl.querySelector("iframe");
+          if (!iframe || !iframe.contentWindow) return;
+          try {
+            iframe.contentWindow.scrollBy({ top: e.deltaY, left: e.deltaX });
+            e.preventDefault();
+          } catch (_) {
+            // cross-origin iframe — can't scroll programmatically
+          }
+        },
+        { passive: false },
+      );
+
       perPageInput?.addEventListener("change", (e) => {
         const v = e.target.value.trim();
         this.perPage = v || null;
@@ -515,7 +531,8 @@ document.addEventListener("DOMContentLoaded", function () {
         iframe.srcdoc = '<base target="_blank">' + (data.description || "");
         iframe.style.cssText =
           "display:block;margin:0 auto;width:100%;max-width:950px;height:calc(100vh - 200px);border:none;";
-        iframe.sandbox = "allow-popups allow-popups-to-escape-sandbox";
+        iframe.sandbox =
+          "allow-popups allow-popups-to-escape-sandbox allow-same-origin";
         contentDiv.appendChild(iframe);
       } else {
         contentDiv.innerHTML =

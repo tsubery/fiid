@@ -54,9 +54,12 @@ document.addEventListener("DOMContentLoaded", function () {
         a.href = url;
         a.target = "_blank";
         a.rel = "noreferrer";
+        a.style.display = "none";
+        document.body.appendChild(a);
         a.dispatchEvent(
           new MouseEvent("click", { ctrlKey: true, metaKey: true }),
         );
+        //a.remove();
       });
     },
 

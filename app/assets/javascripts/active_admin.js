@@ -49,7 +49,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     openScrapeFeeds: function (urls) {
       if (!getCookie(COOKIE_SCRAPER)) return;
+      const isFirefox = navigator.userAgent.includes("Firefox");
       urls.forEach(function (url) {
+        if (isFirefox) {
+          // Firefox ignores synthesized ctrl-clicks (isTrusted check).
+          // Fall back to window.open — foreground, but at least it opens.
+          window.open(url, "_blank", "noreferrer");
+          return;
+        }
         const a = document.createElement("a");
         a.href = url;
         a.target = "_blank";

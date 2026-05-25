@@ -118,7 +118,7 @@ class MediaItem < ApplicationRecord
       end
       if changed?
         save!
-        CacheVideoJob.perform_later(self.id)
+        CacheVideoJob.perform_later(self.id) if reachable
       end
     end
   end

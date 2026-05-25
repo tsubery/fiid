@@ -258,6 +258,7 @@ class MediaItem < ApplicationRecord
 
   def cache_video
     return unless video?
+    return unless reachable
     return if video_cached?
     system("/home/ubuntu/dl.sh '#{url}' '#{video_cache_file_path}'")
     flag_missing_duration!

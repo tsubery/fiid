@@ -42,7 +42,7 @@ ActiveAdmin.register_page "Reading List" do
   end
 
   page_action :ingest_html, method: :post do
-    feed = BrowserFetchedWebScrapeFeed.find_by!(url: params[:url])
+    feed = BrowserFetchedWebScrapeFeed.find_by!(url: params[:url].sub(/\?.*/,''))
     count = feed.ingest_html(params[:html])
     render json: { success: true, new_items: count }
   rescue => e

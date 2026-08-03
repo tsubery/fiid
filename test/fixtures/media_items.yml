@@ -84,3 +84,4 @@ high_priority_article:
   published_at: 2024-06-02 10:00:00
   feed: high_priority_feed
   archived: false
+  libraries: [instapaper]

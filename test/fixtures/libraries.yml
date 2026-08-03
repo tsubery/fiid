@@ -16,3 +16,12 @@ two:
   video: true
   archive: false
   thumbnail_url: thumb2
+
+instapaper:
+  title: Instapaper
+  description: ReadingList
+  audio: false
+  video: true
+  archive: false
+  thumbnail_url: thumb2
+  type: InstapaperLibrary

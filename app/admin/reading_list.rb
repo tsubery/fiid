@@ -65,6 +65,41 @@ ActiveAdmin.register_page "Reading List" do
     render json: { success: true }
   end
 
+  page_action :add_url, method: :post do
+    url = params[:url]&.strip
+
+    if url.blank? || !url.match?(/\Ahttps?:\/\//i)
+      render json: { success: false, error: "Invalid URL" }, status: :unprocessable_entity
+      return
+    end
+
+    if MediaItem.video_url?(url)
+      mime_type = MediaItem::VIDEO_MIME_TYPE
+      library = Library.where.not(type: 'InstapaperLibrary').first
+    else
+      mime_type = MediaItem::HTML_MIME_TYPE
+      library = Library.where(type: 'InstapaperLibrary').first
+    end
+
+    unless library
+      render json: { success: false, error: "No library to attach to #{url}" }, status: :unprocessable_entity
+    end
+
+    media_item = MediaItem.find_or_create_by!(
+      feed: PersonalFeed.first(),
+      guid: url,
+      mime_type: mime_type,
+      title: url,
+      url: url,
+    )
+
+    unless media_item.libraries.include?(library)
+      media_item.libraries << library
+    end
+
+    render json: { success: true, id: media_item.id }
+  end
+
   content do
     style do
       text_node "#header, #title_bar, .breadcrumb { display: none !important; }"
@@ -78,6 +113,7 @@ ActiveAdmin.register_page "Reading List" do
     div id: "reading-list-app", data: { days: days, per_page: per_page } do
       div id: "reading-list-toolbar", style: "position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: #fff; border-bottom: 1px solid #ccc; padding: 10px 20px; display: flex; align-items: center;" do
         button "☰", id: "sidebar-toggle", style: "padding: 6px 12px; cursor: pointer; font-size: 16px; margin-right: 10px;"
+        button "+", id: "add-url-btn", style: "padding: 6px 12px; cursor: pointer; font-size: 18px; font-weight: bold; margin-right: 10px;", title: "Add URL from clipboard"
         button "Prev", id: "prev-btn", style: "padding: 6px 32px; cursor: pointer; font-size: 14px;"
         button "Archive", id: "archive-btn", style: "padding: 6px 64px; cursor: pointer; background: #dc3545; color: white; border: none; border-radius: 4px; font-size: 14px; margin: 0 auto;"
         button "Next", id: "next-btn", style: "padding: 6px 32px; cursor: pointer; font-size: 14px;"

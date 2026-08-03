@@ -90,6 +90,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (button) {
           if (button.id === "sidebar-toggle") {
             self.toggleSidebar();
+          } else if (button.id === "add-url-btn") {
+            self.addUrlFromClipboard();
           } else if (button.id === "prev-btn") {
             self.prev();
           } else if (button.id === "next-btn") {
@@ -394,6 +396,60 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Sync in background
       this.syncPendingArchives();
+    },
+
+    addUrlFromClipboard: async function () {
+      let url = null;
+
+      // Try clipboard API first
+      try {
+        if (navigator.clipboard && navigator.clipboard.readText) {
+          const text = await navigator.clipboard.readText();
+          if (text && text.trim().match(/^https?:\/\//i)) {
+            url = text.trim();
+          }
+        }
+      } catch (e) {
+        // Clipboard API failed, will fall back to prompt
+      }
+
+      // Fall back to prompt if clipboard didn't work
+      if (!url) {
+        url = prompt("Enter URL to add:");
+        if (!url) return;
+        url = url.trim();
+      }
+
+      if (!url.match(/^https?:\/\//i)) {
+        alert("Invalid URL");
+        return;
+      }
+
+      const csrfToken = document.querySelector(
+        'meta[name="csrf-token"]',
+      )?.content;
+
+      try {
+        const response = await fetch("/admin/reading_list/add_url", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken,
+          },
+          body: JSON.stringify({ url: url }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          this.fetchArticles(1);
+        } else {
+          alert("Failed to add URL: " + (data.error || "Unknown error"));
+        }
+      } catch (error) {
+        console.error("Error adding URL:", error);
+        alert("Failed to add URL: " + error.message);
+      }
     },
   };
 

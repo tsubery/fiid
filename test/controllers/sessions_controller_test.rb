@@ -1,10 +1,6 @@
 require "test_helper"
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    host! "admin.example.com"
-  end
-
   test "should get new form" do
     get login_url
     assert_response :success
@@ -14,7 +10,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     post login_url, params: { secret_key: :foo }
     assert flash.to_a == [["alert", "Incorrect secret key"]]
     assert_response :redirect
-    assert_not session["authenticated"]
+    assert_not cookies[:secret_key]
     assert response.status == 302
     assert response.headers["location"] == login_url
   end
@@ -24,13 +20,12 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert flash.to_a == []
     assert_response :redirect
     assert response.status == 302
-    assert session["authenticated"]
+    assert cookies[:secret_key] == ENV.fetch('SECRET_KEY')
     assert response.headers["location"] == admin_dashboard_url
 
     get login_url
     assert_response :redirect
     assert response.status == 302
-    assert session["authenticated"]
     assert response.headers["location"] == admin_dashboard_url
   end
 end

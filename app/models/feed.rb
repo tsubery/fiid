@@ -57,6 +57,7 @@ class Feed < ApplicationRecord
   def set_type
     url = self.url || ''
     return if EtagFeed.name == type
+    return if PersonalFeed.name == type
 
     self.type = YoutubePlaylistFeed.parse_id(url) && YoutubePlaylistFeed.name ||
                 YoutubeChannelFeed.parse_id(url) && YoutubeChannelFeed.name ||

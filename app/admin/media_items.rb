@@ -3,7 +3,6 @@ ActiveAdmin.register MediaItem do
 
   scope :all, default: true
   scope :articles, -> { MediaItem.articles }
-  scope :unarchived_articles, -> { MediaItem.articles.unarchived }
 
   index do
     selectable_column

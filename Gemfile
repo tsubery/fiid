@@ -85,3 +85,4 @@ gem "activeadmin", "~> 3.2"
 gem 'sass-rails' # required for activeadmin
 gem "validate_url"
 gem 'rollbar'
+gem 'ostruct'

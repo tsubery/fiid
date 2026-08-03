@@ -18,6 +18,6 @@ class MediaItemsController < ApplicationController
     CacheVideoJob.perform_later(params[:media_item_id])
 
     response.headers["Retry-After"] = 90
-    head :too_many_requests
+    render plain: "Gateway Timeout", status: :gateway_timeout
   end
 end

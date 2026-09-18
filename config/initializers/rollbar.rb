@@ -9,6 +9,14 @@ Rollbar.configure do |config|
     config.enabled = false
   end
 
+  # Missing routes and records are expected client errors, not application errors.
+  config.before_process << lambda do |options|
+    exception = options[:exception]
+
+    'ignored' if exception &&
+      ActionDispatch::ExceptionWrapper.status_code_for_exception(exception.class.name) == 404
+  end
+
   # By default, Rollbar will try to call the `current_user` controller method
   # to fetch the logged-in user object, and then call that object's `id`
   # method to fetch this property. To customize:

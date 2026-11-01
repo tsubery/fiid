@@ -366,6 +366,17 @@ document.addEventListener("DOMContentLoaded", function () {
       return div.innerHTML;
     },
 
+    // Done at render time so emails already stored are covered too.
+    // getAttribute rather than relList: <a> inside inline SVG may lack relList.
+    addNoreferrerToLinks: function (html) {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      doc.querySelectorAll("a, area").forEach(function (link) {
+        const rel = link.getAttribute("rel");
+        link.setAttribute("rel", rel ? rel + " noreferrer" : "noreferrer");
+      });
+      return doc.documentElement.outerHTML;
+    },
+
     formatDate: function (dateString) {
       if (!dateString) return "";
       const date = new Date(dateString);
@@ -538,7 +549,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         contentDiv.innerHTML = header;
         const iframe = document.createElement("iframe");
-        iframe.srcdoc = '<base target="_blank">' + (data.description || "");
+        iframe.srcdoc = this.addNoreferrerToLinks(
+          '<base target="_blank">' + (data.description || ""),
+        );
         iframe.style.cssText =
           "display:block;margin:0 auto;width:100%;max-width:950px;height:calc(100vh - 200px);border:none;";
         iframe.sandbox =

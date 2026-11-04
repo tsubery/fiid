@@ -69,9 +69,10 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
-  # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter = :resque
-  # config.active_job.queue_name_prefix = "fiid_production"
+  # Jobs run in-process, one at a time. The default async adapter runs up to
+  # RAILS_MAX_THREADS jobs concurrently, each holding a DB connection on top of
+  # Puma's request threads.
+  config.active_job.queue_adapter = ActiveJob::QueueAdapters::AsyncAdapter.new(max_threads: 1)
 
   config.action_mailer.perform_caching = false
 

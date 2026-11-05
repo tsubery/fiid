@@ -1,7 +1,7 @@
 class Feed < ApplicationRecord
   store_accessor :config, :article_link_selector, :article_link_attribute, :podchaser_guest_name
 
-  scope :pollable, -> { where(type: descendants.select(&:poll?).map(&:name)) }
+  scope :pollable, -> { where(type: self.descendants.select(&:poll?).map(&:name)) }
 
   has_and_belongs_to_many :libraries
   has_many :media_items
@@ -69,7 +69,7 @@ class Feed < ApplicationRecord
     self.url = target_url if target_url != url
   end
 
-  MANUALLY_TYPED_FEED_NAMES = %w[EtagFeed PersonalFeed WebScrapeFeed BrowserFetchedWebScrapeFeed].freeze
+  MANUALLY_TYPED_FEED_NAMES = %w[EtagFeed PersonalFeed WebScrapeFeed BrowserFetchedWebScrapeFeed PodcastShowNotesFeed].freeze
 
   def set_type
     url = self.url || ''

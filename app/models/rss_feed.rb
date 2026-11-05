@@ -49,24 +49,28 @@ class RssFeed < Feed
       rss_entries.map do |rss_entry|
         media_items.find_by(guid: rss_entry[:guid]) ||
           media_items.find_by(url: rss_entry[:url]) ||
-          media_items.new(
-            author: rss_entry.fetch(:author, title),
-            description: rss_entry.values_at(:description, :content, :summary).compact.first,
-            guid: rss_entry[:guid] || rss_entry[:url],
-            mime_type: "text/html",
-            published_at: rss_entry[:published],
-            thumbnail_url: rss_entry[:enclosure_url] || '',
-            title: [title, rss_entry[:title]].compact.join(" - "),
-            url: rss_entry[:url] || MediaItem.temporary_url
-          ).tap do |mi|
-            if mi.url.nil? || mi.html?
-              mi.url = MediaItem.temporary_url
-            end
-          end
+          build_media_item(rss_entry)
       end
     end
   rescue => e
     "Error fetching feed ##{id}: #{e.inspect}"
+  end
+
+  def build_media_item(rss_entry)
+    media_items.new(
+      author: rss_entry.fetch(:author, title),
+      description: rss_entry.values_at(:description, :content, :summary).compact.first,
+      guid: rss_entry[:guid] || rss_entry[:url],
+      mime_type: "text/html",
+      published_at: rss_entry[:published],
+      thumbnail_url: rss_entry[:enclosure_url] || '',
+      title: [title, rss_entry[:title]].compact.join(" - "),
+      url: rss_entry[:url] || MediaItem.temporary_url
+    ).tap do |mi|
+      if mi.url.nil? || mi.html?
+        mi.url = MediaItem.temporary_url
+      end
+    end
   end
 
   def parsed_xml

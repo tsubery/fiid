@@ -1,0 +1,238 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://feed.podbean.com/saxostrats/feed.xml
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - FeedBurner/1.0 (http://www.FeedBurner.com)
+      Expect:
+      - ''
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Etag:
+      - '"7be4bca530c6b744843c1ed1a2e25e33"'
+      Date:
+      - Thu, 05 Nov 2026 17:36:22 GMT
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- generator=\"podbean/5.5\"
+        -->\n<rss xmlns:content=\"http://purl.org/rss/1.0/modules/content/\" xmlns:atom=\"http://www.w3.org/2005/Atom\"
+        xmlns:itunes=\"http://www.itunes.com/dtds/podcast-1.0.dtd\" xmlns:spotify=\"http://www.spotify.com/ns/rss\"
+        xmlns:podcast=\"https://podcastindex.org/namespace/1.0\" xmlns:media=\"http://search.yahoo.com/mrss/\"
+        version=\"2.0\">\n\n<channel>\n    <title>Saxo Market Call</title>\n    <atom:link
+        href=\"https://feed.podbean.com/saxostrats/feed.xml\" rel=\"self\" type=\"application/rss+xml\"/>\n
+        \   <link>https://saxostrats.podbean.com</link>\n    <description><![CDATA[<p>For
+        the aspirational trader and financial markets professional. Coming at you
+        most trading days, the Saxo Market Call is the high frequency podcast for
+        real-time analysis of the financial markets across asset classes, from forex
+        and rates to equities and commodities.</p>]]></description>\n    <pubDate>Thu,
+        05 Nov 2026 11:51:16 +0100</pubDate>\n    <generator>https://podbean.com/?v=5.5</generator>\n
+        \   <language>en</language>\n        <copyright>Copyright 2019 All rights
+        reserved.</copyright>\n    <category>Business:Investing</category>\n    <ttl>1440</ttl>\n
+        \   <itunes:type>episodic</itunes:type>\n          <itunes:summary>Saxo Bank’s
+        strategy team delivers market insights across all asset classes.</itunes:summary>\n
+        \       <itunes:author>SaxoStrats</itunes:author>\n\t<itunes:category text=\"Business\">\n\t\t<itunes:category
+        text=\"Investing\"/>\n\t</itunes:category>\n\t<itunes:category text=\"News\">\n\t\t<itunes:category
+        text=\"Business News\"/>\n\t</itunes:category>\n    <itunes:owner>\n        <itunes:name>SaxoStrats</itunes:name>\n
+        \           </itunes:owner>\n    \t<itunes:block>No</itunes:block>\n\t<itunes:explicit>false</itunes:explicit>\n
+        \   <itunes:image href=\"https://pbcdn1.podbean.com/imglogo/image-logo/5709963/smc_perfect_SquareJPGtemp72_2.jpg\"/>\n
+        \   <image>\n        <url>https://pbcdn1.podbean.com/imglogo/image-logo/5709963/smc_perfect_SquareJPGtemp72_2.jpg</url>\n
+        \       <title>Saxo Market Call</title>\n        <link>https://saxostrats.podbean.com</link>\n
+        \       <width>144</width>\n        <height>144</height>\n    </image>\n    <item>\n
+        \       <title>The AI trade is down even as most stocks are way up.</title>\n
+        \       <itunes:title>The AI trade is down even as most stocks are way up.</itunes:title>\n
+        \       <link>https://saxostrats.podbean.com/e/the-ai-trade-is-down-even-as-most-stocks-are-way-up/</link>\n
+        \                   <comments>https://saxostrats.podbean.com/e/the-ai-trade-is-down-even-as-most-stocks-are-way-up/#comments</comments>
+        \       <pubDate>Thu, 05 Nov 2026 11:51:16 +0100</pubDate>\n        <guid
+        isPermaLink=\"false\">saxostrats.podbean.com/7b45a422-9d5f-31e1-b65e-6e931f1702e8</guid>\n
+        \                                   <description><![CDATA[<p>Today, we look
+        at the remarkable US equity market session yesterday, as the market fears
+        that the Democratic mid-term sweep will slow the pace of data centre buildouts,
+        sending data center infrastructure and chip companies into a tailspin even
+        as the broader market rallied steeply. How durable is this trade? Also, further
+        thoughts on the implications of the US mid-terms, macro and FX developments
+        and much more. Today's pod is hosted by Saxo Global Head of Macro Strategy
+        John J. Hardy.</p>\n<p>Links</p>\n<ul>\n<li>The FT looks at <a href='https://www.ft.com/content/a7fe8e95-bd9a-4cd7-a308-f156073cd074?syn-25a6b1a6=1'>the
+        slate of candidates most likely to jostle to the front for a 2028 US Presidential
+        Election run</a>.</li>\n<li>Lee Hepner breaks down <a href='https://www.thebignewsletter.com/p/ten-things-to-know-about-this-crushing'>the
+        historic mid-term election, arguing what it was and what it wasn't</a> while
+        pulling out some interesting subplots and specific developments.</li>\n<li>Michael
+        Every says <a href='https://x.com/TheMichaelEvery/status/2118096653727273057'>beware
+        of drawing too many conclusions on the direction the Iran conflict may take
+        from here</a> based on the post mid-term election vibe shift in energy markets.</li>\n<li>Brent
+        Johnson takes <a href='https://x.com/SantiagoAuFund/status/2117987096883335222'>the
+        view that this election won't change the march of history towards...</a> What
+        exactly? A great American empire not democratic republic? Is that what we
+        are supposed to infer from the ancient Rome timeline.</li>\n<li>By the way,
+        speaking of ancient Rome's march to empire, <a href='https://open.spotify.com/episode/1u6Iq4g2VC3xkOxA6hWBJR'>the
+        Marius and Sulla episode on the great The Rest is History podcast</a> is riveting
+        stuff. </li>\n</ul>\n<p>Read daily in-depth market updates from the Saxo Market
+        Call and the Saxo Strategy Team <a href='https://www.home.saxo/insights'>here</a>.</p>\n<p>Please
+        reach out to us at <a href='mailto:marketcall@saxobank.com'>marketcall@saxobank.com</a>
+        for feedback and questions.</p>\n<p><a href='http://goto.saxo/MarketCallSignup'>Click
+        here to open an account with Saxo</a>.</p>\n<p>Intro music by <a href='https://soundcloud.com/ashamaluevmusic'>AShamaluevMusic</a></p>\n<p>DISCLAIMER\nThis
+        content is marketing material.\nTrading financial instruments carries risks.
+        Always ensure that you understand these risks before trading. This material
+        does not contain investment advice or an encouragement to invest in a particular
+        manner. Historic performance is not a guarantee of future results. The instrument(s)
+        referenced in this content may be issued by a partner, from whom Saxo Bank
+        A/S receives promotional fees, payment or retrocessions. While Saxo may receive
+        compensation from these partnerships, all content is created with the aim
+        of providing clients with valuable information and options</p>\n]]></description>\n
+        \                                                           <content:encoded><![CDATA[<p>Today,
+        we look at the remarkable US equity market session yesterday, as the market
+        fears that the Democratic mid-term sweep will slow the pace of data centre
+        buildouts, sending data center infrastructure and chip companies into a tailspin
+        even as the broader market rallied steeply. How durable is this trade? Also,
+        further thoughts on the implications of the US mid-terms, macro and FX developments
+        and much more. Today's pod is hosted by Saxo Global Head of Macro Strategy
+        John J. Hardy.</p>\n<p>Links</p>\n<ul>\n<li>The FT looks at <a href='https://www.ft.com/content/a7fe8e95-bd9a-4cd7-a308-f156073cd074?syn-25a6b1a6=1'>the
+        slate of candidates most likely to jostle to the front for a 2028 US Presidential
+        Election run</a>.</li>\n<li>Lee Hepner breaks down <a href='https://www.thebignewsletter.com/p/ten-things-to-know-about-this-crushing'>the
+        historic mid-term election, arguing what it was and what it wasn't</a> while
+        pulling out some interesting subplots and specific developments.</li>\n<li>Michael
+        Every says <a href='https://x.com/TheMichaelEvery/status/2118096653727273057'>beware
+        of drawing too many conclusions on the direction the Iran conflict may take
+        from here</a> based on the post mid-term election vibe shift in energy markets.</li>\n<li>Brent
+        Johnson takes <a href='https://x.com/SantiagoAuFund/status/2117987096883335222'>the
+        view that this election won't change the march of history towards...</a> What
+        exactly? A great American empire not democratic republic? Is that what we
+        are supposed to infer from the ancient Rome timeline.</li>\n<li>By the way,
+        speaking of ancient Rome's march to empire, <a href='https://open.spotify.com/episode/1u6Iq4g2VC3xkOxA6hWBJR'>the
+        Marius and Sulla episode on the great The Rest is History podcast</a> is riveting
+        stuff. </li>\n</ul>\n<p>Read daily in-depth market updates from the Saxo Market
+        Call and the Saxo Strategy Team <a href='https://www.home.saxo/insights'>here</a>.</p>\n<p>Please
+        reach out to us at <a href='mailto:marketcall@saxobank.com'>marketcall@saxobank.com</a>
+        for feedback and questions.</p>\n<p><a href='http://goto.saxo/MarketCallSignup'>Click
+        here to open an account with Saxo</a>.</p>\n<p>Intro music by <a href='https://soundcloud.com/ashamaluevmusic'>AShamaluevMusic</a></p>\n<p>DISCLAIMER<br>\nThis
+        content is marketing material.<br>\nTrading financial instruments carries
+        risks. Always ensure that you understand these risks before trading. This
+        material does not contain investment advice or an encouragement to invest
+        in a particular manner. Historic performance is not a guarantee of future
+        results. The instrument(s) referenced in this content may be issued by a partner,
+        from whom Saxo Bank A/S receives promotional fees, payment or retrocessions.
+        While Saxo may receive compensation from these partnerships, all content is
+        created with the aim of providing clients with valuable information and options</p>\n]]></content:encoded>\n
+        \                                   \n        <enclosure url=\"https://mcdn.podbean.com/mf/web/ydqsetyy55h5vcwu/2026_11_05_SaxoMarketCall.mp3\"
+        length=\"30427258\" type=\"audio/mpeg\"/>\n        <itunes:summary><![CDATA[Today,
+        we look at the remarkable US equity market session yesterday, as the market
+        fears that the Democratic mid-term sweep will slow the pace of data centre
+        buildouts, sending data center infrastructure and chip companies into a tailspin
+        even as the broader market rallied steeply. How durable is this trade? Also,
+        further thoughts on the implications of the US mid-terms, macro and FX developments
+        and much more. Today's pod is hosted by Saxo Global Head of Macro Strategy
+        John J. Hardy.\nLinks\n\nThe FT looks at the slate of candidates most likely
+        to jostle to the front for a 2028 US Presidential Election run.\nLee Hepner
+        breaks down the historic mid-term election, arguing what it was and what it
+        wasn't while pulling out some interesting subplots and specific developments.\nMichael
+        Every says beware of drawing too many conclusions on the direction the Iran
+        conflict may take from here based on the post mid-term election vibe shift
+        in energy markets.\nBrent Johnson takes the view that this election won't
+        change the march of history towards... What exactly? A great American empire
+        not democratic republic? Is that what we are supposed to infer from the ancient
+        Rome timeline.\nBy the way, speaking of ancient Rome's march to empire, the
+        Marius and Sulla episode on the great The Rest is History podcast is riveting
+        stuff. \n\nRead daily in-depth market updates from the Saxo Market Call and
+        the Saxo Strategy Team here.\nPlease reach out to us at marketcall@saxobank.com
+        for feedback and questions.\nClick here to open an account with Saxo.\nIntro
+        music by AShamaluevMusic\nDISCLAIMERThis content is marketing material.Trading
+        financial instruments carries risks. Always ensure that you understand these
+        risks before trading. This material does not contain investment advice or
+        an encouragement to invest in a particular manner. Historic performance is
+        not a guarantee of future results. The instrument(s) referenced in this content
+        may be issued by a partner, from whom Saxo Bank A/S receives promotional fees,
+        payment or retrocessions. While Saxo may receive compensation from these partnerships,
+        all content is created with the aim of providing clients with valuable information
+        and options]]></itunes:summary>\n        <itunes:author>SaxoStrats</itunes:author>\n
+        \       <itunes:explicit>false</itunes:explicit>\n        <itunes:block>No</itunes:block>\n
+        \       <itunes:duration>1963</itunes:duration>\n                <itunes:episode>1501</itunes:episode>\n
+        \       <itunes:episodeType>full</itunes:episodeType>\n            </item>\n
+        \   <item>\n        <title>The wannabe emperor had no clothes after all.</title>\n
+        \       <itunes:title>The wannabe emperor had no clothes after all.</itunes:title>\n
+        \       <link>https://saxostrats.podbean.com/e/the-wannabe-emperor-had-not-clothes-after-all/</link>\n
+        \                   <comments>https://saxostrats.podbean.com/e/the-wannabe-emperor-had-not-clothes-after-all/#comments</comments>
+        \       <pubDate>Wed, 04 Nov 2026 11:31:20 +0100</pubDate>\n        <guid
+        isPermaLink=\"false\">saxostrats.podbean.com/cd6cf50a-01e9-3e81-adcd-276a60835903</guid>\n
+        \                                   <description><![CDATA[<p>Today we look
+        at the massive rebuke of Trump and the Republicans across the US as the Senate,
+        House and Governors' races across the nation tilted far more strongly to the
+        Democrats than almost anyone was prognosticating. We note how the market is
+        absorbing the news and look at what matters next for markets and how they
+        will interact with the coming political cycle as well as the immediate aftermath
+        of this historic election. Today's pod hosted by Saxo Global Head of Macro
+        Strategy John J. Hardy.</p>\n<p>Read daily in-depth market updates from the
+        Saxo Market Call and the Saxo Strategy Team <a href='https://www.home.saxo/insights'>here</a>.</p>\n<p>Please
+        reach out to us at <a href='mailto:marketcall@saxobank.com'>marketcall@saxobank.com</a>
+        for feedback and questions.</p>\n<p><a href='http://goto.saxo/MarketCallSignup'>Click
+        here to open an account with Saxo</a>.</p>\n<p>Intro music by <a href='https://soundcloud.com/ashamaluevmusic'>AShamaluevMusic</a></p>\n<p>DISCLAIMER\nThis
+        content is marketing material.\nTrading financial instruments carries risks.
+        Always ensure that you understand these risks before trading. This material
+        does not contain investment advice or an encouragement to invest in a particular
+        manner. Historic performance is not a guarantee of future results. The instrument(s)
+        referenced in this content may be issued by a partner, from whom Saxo Bank
+        A/S receives promotional fees, payment or retrocessions. While Saxo may receive
+        compensation from these partnerships, all content is created with the aim
+        of providing clients with valuable information and options.</p>\n]]></description>\n
+        \                                                           <content:encoded><![CDATA[<p>Today
+        we look at the massive rebuke of Trump and the Republicans across the US as
+        the Senate, House and Governors' races across the nation tilted far more strongly
+        to the Democrats than almost anyone was prognosticating. We note how the market
+        is absorbing the news and look at what matters next for markets and how they
+        will interact with the coming political cycle as well as the immediate aftermath
+        of this historic election. Today's pod hosted by Saxo Global Head of Macro
+        Strategy John J. Hardy.</p>\n<p>Read daily in-depth market updates from the
+        Saxo Market Call and the Saxo Strategy Team <a href='https://www.home.saxo/insights'>here</a>.</p>\n<p>Please
+        reach out to us at <a href='mailto:marketcall@saxobank.com'>marketcall@saxobank.com</a>
+        for feedback and questions.</p>\n<p><a href='http://goto.saxo/MarketCallSignup'>Click
+        here to open an account with Saxo</a>.</p>\n<p>Intro music by <a href='https://soundcloud.com/ashamaluevmusic'>AShamaluevMusic</a></p>\n<p>DISCLAIMER<br>\nThis
+        content is marketing material.<br>\nTrading financial instruments carries
+        risks. Always ensure that you understand these risks before trading. This
+        material does not contain investment advice or an encouragement to invest
+        in a particular manner. Historic performance is not a guarantee of future
+        results. The instrument(s) referenced in this content may be issued by a partner,
+        from whom Saxo Bank A/S receives promotional fees, payment or retrocessions.
+        While Saxo may receive compensation from these partnerships, all content is
+        created with the aim of providing clients with valuable information and options.</p>\n]]></content:encoded>\n
+        \                                   \n        <enclosure url=\"https://mcdn.podbean.com/mf/web/n633wt7dixtx5632/2026_11_04_SaxoMarketCall.mp3\"
+        length=\"28304687\" type=\"audio/mpeg\"/>\n        <itunes:summary><![CDATA[Today
+        we look at the massive rebuke of Trump and the Republicans across the US as
+        the Senate, House and Governors' races across the nation tilted far more strongly
+        to the Democrats than almost anyone was prognosticating. We note how the market
+        is absorbing the news and look at what matters next for markets and how they
+        will interact with the coming political cycle as well as the immediate aftermath
+        of this historic election. Today's pod hosted by Saxo Global Head of Macro
+        Strategy John J. Hardy.\nRead daily in-depth market updates from the Saxo
+        Market Call and the Saxo Strategy Team here.\nPlease reach out to us at marketcall@saxobank.com
+        for feedback and questions.\nClick here to open an account with Saxo.\nIntro
+        music by AShamaluevMusic\nDISCLAIMERThis content is marketing material.Trading
+        financial instruments carries risks. Always ensure that you understand these
+        risks before trading. This material does not contain investment advice or
+        an encouragement to invest in a particular manner. Historic performance is
+        not a guarantee of future results. The instrument(s) referenced in this content
+        may be issued by a partner, from whom Saxo Bank A/S receives promotional fees,
+        payment or retrocessions. While Saxo may receive compensation from these partnerships,
+        all content is created with the aim of providing clients with valuable information
+        and options.]]></itunes:summary>\n        <itunes:author>SaxoStrats</itunes:author>\n
+        \       <itunes:explicit>false</itunes:explicit>\n        <itunes:block>No</itunes:block>\n
+        \       <itunes:duration>1818</itunes:duration>\n                <itunes:episode>1500</itunes:episode>\n
+        \       <itunes:episodeType>full</itunes:episodeType>\n            </item>\n
+        \   \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n
+        \   \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n
+        \   \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n
+        \   \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n
+        \   \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n
+        \   \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n
+        \   \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n
+        \   \n    \n    \n    \n    \n    \n    \n</channel>\n</rss>\n"
+    http_version: ''
+  recorded_at: Thu, 05 Nov 2026 17:36:22 GMT
+recorded_with: VCR 6.4.1

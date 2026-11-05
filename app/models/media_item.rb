@@ -211,6 +211,8 @@ class MediaItem < ApplicationRecord
     resolved_links = 0
 
     doc.css('img').each do |image|
+      next if image.key?('data-skip-embed')
+
       image_url = image['src']
       next unless image_url =~ %r{\Ahttps?://}
 

@@ -66,8 +66,8 @@ ActiveAdmin.register MediaItem do
       row :libraries
     end
 
-    if resource.sent_to.present?
-      panel "Email Content" do
+    if resource.sent_to.present? || resource.html?
+      panel "Content" do
         raw %(<iframe srcdoc="#{ERB::Util.html_escape resource.description}" style="width:100%;height:600px;border:none;" sandbox="allow-popups"></iframe>)
       end
     end

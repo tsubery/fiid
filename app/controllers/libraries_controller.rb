@@ -1,13 +1,13 @@
 class LibrariesController < ApplicationController
   def podcast
     @library = Library.find(params["id"])
-    @library.feeds
+    stale_feed_ids = @library.feeds
       .where(type: YoutubeChannelFeed.name)
-      .where(
-        "last_sync IS NULL or last_sync < ?", 30.minutes.ago
-      ).pluck(:id).map do |feed_id|
-        Thread.new { RetrieveFeedsJob.new.perform(feed_id) }
-      end.each(&:join)
+      .where("last_sync IS NULL or last_sync < ?", 30.minutes.ago)
+      .pluck(:id)
+    # Runs on the request thread's connection; a thread per feed would take a
+    # pool connection each.
+    RetrieveFeedsJob.perform_now(stale_feed_ids)
 
       podcast = @library.generate_podcast(
         request.url,

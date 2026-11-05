@@ -1,5 +1,5 @@
 class CacheVideoJob < ApplicationJob
-  queue_as :default
+  queue_as :videos
 
   TWO_DAYS = 2 * 24 * 60 * 60
   def perform(media_item_id)

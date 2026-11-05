@@ -69,10 +69,10 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
-  # Jobs run in-process, one at a time. The default async adapter runs up to
-  # RAILS_MAX_THREADS jobs concurrently, each holding a DB connection on top of
-  # Puma's request threads.
-  config.active_job.queue_adapter = ActiveJob::QueueAdapters::AsyncAdapter.new(max_threads: 1)
+  # Jobs run in-process, one at a time per queue, so each queue holds at most
+  # one DB connection on top of Puma's request threads.
+  require_relative "../../lib/active_job/queue_adapters/per_queue_async_adapter"
+  config.active_job.queue_adapter = ActiveJob::QueueAdapters::PerQueueAsyncAdapter.new
 
   config.action_mailer.perform_caching = false
 

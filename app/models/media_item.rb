@@ -28,6 +28,8 @@ class MediaItem < ApplicationRecord
   }.freeze
   WAS_LIVE_COOLDOWN = 30.minutes
   MISSING_DURATION_THRESHOLD = 5
+  DOWNLOAD_TIMEOUT = 30.minutes
+  DOWNLOAD_KILL_GRACE = 1.minute
   EMAIL_WIDE_LAYOUT_PX = 950
 
   TRACKING_PARAM_PATTERNS = [
@@ -260,8 +262,46 @@ class MediaItem < ApplicationRecord
     return unless video?
     return unless reachable
     return if video_cached?
-    system("/home/ubuntu/dl.sh '#{url}' '#{video_cache_file_path}'")
+
+    # Download into a staging dir and move into place only on success, so
+    # video_cached? never sees a partial file (mid-download, timed out or
+    # failed). Same basename as the cache path, so dl.sh sees an equivalent
+    # output path; removing the dir also clears any intermediates it leaves.
+    staging_dir = File.join(File.dirname(video_cache_file_path), "partial")
+    staging_path = File.join(staging_dir, File.basename(video_cache_file_path))
+    FileUtils.rm_rf(staging_dir) # left over if the process died mid-download
+    FileUtils.mkdir_p(staging_dir)
+
+    if run_download(staging_path) && File.exist?(staging_path)
+      File.rename(staging_path, video_cache_file_path)
+    end
+    FileUtils.rm_rf(staging_dir)
     flag_missing_duration!
+  end
+
+  # Returns true only if dl.sh exited 0 within DOWNLOAD_TIMEOUT. A hung
+  # download would otherwise block every later download on the videos queue.
+  # Timed in Ruby rather than with timeout(1): uutils' timeout (Ubuntu 25.10+)
+  # reports a different exit status than GNU's when --kill-after fires.
+  def run_download(output_path)
+    # Own process group, so signalling -pid also reaches yt-dlp/ffmpeg children.
+    pid = Process.spawn("/home/ubuntu/dl.sh", url, output_path, pgroup: true)
+    waiter = Process.detach(pid)
+    return waiter.value.success? if waiter.join(DOWNLOAD_TIMEOUT.to_i)
+
+    Rails.logger.error("Download of media item ##{id} timed out after #{DOWNLOAD_TIMEOUT.inspect}")
+    signal_process_group("TERM", pid)
+    unless waiter.join(DOWNLOAD_KILL_GRACE.to_i)
+      signal_process_group("KILL", pid)
+      waiter.join
+    end
+    false
+  end
+
+  def signal_process_group(signal, pid)
+    Process.kill(signal, -pid)
+  rescue Errno::ESRCH
+    # Exited between the timeout and the signal.
   end
 
   def flag_missing_duration!

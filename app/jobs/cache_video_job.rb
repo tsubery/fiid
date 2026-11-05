@@ -6,10 +6,11 @@ class CacheVideoJob < ApplicationJob
     video = MediaItem.find(media_item_id)
     return unless video
 
-    video.transaction do
-      video.lock!
-      video.cache_video
-    end
+    # No row lock: holding one would pin a DB connection and block other writes
+    # to this item for the whole download. Duplicate downloads are prevented by
+    # the videos queue running one job at a time in a single Puma process; with
+    # WEB_CONCURRENCY > 1, two processes could share the same staging dir.
+    video.cache_video
 
     now = Time.now
     %w[article video].each do |type|

@@ -28,6 +28,8 @@ class MediaItem < ApplicationRecord
   }.freeze
   WAS_LIVE_COOLDOWN = 30.minutes
   MISSING_DURATION_THRESHOLD = 5
+  # SIGTERM after DOWNLOAD_TIMEOUT; SIGKILL if still running DOWNLOAD_KILL_GRACE
+  # after that, so a download is stopped within 31 minutes at most.
   DOWNLOAD_TIMEOUT = 30.minutes
   DOWNLOAD_KILL_GRACE = 1.minute
   EMAIL_WIDE_LAYOUT_PX = 950
@@ -276,6 +278,9 @@ class MediaItem < ApplicationRecord
       File.rename(staging_path, video_cache_file_path)
     end
     FileUtils.rm_rf(staging_dir)
+    # The download can take many minutes and nothing locks the row, so pick up
+    # title/duration changes made meanwhile before deriving the title from them.
+    reload
     flag_missing_duration!
   end
 

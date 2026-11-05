@@ -1,6 +1,4 @@
 class ApplicationController < ActionController::Base
-  after_action :sync_feeds
-
   private
   def secret_token
    ENV['SECRET_KEY'] || raise("Missing SECRET_KEY in environment")
@@ -8,10 +6,6 @@ class ApplicationController < ActionController::Base
 
   def secret_token_equal?(param)
     param.present? && ActiveSupport::SecurityUtils.secure_compare(secret_token, param)
-  end
-
-  def sync_feeds
-    RetrieveFeedsJob.enqueue_all
   end
 
   def require_admin

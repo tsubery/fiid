@@ -17,9 +17,9 @@ default: &default
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
-  # Per process: Puma's request threads plus one each for the default and
-  # videos job queues and the feed refresh timer (config/puma.rb).
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 }.to_i + 3 %>
+  # Per process: request threads plus one each for the default and videos job
+  # queues.
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 }.to_i + 2 %>
   username: <%= ENV.fetch('PGUSER')  %>
   password: <%= ENV.fetch('PGPASSWORD') %>
   host: <%= ENV.fetch('PGHOST') %>

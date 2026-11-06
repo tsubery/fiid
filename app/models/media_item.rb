@@ -267,10 +267,29 @@ class MediaItem < ApplicationRecord
     return unless reachable
     return if video_cached?
 
-    # Download into a staging dir and move into place only on success, so
-    # video_cached? never sees a partial file (mid-download, timed out or
-    # failed). Same basename as the cache path, so dl.sh sees an equivalent
-    # output path; removing the dir also clears any intermediates it leaves.
+    # Each app process (Passenger runs several) has its own videos queue, so two
+    # can be asked for the same item at once; they would share the staging dir.
+    # flock is released when its holder exits, so a crash can't leave it stuck.
+    cache_dir = File.dirname(video_cache_file_path)
+    FileUtils.mkdir_p(cache_dir)
+    File.open(File.join(cache_dir, ".download.lock"), File::RDWR | File::CREAT) do |lock|
+      return unless lock.flock(File::LOCK_EX | File::LOCK_NB)
+      # Another process may have finished between the check above and the lock.
+      return if video_cached?
+
+      download_into_cache
+    end
+    # The download can take many minutes and nothing locks the row, so pick up
+    # title/duration changes made meanwhile before deriving the title from them.
+    reload
+    flag_missing_duration!
+  end
+
+  # Download into a staging dir and move into place only on success, so
+  # video_cached? never sees a partial file (mid-download, timed out or
+  # failed). Same basename as the cache path, so dl.sh sees an equivalent
+  # output path; removing the dir also clears any intermediates it leaves.
+  def download_into_cache
     staging_dir = File.join(File.dirname(video_cache_file_path), "partial")
     staging_path = File.join(staging_dir, File.basename(video_cache_file_path))
     FileUtils.rm_rf(staging_dir) # left over if the process died mid-download
@@ -280,10 +299,6 @@ class MediaItem < ApplicationRecord
       File.rename(staging_path, video_cache_file_path)
     end
     FileUtils.rm_rf(staging_dir)
-    # The download can take many minutes and nothing locks the row, so pick up
-    # title/duration changes made meanwhile before deriving the title from them.
-    reload
-    flag_missing_duration!
   end
 
   # Returns true only if dl.sh exited 0 within DOWNLOAD_TIMEOUT. A hung

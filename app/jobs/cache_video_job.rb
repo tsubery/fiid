@@ -7,9 +7,8 @@ class CacheVideoJob < ApplicationJob
     return unless video
 
     # No row lock: holding one would pin a DB connection and block other writes
-    # to this item for the whole download. Duplicate downloads are prevented by
-    # the videos queue running one job at a time in a single Puma process; with
-    # WEB_CONCURRENCY > 1, two processes could share the same staging dir.
+    # to this item for the whole download. cache_video guards against duplicate
+    # downloads with a file lock instead.
     video.cache_video
 
     now = Time.now

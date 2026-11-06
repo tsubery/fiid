@@ -13,30 +13,10 @@ threads min_threads_count, max_threads_count
 
 # Defaults to a single process: jobs run inside each Puma process (see
 # active_job.queue_adapter in production.rb), so every extra worker adds its
-# own job threads and its own connection pool against Postgres max_connections.
-worker_count = ENV["RAILS_ENV"] == "production" ? Integer(ENV.fetch("WEB_CONCURRENCY", 1)) : 1
-
-# Feeds refresh on a timer rather than per request, so refreshes happen even
-# with no traffic and don't multiply with it. enqueue_all only queues stale
-# feeds; the refresh itself runs on the job queue.
-start_feed_refresh = lambda do
-  Concurrent::TimerTask.execute(execution_interval: 15 * 60, run_now: true) do
-    Rails.application.reloader.wrap { RetrieveFeedsJob.enqueue_all }
-  rescue => e
-    # TimerTask swallows exceptions silently.
-    Rails.logger.error("Scheduled feed refresh failed: #{e.full_message}")
-  end
-end
-
-# Exactly one timer: in cluster mode the master serves no requests and runs no
-# jobs, so it goes in worker 0 (re-created if that worker restarts).
-if worker_count > 1
-  workers worker_count
-  before_worker_boot do |index|
-    start_feed_refresh.call if index.zero?
-  end
-else
-  after_booted { start_feed_refresh.call }
+# own job thread and its own connection pool against Postgres max_connections.
+if ENV["RAILS_ENV"] == "production"
+  worker_count = Integer(ENV.fetch("WEB_CONCURRENCY", 1))
+  workers worker_count if worker_count > 1
 end
 
 # Specifies the `worker_timeout` threshold that Puma will use to wait before

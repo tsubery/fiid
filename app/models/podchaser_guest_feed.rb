@@ -4,6 +4,10 @@ class PodchaserGuestFeed < Feed
   validates :podchaser_guest_name, presence: true
   before_validation :fill_missing_details
 
+  def self.poll?
+    true
+  end
+
   SearchQuery = Podchaser::Client.parse <<~GRAPHQL
     query($searchTerm: String!) {
       creators(searchTerm: $searchTerm, first: 1) {
